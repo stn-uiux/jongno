@@ -1,0 +1,6 @@
+{
+  "name": "종로구 혼잡도 관제 시스템",
+  "description": "Leaflet 기반 서울특별시 종로구 폐쇄망 혼잡도 실시간 관제 및 구역(원형/다각형) 편집 시스템",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
