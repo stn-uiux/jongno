@@ -1,0 +1,102 @@
+/* ==========================================================================
+   지하철역 (환승역 캡슐 & 단일역) 스타일 시트
+   위치: src/css/subwayStation.css
+   ========================================================================== */
+
+/* Leaflet DivIcon 기본 컨테이너 오버라이드 */
+.subway-station-badge {
+  background: transparent !important;
+  border: none !important;
+}
+
+.subway-station-badge.transfer {
+  width: auto !important;
+  height: 15px !important;
+}
+
+/* 1. 환승역 캡슐 알약 (Transfer Station Capsule) */
+.subway-transfer-pill {
+  position: relative;
+  width: auto;
+  height: 15px;
+  background: #FFFFFF;
+  border: 1.5px solid #334155;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+  padding: 0 3px;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.subway-transfer-pill:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+/* 환승역 내부 노선별 원형 점 */
+.subway-transfer-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+/* 2. 단일역 원형 마커 (Single Line Station Circle) */
+.subway-single-station {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  background: #FFFFFF;
+  border: 2px solid #303B94;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  box-sizing: border-box;
+  transform: translate(-50%, -50%);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.subway-single-station:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}
+
+/* 3. 지하철역 명칭 라벨 (Station Name Label) */
+.subway-station-label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 3px;
+  white-space: nowrap;
+  font-size: 11px;
+  font-weight: 700;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95),
+               -1px -1px 0 #000,
+                1px -1px 0 #000,
+               -1px  1px 0 #000,
+                1px  1px 0 #000;
+  pointer-events: none;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+/* 줌 레벨에 따른 라벨 폰트 크기 반응형 */
+.subway-station-label.zoom-out {
+  font-size: 9.5px;
+  margin-top: 2px;
+}
+
+.subway-station-label.zoom-mid {
+  font-size: 10.5px;
+}

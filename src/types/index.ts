@@ -4,11 +4,19 @@
 
 export type ZoneType = 'circle' | 'polygon';
 
-export type CongestionLevel = 1 | 2 | 3 | 4;
+export type CongestionLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export interface LatLng {
   lat: number;
   lng: number;
+}
+
+export interface AreaInfo {
+  id: string;
+  name: string;
+  code: string;
+  color: string;
+  description?: string;
 }
 
 export interface ZoneData {
@@ -19,6 +27,9 @@ export interface ZoneData {
   radius?: number; // In meters, required for circle
   coordinates?: [number, number][]; // Array of [lat, lng] for polygon
   visible: boolean;
+  areaId?: string; // e.g. 'AREA-001'
+  areaName?: string; // e.g. '익선동'
+  scannerName?: string; // e.g. 'CCTV 방범128(메인)'
   customColor?: string;
   customBorderColor?: string;
   customOpacity?: number;
@@ -53,16 +64,23 @@ export interface CongestionLevelInfo {
   description: string;
 }
 
-export type TileServerType = 'local' | 'osm' | 'dark' | 'offline_canvas' | 'custom';
+export type TileServerType = 'local' | 'osm' | 'dark' | 'vector' | 'offline_canvas' | 'custom' | 'clean_dark' | 'clean_raster';
 
 export interface TileServerConfig {
+  id?: string;
   type: TileServerType;
   name: string;
   url: string;
   attribution: string;
   subdomains?: string[];
   maxZoom: number;
+  minZoom?: number;
+  maxNativeZoom?: number;
   isAirGapped: boolean;
+  cleanPoi?: boolean;
+  isNativeDark?: boolean;
+  badge?: string;
+  description?: string;
 }
 
 export type AppMode = 'view' | 'edit';
@@ -92,3 +110,55 @@ export interface MapConceptConfig {
   zoneGlow: boolean;
   zoneDefaultOpacity: number; // 0.15 - 0.7
 }
+
+export interface SubwayStationProperties {
+  id: string;
+  name: string;
+  cleanName: string;
+  name_en?: string;
+  lines: string[];
+  lineCount: number;
+  isTransfer: boolean;
+  primaryLine: string;
+  primaryColor: string;
+  lineColors: string[];
+  inJongno: boolean;
+  district: string;
+  source: string;
+  collectedAt: string;
+}
+
+export interface SubwayLineProperties {
+  id: string;
+  line: string;
+  name: string;
+  shortName: string;
+  color: string;
+  textColor: string;
+  segmentCount: number;
+  pointCount: number;
+  source: string;
+  collectedAt: string;
+}
+
+export interface SubwayConfig {
+  showLines: boolean;
+  showStations: boolean;
+  showStationLabels: boolean;
+  visibleLines: Record<string, boolean>;
+}
+
+export const DEFAULT_SUBWAY_CONFIG: SubwayConfig = {
+  showLines: true,
+  showStations: true,
+  showStationLabels: true,
+  visibleLines: {
+    '1호선': true,
+    '2호선': true,
+    '3호선': true,
+    '4호선': true,
+    '5호선': true,
+    '6호선': true,
+    '우이신설선': true,
+  },
+};

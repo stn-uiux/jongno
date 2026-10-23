@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   body {
     margin: 0;
@@ -9,11 +11,56 @@
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
+
+  /* All clickable elements should display pointer cursor on hover */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a,
+  select,
+  summary,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"],
+  input[type="checkbox"],
+  input[type="radio"] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+}
+
+/* Ensure pointer cursor on all clickable UI controls and interactive map markers */
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+.cursor-pointer,
+.leaflet-interactive:not(.zone-shape-draggable),
+.scanner-zone-node,
+.scanner-center-spot,
+.subway-station-badge {
+  cursor: pointer !important;
 }
 
 /* Base map container default background */
 .leaflet-container {
   background-color: #0b111e;
+}
+
+/* Leaflet MapLibre GL layer integration for OpenFreeMap */
+.leaflet-gl-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+.maplibregl-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transition: filter 0.3s ease;
 }
 
 /* Custom Tooltip on Map */
@@ -91,4 +138,148 @@
 
 .dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(100, 116, 139, 0.6);
+}
+
+/* Subway Station Marker and Label Styling */
+.subway-station-badge {
+  background: transparent !important;
+  border: none !important;
+}
+
+.subway-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.subway-tooltip::before {
+  display: none !important;
+}
+
+/* Scanner Zone Marker & Hover Bubble Styling (Image 5 style) */
+.scanner-zone-badge {
+  background: transparent !important;
+  border: none !important;
+  overflow: visible !important;
+}
+
+.scanner-zone-node {
+  position: relative;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+}
+
+.scanner-zone-node:hover {
+  z-index: 99999 !important;
+}
+
+.scanner-zone-node:hover .scanner-hover-bubble,
+.scanner-zone-node.selected .scanner-hover-bubble,
+.scanner-zone-node.is-serious .scanner-hover-bubble,
+.scanner-zone-node.is-emergency .scanner-hover-bubble {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(-50%) translateY(-6px) !important;
+  pointer-events: auto !important;
+}
+
+.scanner-hover-bubble {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(-50%) translateY(0);
+  transition: opacity 0.16s ease-out, transform 0.16s ease-out, visibility 0.16s;
+}
+
+.scanner-zone-node:hover .scanner-center-spot {
+  transform: scale(1.15) !important;
+  border-color: #60A5FA !important;
+}
+
+.scanner-zone-node.selected .scanner-center-spot {
+  transform: scale(1.22) !important;
+  border-color: #3B82F6 !important;
+  box-shadow: 0 0 0 3.5px rgba(59, 130, 246, 0.45) !important;
+}
+
+/* 단계별 레이어 순위: 혼잡도 단계가 높을수록 상단에 표출 */
+.scanner-zone-node.level-1 {
+  z-index: 1000 !important;
+}
+
+.scanner-zone-node.level-2 {
+  z-index: 2000 !important;
+}
+
+.scanner-zone-node.level-3 {
+  z-index: 3000 !important;
+}
+
+.scanner-zone-node.level-4 {
+  z-index: 4000 !important;
+}
+
+.scanner-zone-node.level-5,
+.scanner-zone-node.is-serious {
+  z-index: 8500 !important;
+}
+
+.scanner-zone-node.level-6,
+.scanner-zone-node.is-emergency {
+  z-index: 9000 !important;
+}
+
+/* 5단계: 심각 (보라색 #A64BFF) 상시 툴팁 및 스팟 강조 */
+
+.scanner-zone-node.is-serious .scanner-hover-bubble {
+  border: 1.5px solid rgba(166, 75, 255, 0.85) !important;
+  box-shadow: 0 4px 18px rgba(166, 75, 255, 0.35), 0 2px 6px rgba(0, 0, 0, 0.18) !important;
+}
+
+.scanner-zone-node.is-serious .scanner-center-spot {
+  transform: scale(1.20) !important;
+  border-color: #A64BFF !important;
+  box-shadow: 0 0 0 3.5px rgba(166, 75, 255, 0.55) !important;
+}
+
+.scanner-zone-node.is-serious .scanner-name-label span {
+  background: rgba(147, 51, 234, 0.95) !important;
+  border-color: rgba(233, 213, 255, 0.6) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+/* 6단계: 위험 (붉은색 #DC2626) 상시 툴팁 및 최고 위험도 경고 강조 */
+.scanner-zone-node.is-emergency {
+  z-index: 8700 !important;
+}
+
+.scanner-zone-node.is-emergency .scanner-hover-bubble {
+  border: 1.5px solid rgba(220, 38, 38, 0.9) !important;
+  box-shadow: 0 4px 20px rgba(220, 38, 38, 0.45), 0 2px 6px rgba(0, 0, 0, 0.20) !important;
+}
+
+.scanner-zone-node.is-emergency .scanner-center-spot {
+  transform: scale(1.24) !important;
+  border-color: #DC2626 !important;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.65) !important;
+}
+
+.scanner-zone-node.is-emergency .scanner-name-label span {
+  background: rgba(185, 28, 28, 0.96) !important;
+  border-color: rgba(254, 202, 202, 0.75) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+}
+
+/* Area polygon interactive styling */
+.area-polygon-interactive {
+  cursor: pointer;
+  transition: fill-opacity 0.2s ease, stroke-width 0.2s ease;
+}
+
+.area-polygon-interactive:hover {
+  fill-opacity: 0.52 !important;
+  stroke-width: 3.5px !important;
 }

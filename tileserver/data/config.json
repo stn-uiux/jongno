@@ -1,0 +1,33 @@
+{
+  "options": {
+    "paths": {
+      "root": "/data",
+      "fonts": "fonts",
+      "styles": "styles",
+      "mbtiles": ""
+    },
+    "domains": ["*"],
+    "formatQuality": {
+      "jpeg": 85,
+      "webp": 85,
+      "png": 9
+    }
+  },
+  "styles": {
+    "jongno-dark": {
+      "style": "styles/jongno-dark/style.json",
+      "serve_rendered": true,
+      "serve_data": true
+    },
+    "osm-bright": {
+      "style": "styles/osm-bright/style.json",
+      "serve_rendered": true,
+      "serve_data": true
+    }
+  },
+  "data": {
+    "jongno-data": {
+      "mbtiles": "jongno.mbtiles"
+    }
+  }
+}

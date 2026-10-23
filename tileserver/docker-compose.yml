@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  tileserver-gl:
+    image: maptiler/tileserver-gl:latest
+    container_name: jongno_tileserver
+    restart: always
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+    environment:
+      - PORT=8080
+    command: ["-c", "/data/config.json", "--verbose"]
+    # 폐쇄망 보안 환경: 외부 인터넷 트래픽 일체 차단
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

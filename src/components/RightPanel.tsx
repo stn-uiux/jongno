@@ -22,6 +22,8 @@ import {
 import { ZoneData, CongestionData, CongestionLevel } from '../types';
 import { CONGESTION_LEVEL_MAP } from '../utils/constants';
 import { calculateCentroid, determineCongestionLevel } from '../utils/geoUtils';
+import { AREAS } from '../data/defaultZones';
+import { SmartScannerIcon } from './SmartScannerIcon';
 
 interface RightPanelProps {
   zone: ZoneData | null;
@@ -108,11 +110,15 @@ export const RightPanel: React.FC<RightPanelProps> = ({
     return (
       <aside className="w-88 border-l flex flex-col shrink-0 h-full bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 transition-colors p-6 select-none">
         <div className="flex-1 flex flex-col items-center justify-center text-center">
-          <div className="w-12 h-12 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center text-neutral-400 mb-3">
-            <Crosshair className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-center justify-center text-amber-500 mb-3">
+            <Sliders className="w-6 h-6" />
+          </div>
+          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800/60 text-amber-700 dark:text-amber-300 font-bold text-[10px] mb-2.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+            <span>구역 편집 모드</span>
           </div>
           <h3 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100 mb-1">
-            선택된 관제 구역이 없습니다
+            편집할 관제 구역을 선택하세요
           </h3>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 max-w-xs leading-relaxed">
             지도 위 구역 또는 좌측 목록에서 구역을 클릭하면 위치 좌표, 반경, 혼잡도 상태를 실시간 편집할 수 있습니다.
@@ -205,15 +211,18 @@ export const RightPanel: React.FC<RightPanelProps> = ({
   return (
     <aside className="w-88 border-l flex flex-col shrink-0 h-full bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 transition-colors select-none">
       {/* Header */}
-      <div className="p-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+      <div className="p-3.5 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between bg-amber-500/5 dark:bg-amber-500/10">
         <div className="flex items-center gap-2">
+          <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-[10px]">
+            편집 모드
+          </span>
           {draftZone.type === 'circle' ? (
-            <CircleDot className="w-4 h-4 text-blue-500" />
+            <CircleDot className="w-3.5 h-3.5 text-blue-500" />
           ) : (
-            <Hexagon className="w-4 h-4 text-emerald-500" />
+            <Hexagon className="w-3.5 h-3.5 text-emerald-500" />
           )}
           <span className="text-xs font-semibold text-neutral-900 dark:text-neutral-100">
-            구역 속성 편집
+            속성 편집
           </span>
           <span className="text-xs text-neutral-400">·</span>
           <span className="font-mono text-xs text-neutral-500">{draftZone.id}</span>
@@ -243,13 +252,50 @@ export const RightPanel: React.FC<RightPanelProps> = ({
       <div className="flex-1 overflow-y-auto p-4 space-y-5 text-xs">
         {/* Basic Info */}
         <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-neutral-600 dark:text-neutral-400 mb-1 font-medium">구역명</label>
+              <input
+                type="text"
+                value={draftZone.name}
+                onChange={(e) => handleZoneFieldChange({ name: e.target.value })}
+                className="w-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 font-bold focus:ring-1 focus:ring-blue-500"
+              />
+            </div>
+            <div>
+              <label className="block text-neutral-600 dark:text-neutral-400 mb-1 font-medium">소속 영역 (Area)</label>
+              <select
+                value={draftZone.areaId || ''}
+                onChange={(e) => {
+                  const targetArea = AREAS.find((a) => a.id === e.target.value);
+                  handleZoneFieldChange({
+                    areaId: e.target.value,
+                    areaName: targetArea ? targetArea.name : '',
+                  });
+                }}
+                className="w-full px-2.5 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 font-medium focus:ring-1 focus:ring-blue-500"
+              >
+                <option value="">(미지정)</option>
+                {AREAS.map((a) => (
+                  <option key={a.id} value={a.id}>
+                    {a.name} ({a.code})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           <div>
-            <label className="block text-neutral-600 dark:text-neutral-400 mb-1 font-medium">구역명</label>
+            <label className="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 mb-1 font-medium">
+              <SmartScannerIcon size={14} className="text-blue-500 shrink-0" />
+              <span>스마트 스캐너 기기명</span>
+            </label>
             <input
               type="text"
-              value={draftZone.name}
-              onChange={(e) => handleZoneFieldChange({ name: e.target.value })}
-              className="w-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 font-medium focus:ring-1 focus:ring-blue-500"
+              value={draftZone.scannerName || ''}
+              placeholder="예: CCTV 방범574"
+              onChange={(e) => handleZoneFieldChange({ scannerName: e.target.value })}
+              className="w-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 focus:ring-1 focus:ring-blue-500"
             />
           </div>
 
@@ -338,25 +384,25 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 <div className="flex items-center justify-between mb-1">
                   <label className="text-[11px] text-neutral-500 dark:text-neutral-400">반경 (Radius)</label>
                   <span className="font-mono text-xs font-bold tabular-nums text-neutral-900 dark:text-neutral-100">
-                    {draftZone.radius || 200} m
+                    {draftZone.radius || 30} m
                   </span>
                 </div>
                 <input
                   type="range"
-                  min="30"
-                  max="1200"
-                  step="10"
-                  value={draftZone.radius || 200}
+                  min="10"
+                  max="1000"
+                  step="5"
+                  value={draftZone.radius || 30}
                   onChange={(e) => handleRadiusChange(parseInt(e.target.value, 10))}
-                  className="w-full accent-blue-600"
+                  className="w-full accent-blue-600 cursor-pointer"
                 />
                 <div className="flex items-center gap-1.5 mt-1">
-                  {[-100, -50, +50, +100].map((delta) => (
+                  {[-20, -10, +10, +20].map((delta) => (
                     <button
                       key={delta}
                       type="button"
-                      onClick={() => handleRadiusChange((draftZone.radius || 200) + delta)}
-                      className="flex-1 py-0.5 text-[10px] font-mono bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300"
+                      onClick={() => handleRadiusChange((draftZone.radius || 30) + delta)}
+                      className="flex-1 py-0.5 text-[10px] font-mono bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 cursor-pointer"
                     >
                       {delta > 0 ? `+${delta}m` : `${delta}m`}
                     </button>

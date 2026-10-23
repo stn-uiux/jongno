@@ -1,0 +1,184 @@
+{
+  "version": 8,
+  "name": "Jongno Airgap Clean Dark",
+  "metadata": {
+    "description": "종로구 혼잡도 관제 전용 폐쇄망 클린 다크 스타일 (상업 POI 및 정류소 100% 제거, 톤다운 옐로우 도로, 녹지/수계 보존)"
+  },
+  "sources": {
+    "openmaptiles": {
+      "type": "vector",
+      "url": "mbtiles://jongno-data"
+    }
+  },
+  "glyphs": "{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#111317"
+      }
+    },
+    {
+      "id": "landuse-residential",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landuse",
+      "filter": ["==", "class", "residential"],
+      "paint": {
+        "fill-color": "#16181f",
+        "fill-opacity": 0.8
+      }
+    },
+    {
+      "id": "park",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "park",
+      "paint": {
+        "fill-color": "#183624",
+        "fill-opacity": 0.85
+      }
+    },
+    {
+      "id": "landcover-wood",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "landcover",
+      "filter": ["all", ["==", "class", "wood"]],
+      "paint": {
+        "fill-color": "#153322",
+        "fill-opacity": 0.9
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#132842",
+        "fill-opacity": 1.0
+      }
+    },
+    {
+      "id": "waterway",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "waterway",
+      "paint": {
+        "line-color": "#19375e",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "building",
+      "type": "fill",
+      "source": "openmaptiles",
+      "source-layer": "building",
+      "paint": {
+        "fill-color": "#1d212a",
+        "fill-outline-color": "#282d38",
+        "fill-opacity": 0.7
+      }
+    },
+    {
+      "id": "road-minor",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": ["all", ["==", "$type", "LineString"], ["in", "class", "minor", "service", "track"]],
+      "paint": {
+        "line-color": "#2d3340",
+        "line-width": 1
+      }
+    },
+    {
+      "id": "road-secondary",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": ["all", ["==", "$type", "LineString"], ["in", "class", "secondary", "tertiary"]],
+      "paint": {
+        "line-color": "#6e5d38",
+        "line-width": 2.2
+      }
+    },
+    {
+      "id": "road-major",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "filter": ["all", ["==", "$type", "LineString"], ["in", "class", "primary", "trunk", "motorway"]],
+      "paint": {
+        "line-color": "#c49d48",
+        "line-width": 3.5
+      }
+    },
+    {
+      "id": "admin-boundary",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "boundary",
+      "paint": {
+        "line-color": "#3b82f6",
+        "line-width": 2,
+        "line-dasharray": [3, 2]
+      }
+    },
+    {
+      "id": "poi",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "transit-station",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "transportation_name",
+      "filter": ["has", "subway"],
+      "layout": {
+        "text-field": "{name:ko}",
+        "text-size": 11,
+        "text-font": ["Noto Sans Bold"],
+        "visibility": "visible"
+      },
+      "paint": {
+        "text-color": "#60a5fa",
+        "text-halo-color": "#0f172a",
+        "text-halo-width": 2
+      }
+    },
+    {
+      "id": "transit-bus",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "filter": ["==", "class", "bus"],
+      "layout": {
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "place-neighborhood",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "place",
+      "filter": ["all", ["==", "$type", "Point"], ["in", "class", "suburb", "neighbourhood", "town"]],
+      "layout": {
+        "text-field": "{name:ko}",
+        "text-size": 13,
+        "text-font": ["Noto Sans Regular"]
+      },
+      "paint": {
+        "text-color": "#e2e8f0",
+        "text-halo-color": "#0f172a",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}

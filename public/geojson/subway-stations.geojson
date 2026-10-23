@@ -1,0 +1,6497 @@
+{
+  "type": "FeatureCollection",
+  "name": "SeoulSubwayStations_Full_View",
+  "metadata": {
+    "title": "서울시 및 종로구 전역 실제 지하철역 공간정보",
+    "source": "OpenStreetMap contributors (ODbL)",
+    "collectedAt": "2026-10-21T07:03:35.296Z",
+    "featureCount": 214,
+    "jongnoCount": 12
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "id": "STN-경복궁",
+      "properties": {
+        "id": "STN-경복궁",
+        "name": "경복궁역",
+        "cleanName": "경복궁",
+        "name_en": "Gyeongbokgung (Government Complex Seoul)",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9735668,
+          37.5757585
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-광화문",
+      "properties": {
+        "id": "STN-광화문",
+        "name": "광화문역",
+        "cleanName": "광화문",
+        "name_en": "Gwanghwamun",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9769142,
+          37.5716332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-독립문",
+      "properties": {
+        "id": "STN-독립문",
+        "name": "독립문역",
+        "cleanName": "독립문",
+        "name_en": "Dongnimmun",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9578197,
+          37.574513
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-동대문",
+      "properties": {
+        "id": "STN-동대문",
+        "name": "동대문역",
+        "cleanName": "동대문",
+        "name_en": "Dongdaemun",
+        "lines": [
+          "1호선",
+          "4호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#499CDC"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0093746,
+          37.5707564
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-동묘앞",
+      "properties": {
+        "id": "STN-동묘앞",
+        "name": "동묘앞역",
+        "cleanName": "동묘앞",
+        "name_en": "Dongmyo",
+        "lines": [
+          "1호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#AE541A"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0158026,
+          37.571413
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-서대문",
+      "properties": {
+        "id": "STN-서대문",
+        "name": "서대문역",
+        "cleanName": "서대문",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9666095,
+          37.5658085
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-안국",
+      "properties": {
+        "id": "STN-안국",
+        "name": "안국역",
+        "cleanName": "안국",
+        "name_en": "Anguk",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9862272,
+          37.5768286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-종각",
+      "properties": {
+        "id": "STN-종각",
+        "name": "종각역",
+        "cleanName": "종각",
+        "name_en": "Jonggak",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9821118,
+          37.5701195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-종로3가",
+      "properties": {
+        "id": "STN-종로3가",
+        "name": "종로3가역",
+        "cleanName": "종로3가",
+        "name_en": "Jongno 3(sam)-ga",
+        "lines": [
+          "1호선",
+          "3호선",
+          "5호선"
+        ],
+        "lineCount": 3,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#EE7B3F",
+          "#843ED9"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9916922,
+          37.5720185
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-종로5가",
+      "properties": {
+        "id": "STN-종로5가",
+        "name": "종로5가역",
+        "cleanName": "종로5가",
+        "name_en": "Jongno 5(o)-ga",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0011763,
+          37.5709298
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-창신",
+      "properties": {
+        "id": "STN-창신",
+        "name": "창신역",
+        "cleanName": "창신",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.015273,
+          37.579786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-혜화",
+      "properties": {
+        "id": "STN-혜화",
+        "name": "혜화역",
+        "cleanName": "혜화",
+        "name_en": "Hyehwa",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": true,
+        "district": "서울특별시 종로구",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0019312,
+          37.5821434
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-가락시장",
+      "properties": {
+        "id": "STN-가락시장",
+        "name": "가락시장역",
+        "cleanName": "가락시장",
+        "name_en": "Garak Market",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1177039,
+          37.4922475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-가산디지털단지",
+      "properties": {
+        "id": "STN-가산디지털단지",
+        "name": "가산디지털단지역",
+        "cleanName": "가산디지털단지",
+        "name_en": "Gasan Digital Complex",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8821636,
+          37.4823798
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-강남",
+      "properties": {
+        "id": "STN-강남",
+        "name": "강남역",
+        "cleanName": "강남",
+        "name_en": "Gangnam",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0276077,
+          37.4979002
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-강동",
+      "properties": {
+        "id": "STN-강동",
+        "name": "강동역",
+        "cleanName": "강동",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1326384,
+          37.5358634
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-강변",
+      "properties": {
+        "id": "STN-강변",
+        "name": "강변역",
+        "cleanName": "강변",
+        "name_en": "Gangbyeon(Dongseoul Bus Terminal)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0952593,
+          37.5343289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-개롱",
+      "properties": {
+        "id": "STN-개롱",
+        "name": "개롱역",
+        "cleanName": "개롱",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1348455,
+          37.4981053
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-개봉",
+      "properties": {
+        "id": "STN-개봉",
+        "name": "개봉역",
+        "cleanName": "개봉",
+        "name_en": "Gaebong",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8581644,
+          37.4945762
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-개화산",
+      "properties": {
+        "id": "STN-개화산",
+        "name": "개화산역",
+        "cleanName": "개화산",
+        "name_en": "Gaehwasan",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.808166,
+          37.5728374
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-거여",
+      "properties": {
+        "id": "STN-거여",
+        "name": "거여역",
+        "cleanName": "거여",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1437715,
+          37.4933801
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-건대입구",
+      "properties": {
+        "id": "STN-건대입구",
+        "name": "건대입구역",
+        "cleanName": "건대입구",
+        "name_en": "Konkuk University",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0681712,
+          37.5407875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-경찰병원",
+      "properties": {
+        "id": "STN-경찰병원",
+        "name": "경찰병원역",
+        "cleanName": "경찰병원",
+        "name_en": "Nat'l Police Hospital",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1238319,
+          37.4953088
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-고려대",
+      "properties": {
+        "id": "STN-고려대",
+        "name": "고려대역",
+        "cleanName": "고려대",
+        "name_en": "Korea Univ.",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0359359,
+          37.58975
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-고속터미널",
+      "properties": {
+        "id": "STN-고속터미널",
+        "name": "고속터미널역",
+        "cleanName": "고속터미널",
+        "name_en": "Express Bus Terminal",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0049022,
+          37.5050376
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-공덕",
+      "properties": {
+        "id": "STN-공덕",
+        "name": "공덕역",
+        "cleanName": "공덕",
+        "name_en": "Gongdeok",
+        "lines": [
+          "5호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9522541,
+          37.5424161
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-광나루",
+      "properties": {
+        "id": "STN-광나루",
+        "name": "광나루역",
+        "cleanName": "광나루",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1035169,
+          37.5453332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-광운대",
+      "properties": {
+        "id": "STN-광운대",
+        "name": "광운대역",
+        "cleanName": "광운대",
+        "name_en": "Kwangwoon University",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0620693,
+          37.6232033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-광흥창",
+      "properties": {
+        "id": "STN-광흥창",
+        "name": "광흥창역",
+        "cleanName": "광흥창",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.932001,
+          37.547449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-교대",
+      "properties": {
+        "id": "STN-교대",
+        "name": "교대역",
+        "cleanName": "교대",
+        "name_en": "Seoul Nat'l Univ. of Education (Court & Public Prosecutors' Office)",
+        "lines": [
+          "2호선",
+          "3호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0138064,
+          37.4928812
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-구로",
+      "properties": {
+        "id": "STN-구로",
+        "name": "구로역",
+        "cleanName": "구로",
+        "name_en": "Guro",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8823678,
+          37.5033463
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-구로디지털단지",
+      "properties": {
+        "id": "STN-구로디지털단지",
+        "name": "구로디지털단지역",
+        "cleanName": "구로디지털단지",
+        "name_en": "Guro Digital Complex",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9025904,
+          37.4850332
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-구산",
+      "properties": {
+        "id": "STN-구산",
+        "name": "구산역",
+        "cleanName": "구산",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9170995,
+          37.6110401
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-구의",
+      "properties": {
+        "id": "STN-구의",
+        "name": "구의역",
+        "cleanName": "구의",
+        "name_en": "Guui(Gwangjin-gu Office)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.085103,
+          37.5368976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-구일",
+      "properties": {
+        "id": "STN-구일",
+        "name": "구일역",
+        "cleanName": "구일",
+        "name_en": "Guil",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8689185,
+          37.4957217
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-구파발",
+      "properties": {
+        "id": "STN-구파발",
+        "name": "구파발역",
+        "cleanName": "구파발",
+        "name_en": "Gupabal",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9187721,
+          37.6368537
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-군자",
+      "properties": {
+        "id": "STN-군자",
+        "name": "군자역",
+        "cleanName": "군자",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0795654,
+          37.5571693
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-굽은다리",
+      "properties": {
+        "id": "STN-굽은다리",
+        "name": "굽은다리역",
+        "cleanName": "굽은다리",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1429306,
+          37.5456603
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-금천구청",
+      "properties": {
+        "id": "STN-금천구청",
+        "name": "금천구청역",
+        "cleanName": "금천구청",
+        "name_en": "Geumcheon-gu Office",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8934833,
+          37.4563959
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-금호",
+      "properties": {
+        "id": "STN-금호",
+        "name": "금호역",
+        "cleanName": "금호",
+        "name_en": "Geumho",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0158595,
+          37.5480153
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-길동",
+      "properties": {
+        "id": "STN-길동",
+        "name": "길동역",
+        "cleanName": "길동",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.140159,
+          37.5383553
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-길음",
+      "properties": {
+        "id": "STN-길음",
+        "name": "길음역",
+        "cleanName": "길음",
+        "name_en": "Gireum",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.024414,
+          37.6024214
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-김포공항",
+      "properties": {
+        "id": "STN-김포공항",
+        "name": "김포공항역",
+        "cleanName": "김포공항",
+        "name_en": "Gimpo Int'l Airport",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8015364,
+          37.5619723
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-까치산",
+      "properties": {
+        "id": "STN-까치산",
+        "name": "까치산역",
+        "cleanName": "까치산",
+        "name_en": "Kkachisan",
+        "lines": [
+          "2호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.846698,
+          37.5313676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-낙성대",
+      "properties": {
+        "id": "STN-낙성대",
+        "name": "낙성대역",
+        "cleanName": "낙성대",
+        "name_en": "Nakseongdae",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9635445,
+          37.4770291
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-남부터미널",
+      "properties": {
+        "id": "STN-남부터미널",
+        "name": "남부터미널역",
+        "cleanName": "남부터미널",
+        "name_en": "Nambu Bus Terminal (Seoul Arts Center)",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0162904,
+          37.4849718
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-남영",
+      "properties": {
+        "id": "STN-남영",
+        "name": "남영역",
+        "cleanName": "남영",
+        "name_en": "Namyeong",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9714083,
+          37.5395691
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-남태령",
+      "properties": {
+        "id": "STN-남태령",
+        "name": "남태령역",
+        "cleanName": "남태령",
+        "name_en": "Namtaeryeong",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9889176,
+          37.463972
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-노량진",
+      "properties": {
+        "id": "STN-노량진",
+        "name": "노량진역",
+        "cleanName": "노량진",
+        "name_en": "Noryangjin",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9418701,
+          37.5136072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-노원",
+      "properties": {
+        "id": "STN-노원",
+        "name": "노원역",
+        "cleanName": "노원",
+        "name_en": "Nowon",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0623632,
+          37.6561244
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-녹번",
+      "properties": {
+        "id": "STN-녹번",
+        "name": "녹번역",
+        "cleanName": "녹번",
+        "name_en": "Nokbeon",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9357156,
+          37.600943
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-녹사평",
+      "properties": {
+        "id": "STN-녹사평",
+        "name": "녹사평역",
+        "cleanName": "녹사평",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9864975,
+          37.5347329
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-녹천",
+      "properties": {
+        "id": "STN-녹천",
+        "name": "녹천역",
+        "cleanName": "녹천",
+        "name_en": "Nokcheon",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0516865,
+          37.6439844
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-답십리",
+      "properties": {
+        "id": "STN-답십리",
+        "name": "답십리역",
+        "cleanName": "답십리",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0527067,
+          37.5668495
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-당산",
+      "properties": {
+        "id": "STN-당산",
+        "name": "당산역",
+        "cleanName": "당산",
+        "name_en": "Dangsan",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9020714,
+          37.534127
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-대곡",
+      "properties": {
+        "id": "STN-대곡",
+        "name": "대곡역",
+        "cleanName": "대곡",
+        "name_en": "Daegok",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8096784,
+          37.6318362
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-대림",
+      "properties": {
+        "id": "STN-대림",
+        "name": "대림역",
+        "cleanName": "대림",
+        "name_en": "Daerim(Guro-gu Office)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8949584,
+          37.4932804
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-대방",
+      "properties": {
+        "id": "STN-대방",
+        "name": "대방역",
+        "cleanName": "대방",
+        "name_en": "Daebang",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9254113,
+          37.5134068
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-대청",
+      "properties": {
+        "id": "STN-대청",
+        "name": "대청역",
+        "cleanName": "대청",
+        "name_en": "Daecheong",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0795056,
+          37.493654
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-대치",
+      "properties": {
+        "id": "STN-대치",
+        "name": "대치역",
+        "cleanName": "대치",
+        "name_en": "Daechi",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0632186,
+          37.4944502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-대흥",
+      "properties": {
+        "id": "STN-대흥",
+        "name": "대흥역",
+        "cleanName": "대흥",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9423171,
+          37.5476895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-도곡",
+      "properties": {
+        "id": "STN-도곡",
+        "name": "도곡역",
+        "cleanName": "도곡",
+        "name_en": "Dogok",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0554872,
+          37.4908838
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-도림천",
+      "properties": {
+        "id": "STN-도림천",
+        "name": "도림천역",
+        "cleanName": "도림천",
+        "name_en": "Dorimcheon",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8826324,
+          37.5144991
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-도봉",
+      "properties": {
+        "id": "STN-도봉",
+        "name": "도봉역",
+        "cleanName": "도봉",
+        "name_en": "Dobong",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0453853,
+          37.6781766
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-도봉산",
+      "properties": {
+        "id": "STN-도봉산",
+        "name": "도봉산역",
+        "cleanName": "도봉산",
+        "name_en": "Dobongsan",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0461858,
+          37.688786
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-독바위",
+      "properties": {
+        "id": "STN-독바위",
+        "name": "독바위역",
+        "cleanName": "독바위",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9330576,
+          37.6184519
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-독산",
+      "properties": {
+        "id": "STN-독산",
+        "name": "독산역",
+        "cleanName": "독산",
+        "name_en": "Doksan",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8890361,
+          37.4668796
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-돌곶이",
+      "properties": {
+        "id": "STN-돌곶이",
+        "name": "돌곶이역",
+        "cleanName": "돌곶이",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0564905,
+          37.6105343
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-동대문역사문화공원",
+      "properties": {
+        "id": "STN-동대문역사문화공원",
+        "name": "동대문역사문화공원역",
+        "cleanName": "동대문역사문화공원",
+        "name_en": "Dongdaemun History & Culture Park Station (DDP)",
+        "lines": [
+          "2호선",
+          "4호선",
+          "5호선"
+        ],
+        "lineCount": 3,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#499CDC",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0081762,
+          37.5659047
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-동대입구",
+      "properties": {
+        "id": "STN-동대입구",
+        "name": "동대입구역",
+        "cleanName": "동대입구",
+        "name_en": "Dongguk Univ.",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0057659,
+          37.5590197
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-동작",
+      "properties": {
+        "id": "STN-동작",
+        "name": "동작역",
+        "cleanName": "동작",
+        "name_en": "Dongjak",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9808291,
+          37.5021191
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-둔촌동",
+      "properties": {
+        "id": "STN-둔촌동",
+        "name": "둔촌동역",
+        "cleanName": "둔촌동",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1362849,
+          37.5277875
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-디지털미디어시티",
+      "properties": {
+        "id": "STN-디지털미디어시티",
+        "name": "디지털미디어시티역",
+        "cleanName": "디지털미디어시티",
+        "name_en": "Digital Media City",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9014392,
+          37.576216
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-뚝섬",
+      "properties": {
+        "id": "STN-뚝섬",
+        "name": "뚝섬역",
+        "cleanName": "뚝섬",
+        "name_en": "Ttukseom",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0463967,
+          37.5475873
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-마곡",
+      "properties": {
+        "id": "STN-마곡",
+        "name": "마곡역",
+        "cleanName": "마곡",
+        "name_en": "Magok",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8247446,
+          37.5602708
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-마장",
+      "properties": {
+        "id": "STN-마장",
+        "name": "마장역",
+        "cleanName": "마장",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0428899,
+          37.5661188
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-마포",
+      "properties": {
+        "id": "STN-마포",
+        "name": "마포역",
+        "cleanName": "마포",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9459579,
+          37.5396405
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-마포구청",
+      "properties": {
+        "id": "STN-마포구청",
+        "name": "마포구청역",
+        "cleanName": "마포구청",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9033737,
+          37.5635156
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-망원",
+      "properties": {
+        "id": "STN-망원",
+        "name": "망원역",
+        "cleanName": "망원",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9101224,
+          37.5559808
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-망월사",
+      "properties": {
+        "id": "STN-망월사",
+        "name": "망월사역",
+        "cleanName": "망월사",
+        "name_en": "Mangwolsa (Shinhan University)",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.047594,
+          37.7094036
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-매봉",
+      "properties": {
+        "id": "STN-매봉",
+        "name": "매봉역",
+        "cleanName": "매봉",
+        "name_en": "Maebong",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0469913,
+          37.4870435
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-명동",
+      "properties": {
+        "id": "STN-명동",
+        "name": "명동역",
+        "cleanName": "명동",
+        "name_en": "Myeong-dong",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9862899,
+          37.5609174
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-명일",
+      "properties": {
+        "id": "STN-명일",
+        "name": "명일역",
+        "cleanName": "명일",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1440529,
+          37.5519248
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-목동",
+      "properties": {
+        "id": "STN-목동",
+        "name": "목동역",
+        "cleanName": "목동",
+        "name_en": "Mok-dong",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.864513,
+          37.5261412
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-무악재",
+      "properties": {
+        "id": "STN-무악재",
+        "name": "무악재역",
+        "cleanName": "무악재",
+        "name_en": "Muakjae",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9503083,
+          37.5823147
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-문래",
+      "properties": {
+        "id": "STN-문래",
+        "name": "문래역",
+        "cleanName": "문래",
+        "name_en": "Mullae",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8948387,
+          37.518408
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-미아",
+      "properties": {
+        "id": "STN-미아",
+        "name": "미아역",
+        "cleanName": "미아",
+        "name_en": "Mia",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0264909,
+          37.6254296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-미아사거리",
+      "properties": {
+        "id": "STN-미아사거리",
+        "name": "미아사거리역",
+        "cleanName": "미아사거리",
+        "name_en": "Miasageori",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0300744,
+          37.6131644
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-발산",
+      "properties": {
+        "id": "STN-발산",
+        "name": "발산역",
+        "cleanName": "발산",
+        "name_en": "Balsan",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8375125,
+          37.5584571
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-방배",
+      "properties": {
+        "id": "STN-방배",
+        "name": "방배역",
+        "cleanName": "방배",
+        "name_en": "Bangbae",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9976822,
+          37.4814426
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-방이",
+      "properties": {
+        "id": "STN-방이",
+        "name": "방이역",
+        "cleanName": "방이",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1260719,
+          37.5086178
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-방학",
+      "properties": {
+        "id": "STN-방학",
+        "name": "방학역",
+        "cleanName": "방학",
+        "name_en": "Banghak (Dobong-gu Office)",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0444265,
+          37.666534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-방화",
+      "properties": {
+        "id": "STN-방화",
+        "name": "방화역",
+        "cleanName": "방화",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8127722,
+          37.5773845
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-버티고개",
+      "properties": {
+        "id": "STN-버티고개",
+        "name": "버티고개역",
+        "cleanName": "버티고개",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0066769,
+          37.5482256
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-별내별가람",
+      "properties": {
+        "id": "STN-별내별가람",
+        "name": "별내별가람역",
+        "cleanName": "별내별가람",
+        "name_en": "Byeollaebyeolgaram",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1169523,
+          37.6680941
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-보문",
+      "properties": {
+        "id": "STN-보문",
+        "name": "보문역",
+        "cleanName": "보문",
+        "name_en": "Bomun",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0193326,
+          37.5852622
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-봉천",
+      "properties": {
+        "id": "STN-봉천",
+        "name": "봉천역",
+        "cleanName": "봉천",
+        "name_en": "Bongcheon",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9419846,
+          37.4823536
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-봉화산",
+      "properties": {
+        "id": "STN-봉화산",
+        "name": "봉화산역",
+        "cleanName": "봉화산",
+        "name_en": "Bonghwasan",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0910747,
+          37.6173928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-북한산보국문",
+      "properties": {
+        "id": "STN-북한산보국문",
+        "name": "북한산보국문역",
+        "cleanName": "북한산보국문",
+        "name_en": "Bukhansan Bogungmun",
+        "lines": [
+          "우이신설선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "우이신설선",
+        "primaryColor": "#BABA46",
+        "lineColors": [
+          "#BABA46"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)",
+        "collectedAt": "2026-10-21"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0081741,
+          37.6121803
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-불광",
+      "properties": {
+        "id": "STN-불광",
+        "name": "불광역",
+        "cleanName": "불광",
+        "name_en": "Bulgwang",
+        "lines": [
+          "3호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.930398,
+          37.6098806
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-불암산",
+      "properties": {
+        "id": "STN-불암산",
+        "name": "불암산역",
+        "cleanName": "불암산",
+        "name_en": "Buramsan",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0784401,
+          37.6695753
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-사당",
+      "properties": {
+        "id": "STN-사당",
+        "name": "사당역",
+        "cleanName": "사당",
+        "name_en": "Sadang",
+        "lines": [
+          "2호선",
+          "4호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9825455,
+          37.4764777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-삼각지",
+      "properties": {
+        "id": "STN-삼각지",
+        "name": "삼각지역",
+        "cleanName": "삼각지",
+        "name_en": "Samgakji",
+        "lines": [
+          "4호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9729031,
+          37.5344579
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-삼성",
+      "properties": {
+        "id": "STN-삼성",
+        "name": "삼성역",
+        "cleanName": "삼성",
+        "name_en": "Samseong(World Trade Center Seoul)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0642476,
+          37.5091066
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-삼송",
+      "properties": {
+        "id": "STN-삼송",
+        "name": "삼송역",
+        "cleanName": "삼송",
+        "name_en": "Samsong",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8954689,
+          37.6531033
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-상계",
+      "properties": {
+        "id": "STN-상계",
+        "name": "상계역",
+        "cleanName": "상계",
+        "name_en": "Sanggye",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0726737,
+          37.6599912
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-상수",
+      "properties": {
+        "id": "STN-상수",
+        "name": "상수역",
+        "cleanName": "상수",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9229225,
+          37.5477391
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-상왕십리",
+      "properties": {
+        "id": "STN-상왕십리",
+        "name": "상왕십리역",
+        "cleanName": "상왕십리",
+        "name_en": "Sangwangsimni",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.029212,
+          37.5644254
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-상월곡",
+      "properties": {
+        "id": "STN-상월곡",
+        "name": "상월곡역",
+        "cleanName": "상월곡",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0482569,
+          37.606207
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-새절",
+      "properties": {
+        "id": "STN-새절",
+        "name": "새절역",
+        "cleanName": "새절",
+        "name_en": "Saejeol",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9134797,
+          37.5910867
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-서울",
+      "properties": {
+        "id": "STN-서울",
+        "name": "서울역",
+        "cleanName": "서울",
+        "name_en": "Seoul Station",
+        "lines": [
+          "1호선",
+          "4호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9724492,
+          37.552576
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-서울대입구",
+      "properties": {
+        "id": "STN-서울대입구",
+        "name": "서울대입구역",
+        "cleanName": "서울대입구",
+        "name_en": "Seoul Nat'l University (Gwanak-gu Office)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9527472,
+          37.4811907
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-서초",
+      "properties": {
+        "id": "STN-서초",
+        "name": "서초역",
+        "cleanName": "서초",
+        "name_en": "Seocho",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0076422,
+          37.491807
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-석계",
+      "properties": {
+        "id": "STN-석계",
+        "name": "석계역",
+        "cleanName": "석계",
+        "name_en": "Seokgye",
+        "lines": [
+          "1호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.065768,
+          37.6148757
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-선릉",
+      "properties": {
+        "id": "STN-선릉",
+        "name": "선릉역",
+        "cleanName": "선릉",
+        "name_en": "Seolleung",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0489087,
+          37.5044396
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-선바위",
+      "properties": {
+        "id": "STN-선바위",
+        "name": "선바위역",
+        "cleanName": "선바위",
+        "name_en": "Seonbawi",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.003056,
+          37.4507449
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-성수",
+      "properties": {
+        "id": "STN-성수",
+        "name": "성수역",
+        "cleanName": "성수",
+        "name_en": "Seongsu",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0550553,
+          37.5448976
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-성신여대입구",
+      "properties": {
+        "id": "STN-성신여대입구",
+        "name": "성신여대입구역",
+        "cleanName": "성신여대입구",
+        "name_en": "Sungshin Women's University",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0164111,
+          37.592665
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-송정",
+      "properties": {
+        "id": "STN-송정",
+        "name": "송정역",
+        "cleanName": "송정",
+        "name_en": "Songjeong",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8119992,
+          37.5612892
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-수서",
+      "properties": {
+        "id": "STN-수서",
+        "name": "수서역",
+        "cleanName": "수서",
+        "name_en": "Suseo",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1019706,
+          37.487427
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-수유",
+      "properties": {
+        "id": "STN-수유",
+        "name": "수유역",
+        "cleanName": "수유",
+        "name_en": "Suyu (Gangbuk-gu Office)",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0256914,
+          37.6379893
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-숙대입구",
+      "properties": {
+        "id": "STN-숙대입구",
+        "name": "숙대입구역",
+        "cleanName": "숙대입구",
+        "name_en": "Sookmyung Women's Univ.",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9719211,
+          37.5451375
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-시청",
+      "properties": {
+        "id": "STN-시청",
+        "name": "시청역",
+        "cleanName": "시청",
+        "name_en": "City Hall",
+        "lines": [
+          "1호선",
+          "2호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9739637,
+          37.5630913
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신금호",
+      "properties": {
+        "id": "STN-신금호",
+        "name": "신금호역",
+        "cleanName": "신금호",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0202666,
+          37.5544558
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신길",
+      "properties": {
+        "id": "STN-신길",
+        "name": "신길역",
+        "cleanName": "신길",
+        "name_en": "Singil",
+        "lines": [
+          "1호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9165959,
+          37.5175712
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신내",
+      "properties": {
+        "id": "STN-신내",
+        "name": "신내역",
+        "cleanName": "신내",
+        "name_en": "Sinnae",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1046462,
+          37.6124026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신답",
+      "properties": {
+        "id": "STN-신답",
+        "name": "신답역",
+        "cleanName": "신답",
+        "name_en": "",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0474214,
+          37.5692823
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신당",
+      "properties": {
+        "id": "STN-신당",
+        "name": "신당역",
+        "cleanName": "신당",
+        "name_en": "Sindang",
+        "lines": [
+          "2호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0198141,
+          37.5656525
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신대방",
+      "properties": {
+        "id": "STN-신대방",
+        "name": "신대방역",
+        "cleanName": "신대방",
+        "name_en": "Sindaebang",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.91343,
+          37.4875967
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신도림",
+      "properties": {
+        "id": "STN-신도림",
+        "name": "신도림역",
+        "cleanName": "신도림",
+        "name_en": "Sindorim",
+        "lines": [
+          "1호선",
+          "2호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8911913,
+          37.5089506
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신림",
+      "properties": {
+        "id": "STN-신림",
+        "name": "신림역",
+        "cleanName": "신림",
+        "name_en": "Sillim",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9296985,
+          37.4842228
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신사",
+      "properties": {
+        "id": "STN-신사",
+        "name": "신사역",
+        "cleanName": "신사",
+        "name_en": "Sinsa",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0196309,
+          37.5161705
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신설동",
+      "properties": {
+        "id": "STN-신설동",
+        "name": "신설동역",
+        "cleanName": "신설동",
+        "name_en": "Sinseol-dong",
+        "lines": [
+          "1호선",
+          "2호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0263347,
+          37.5740982
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신용산",
+      "properties": {
+        "id": "STN-신용산",
+        "name": "신용산역",
+        "cleanName": "신용산",
+        "name_en": "Sinyongsan",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9678072,
+          37.5291568
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신이문",
+      "properties": {
+        "id": "STN-신이문",
+        "name": "신이문역",
+        "cleanName": "신이문",
+        "name_en": "Sinimun (Korea National University of Arts)",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0669802,
+          37.600931
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신정",
+      "properties": {
+        "id": "STN-신정",
+        "name": "신정역",
+        "cleanName": "신정",
+        "name_en": "Sinjeong",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8559381,
+          37.5250652
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신정네거리",
+      "properties": {
+        "id": "STN-신정네거리",
+        "name": "신정네거리역",
+        "cleanName": "신정네거리",
+        "name_en": "Sinjeongnegeori",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.853057,
+          37.5200245
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-신촌",
+      "properties": {
+        "id": "STN-신촌",
+        "name": "신촌역",
+        "cleanName": "신촌",
+        "name_en": "Sinchon",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9369091,
+          37.5551787
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-쌍문",
+      "properties": {
+        "id": "STN-쌍문",
+        "name": "쌍문역",
+        "cleanName": "쌍문",
+        "name_en": "Ssangmun",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0345485,
+          37.6484204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-아차산",
+      "properties": {
+        "id": "STN-아차산",
+        "name": "아차산역",
+        "cleanName": "아차산",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0898223,
+          37.5517023
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-아현",
+      "properties": {
+        "id": "STN-아현",
+        "name": "아현역",
+        "cleanName": "아현",
+        "name_en": "Ahyeon",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9561344,
+          37.5574487
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-안암",
+      "properties": {
+        "id": "STN-안암",
+        "name": "안암역",
+        "cleanName": "안암",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.029329,
+          37.5862818
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-압구정",
+      "properties": {
+        "id": "STN-압구정",
+        "name": "압구정역",
+        "cleanName": "압구정",
+        "name_en": "Apgujeong",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0284705,
+          37.5261356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-애오개",
+      "properties": {
+        "id": "STN-애오개",
+        "name": "애오개역",
+        "cleanName": "애오개",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9566713,
+          37.553447
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-약수",
+      "properties": {
+        "id": "STN-약수",
+        "name": "약수역",
+        "cleanName": "약수",
+        "name_en": "Yaksu",
+        "lines": [
+          "3호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0105499,
+          37.5548296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-양재",
+      "properties": {
+        "id": "STN-양재",
+        "name": "양재역",
+        "cleanName": "양재",
+        "name_en": "Yangjae",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.034317,
+          37.4845433
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-양천구청",
+      "properties": {
+        "id": "STN-양천구청",
+        "name": "양천구청역",
+        "cleanName": "양천구청",
+        "name_en": "Yangcheon-gu Office",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8659115,
+          37.5123003
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-양평",
+      "properties": {
+        "id": "STN-양평",
+        "name": "양평역",
+        "cleanName": "양평",
+        "name_en": "Yangpyeong",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.886125,
+          37.525654
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-여의나루",
+      "properties": {
+        "id": "STN-여의나루",
+        "name": "여의나루역",
+        "cleanName": "여의나루",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9325101,
+          37.5268661
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-여의도",
+      "properties": {
+        "id": "STN-여의도",
+        "name": "여의도역",
+        "cleanName": "여의도",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9241053,
+          37.5217071
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-역곡",
+      "properties": {
+        "id": "STN-역곡",
+        "name": "역곡역",
+        "cleanName": "역곡",
+        "name_en": "Yeokgok",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8111076,
+          37.4848544
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-역삼",
+      "properties": {
+        "id": "STN-역삼",
+        "name": "역삼역",
+        "cleanName": "역삼",
+        "name_en": "Yeoksam",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0369159,
+          37.5007895
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-역촌",
+      "properties": {
+        "id": "STN-역촌",
+        "name": "역촌역",
+        "cleanName": "역촌",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9228008,
+          37.6060541
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-연신내",
+      "properties": {
+        "id": "STN-연신내",
+        "name": "연신내역",
+        "cleanName": "연신내",
+        "name_en": "Yeonsinnae",
+        "lines": [
+          "3호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.920858,
+          37.6194491
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-영등포",
+      "properties": {
+        "id": "STN-영등포",
+        "name": "영등포역",
+        "cleanName": "영등포",
+        "name_en": "Yeongdeungpo",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9072862,
+          37.5154485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-영등포구청",
+      "properties": {
+        "id": "STN-영등포구청",
+        "name": "영등포구청역",
+        "cleanName": "영등포구청",
+        "name_en": "Yeongdeungpo-gu Office",
+        "lines": [
+          "2호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8965366,
+          37.5253151
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-영등포시장",
+      "properties": {
+        "id": "STN-영등포시장",
+        "name": "영등포시장역",
+        "cleanName": "영등포시장",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9051311,
+          37.5227195
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-오금",
+      "properties": {
+        "id": "STN-오금",
+        "name": "오금역",
+        "cleanName": "오금",
+        "name_en": "Ogeum",
+        "lines": [
+          "3호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1283544,
+          37.5021419
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-오류동",
+      "properties": {
+        "id": "STN-오류동",
+        "name": "오류동역",
+        "cleanName": "오류동",
+        "name_en": "Oryu-dong",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8434437,
+          37.4939856
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-오목교",
+      "properties": {
+        "id": "STN-오목교",
+        "name": "오목교역",
+        "cleanName": "오목교",
+        "name_en": "Omokgyo",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8751578,
+          37.5245758
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-옥수",
+      "properties": {
+        "id": "STN-옥수",
+        "name": "옥수역",
+        "cleanName": "옥수",
+        "name_en": "Oksu",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0178475,
+          37.5408763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-온수",
+      "properties": {
+        "id": "STN-온수",
+        "name": "온수역",
+        "cleanName": "온수",
+        "name_en": "Onsu",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8229565,
+          37.4919928
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-올림픽공원",
+      "properties": {
+        "id": "STN-올림픽공원",
+        "name": "올림픽공원역",
+        "cleanName": "올림픽공원",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1303019,
+          37.5160799
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-왕십리",
+      "properties": {
+        "id": "STN-왕십리",
+        "name": "왕십리역",
+        "cleanName": "왕십리",
+        "name_en": "Wangsimni(Seongdong-Gu Office)",
+        "lines": [
+          "2호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0371358,
+          37.5612222
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-외대앞",
+      "properties": {
+        "id": "STN-외대앞",
+        "name": "외대앞역",
+        "cleanName": "외대앞",
+        "name_en": "Hankuk University of Foreign Studies",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.063374,
+          37.5956329
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-용답",
+      "properties": {
+        "id": "STN-용답",
+        "name": "용답역",
+        "cleanName": "용답",
+        "name_en": "",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0510125,
+          37.5617246
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-용두",
+      "properties": {
+        "id": "STN-용두",
+        "name": "용두역",
+        "cleanName": "용두",
+        "name_en": "",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.038702,
+          37.5738711
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-용산",
+      "properties": {
+        "id": "STN-용산",
+        "name": "용산역",
+        "cleanName": "용산",
+        "name_en": "Yongsan",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9663678,
+          37.5305621
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-우장산",
+      "properties": {
+        "id": "STN-우장산",
+        "name": "우장산역",
+        "cleanName": "우장산",
+        "name_en": "Ujangsan",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8363427,
+          37.5488674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-원당",
+      "properties": {
+        "id": "STN-원당",
+        "name": "원당역",
+        "cleanName": "원당",
+        "name_en": "Wondang",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8433973,
+          37.6538264
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-원흥",
+      "properties": {
+        "id": "STN-원흥",
+        "name": "원흥역",
+        "cleanName": "원흥",
+        "name_en": "Wonheung",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8737376,
+          37.6504946
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-월계",
+      "properties": {
+        "id": "STN-월계",
+        "name": "월계역",
+        "cleanName": "월계",
+        "name_en": "Wolgye (Induk University)",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0588626,
+          37.6323154
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-월곡",
+      "properties": {
+        "id": "STN-월곡",
+        "name": "월곡역",
+        "cleanName": "월곡",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.041489,
+          37.601924
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-월드컵경기장",
+      "properties": {
+        "id": "STN-월드컵경기장",
+        "name": "월드컵경기장역",
+        "cleanName": "월드컵경기장",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8992939,
+          37.5701609
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-을지로3가",
+      "properties": {
+        "id": "STN-을지로3가",
+        "name": "을지로3가역",
+        "cleanName": "을지로3가",
+        "name_en": "Euljiro 3(sam)-ga",
+        "lines": [
+          "2호선",
+          "3호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9925882,
+          37.5663629
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-을지로4가",
+      "properties": {
+        "id": "STN-을지로4가",
+        "name": "을지로4가역",
+        "cleanName": "을지로4가",
+        "name_en": "Euljiro 4(sa)-ga",
+        "lines": [
+          "2호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9979998,
+          37.5666655
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-을지로입구",
+      "properties": {
+        "id": "STN-을지로입구",
+        "name": "을지로입구역",
+        "cleanName": "을지로입구",
+        "name_en": "Euljiro 1(il)-ga (Industrial Bank of Korea)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.982607,
+          37.5659777
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-응암",
+      "properties": {
+        "id": "STN-응암",
+        "name": "응암역",
+        "cleanName": "응암",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9157018,
+          37.598774
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-이대",
+      "properties": {
+        "id": "STN-이대",
+        "name": "이대역",
+        "cleanName": "이대",
+        "name_en": "Ewha Womans University",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9458415,
+          37.5567916
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-이촌",
+      "properties": {
+        "id": "STN-이촌",
+        "name": "이촌역",
+        "cleanName": "이촌",
+        "name_en": "Ichon (National Museum of Korea)",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9736117,
+          37.5226181
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-이태원",
+      "properties": {
+        "id": "STN-이태원",
+        "name": "이태원역",
+        "cleanName": "이태원",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.994386,
+          37.534481
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-일원",
+      "properties": {
+        "id": "STN-일원",
+        "name": "일원역",
+        "cleanName": "일원",
+        "name_en": "Irwon",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0841812,
+          37.4837678
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-잠실",
+      "properties": {
+        "id": "STN-잠실",
+        "name": "잠실역",
+        "cleanName": "잠실",
+        "name_en": "Jamsil(Songpa-gu Office)",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1016671,
+          37.5136906
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-잠실나루",
+      "properties": {
+        "id": "STN-잠실나루",
+        "name": "잠실나루역",
+        "cleanName": "잠실나루",
+        "name_en": "Jamsillaru",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1043045,
+          37.5198837
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-잠실새내",
+      "properties": {
+        "id": "STN-잠실새내",
+        "name": "잠실새내역",
+        "cleanName": "잠실새내",
+        "name_en": "Jamsilsaenae",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0864332,
+          37.5115479
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-잠원",
+      "properties": {
+        "id": "STN-잠원",
+        "name": "잠원역",
+        "cleanName": "잠원",
+        "name_en": "Jamwon",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0110886,
+          37.5127485
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-장한평",
+      "properties": {
+        "id": "STN-장한평",
+        "name": "장한평역",
+        "cleanName": "장한평",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0645955,
+          37.5615078
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-정릉",
+      "properties": {
+        "id": "STN-정릉",
+        "name": "정릉역",
+        "cleanName": "정릉",
+        "name_en": "Jeongneung",
+        "lines": [
+          "우이신설선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "우이신설선",
+        "primaryColor": "#BABA46",
+        "lineColors": [
+          "#BABA46"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)",
+        "collectedAt": "2026-10-21"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0133551,
+          37.6028286
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-제기동",
+      "properties": {
+        "id": "STN-제기동",
+        "name": "제기동역",
+        "cleanName": "제기동",
+        "name_en": "Jegidong",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0335456,
+          37.5783087
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-종합운동장",
+      "properties": {
+        "id": "STN-종합운동장",
+        "name": "종합운동장역",
+        "cleanName": "종합운동장",
+        "name_en": "Sports Complex",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0753203,
+          37.5112839
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-증산",
+      "properties": {
+        "id": "STN-증산",
+        "name": "증산역",
+        "cleanName": "증산",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9098598,
+          37.5841289
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-지축",
+      "properties": {
+        "id": "STN-지축",
+        "name": "지축역",
+        "cleanName": "지축",
+        "name_en": "Jichuk",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9149061,
+          37.6479341
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-창동",
+      "properties": {
+        "id": "STN-창동",
+        "name": "창동역",
+        "cleanName": "창동",
+        "name_en": "Chang-dong",
+        "lines": [
+          "1호선",
+          "4호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94",
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0466586,
+          37.6529636
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-천호",
+      "properties": {
+        "id": "STN-천호",
+        "name": "천호역",
+        "cleanName": "천호",
+        "name_en": "Cheonho",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.1232037,
+          37.5380736
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-청구",
+      "properties": {
+        "id": "STN-청구",
+        "name": "청구역",
+        "cleanName": "청구",
+        "name_en": "",
+        "lines": [
+          "5호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0138544,
+          37.5602864
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-청량리",
+      "properties": {
+        "id": "STN-청량리",
+        "name": "청량리역",
+        "cleanName": "청량리",
+        "name_en": "Cheongnyangni (University of Seoul)",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0482186,
+          37.5806416
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-총신대입구",
+      "properties": {
+        "id": "STN-총신대입구",
+        "name": "총신대입구역",
+        "cleanName": "총신대입구",
+        "name_en": "Chongsin Univ. (Isu)",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9822046,
+          37.487026
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-충무로",
+      "properties": {
+        "id": "STN-충무로",
+        "name": "충무로역",
+        "cleanName": "충무로",
+        "name_en": "Chungmuro",
+        "lines": [
+          "3호선",
+          "4호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F",
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9948063,
+          37.5606488
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-충정로",
+      "properties": {
+        "id": "STN-충정로",
+        "name": "충정로역",
+        "cleanName": "충정로",
+        "name_en": "Chungjeongno(Kyonggi University)",
+        "lines": [
+          "2호선",
+          "5호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9636659,
+          37.5593594
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-태릉입구",
+      "properties": {
+        "id": "STN-태릉입구",
+        "name": "태릉입구역",
+        "cleanName": "태릉입구",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0745285,
+          37.6172248
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-학여울",
+      "properties": {
+        "id": "STN-학여울",
+        "name": "학여울역",
+        "cleanName": "학여울",
+        "name_en": "Hangnyeoul",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0699125,
+          37.4964802
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-한강진",
+      "properties": {
+        "id": "STN-한강진",
+        "name": "한강진역",
+        "cleanName": "한강진",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0017633,
+          37.5398199
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-한성대입구",
+      "properties": {
+        "id": "STN-한성대입구",
+        "name": "한성대입구역",
+        "cleanName": "한성대입구",
+        "name_en": "Hansung Univ. (Samseongyo)",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0053156,
+          37.588201
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-한양대",
+      "properties": {
+        "id": "STN-한양대",
+        "name": "한양대역",
+        "cleanName": "한양대",
+        "name_en": "Hanyang University",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0436837,
+          37.5557274
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-합정",
+      "properties": {
+        "id": "STN-합정",
+        "name": "합정역",
+        "cleanName": "합정",
+        "name_en": "Hapjeong",
+        "lines": [
+          "2호선",
+          "6호선"
+        ],
+        "lineCount": 2,
+        "isTransfer": true,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B",
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9146378,
+          37.5500781
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-행당",
+      "properties": {
+        "id": "STN-행당",
+        "name": "행당역",
+        "cleanName": "행당",
+        "name_en": "",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0299451,
+          37.5576032
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-홍대입구",
+      "properties": {
+        "id": "STN-홍대입구",
+        "name": "홍대입구역",
+        "cleanName": "홍대입구",
+        "name_en": "Hongik University",
+        "lines": [
+          "2호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "2호선",
+        "primaryColor": "#4AB34B",
+        "lineColors": [
+          "#4AB34B"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9234645,
+          37.5566763
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-홍제",
+      "properties": {
+        "id": "STN-홍제",
+        "name": "홍제역",
+        "cleanName": "홍제",
+        "name_en": "Hongje (Seoul Culture Arts Univ.)",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.944199,
+          37.588674
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-화곡",
+      "properties": {
+        "id": "STN-화곡",
+        "name": "화곡역",
+        "cleanName": "화곡",
+        "name_en": "Hwagok",
+        "lines": [
+          "5호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "5호선",
+        "primaryColor": "#843ED9",
+        "lineColors": [
+          "#843ED9"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8404024,
+          37.5417123
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-화랑대",
+      "properties": {
+        "id": "STN-화랑대",
+        "name": "화랑대역",
+        "cleanName": "화랑대",
+        "name_en": "",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0837172,
+          37.6197559
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-화정",
+      "properties": {
+        "id": "STN-화정",
+        "name": "화정역",
+        "cleanName": "화정",
+        "name_en": "Hwajeong",
+        "lines": [
+          "3호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "3호선",
+        "primaryColor": "#EE7B3F",
+        "lineColors": [
+          "#EE7B3F"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.8326234,
+          37.6345957
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-회기",
+      "properties": {
+        "id": "STN-회기",
+        "name": "회기역",
+        "cleanName": "회기",
+        "name_en": "Hoegi",
+        "lines": [
+          "1호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "1호선",
+        "primaryColor": "#303B94",
+        "lineColors": [
+          "#303B94"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          127.0572961,
+          37.5891676
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-회현",
+      "properties": {
+        "id": "STN-회현",
+        "name": "회현역",
+        "cleanName": "회현",
+        "name_en": "Hoehyeon (Namdaemun Market)",
+        "lines": [
+          "4호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "4호선",
+        "primaryColor": "#499CDC",
+        "lineColors": [
+          "#499CDC"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.978436,
+          37.5587614
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "STN-효창공원앞",
+      "properties": {
+        "id": "STN-효창공원앞",
+        "name": "효창공원앞역",
+        "cleanName": "효창공원앞",
+        "name_en": "Hyochang Park",
+        "lines": [
+          "6호선"
+        ],
+        "lineCount": 1,
+        "isTransfer": false,
+        "primaryLine": "6호선",
+        "primaryColor": "#AE541A",
+        "lineColors": [
+          "#AE541A"
+        ],
+        "inJongno": false,
+        "district": "서울특별시",
+        "source": "OpenStreetMap (ODbL)"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          126.9613534,
+          37.5393117
+        ]
+      }
+    }
+  ]
+}

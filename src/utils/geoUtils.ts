@@ -91,10 +91,12 @@ export function circleToPolygon(
  * Determines congestion level from numeric value 0-100
  */
 export function determineCongestionLevel(value: number): CongestionLevel {
-  if (value <= 35) return 1;
-  if (value <= 65) return 2;
-  if (value <= 85) return 3;
-  return 4;
+  if (value <= 25) return 1;
+  if (value <= 45) return 2;
+  if (value <= 65) return 3;
+  if (value <= 80) return 4;
+  if (value <= 90) return 5;
+  return 6;
 }
 
 /**
@@ -292,3 +294,63 @@ export function importFromGeoJson(geoJsonString: string): {
     return { zones: [], congestions: {}, error: `파싱 실패: ${err?.message || '알 수 없는 오류'}` };
   }
 }
+
+/**
+ * 2D Convex Hull (Monotone Chain algorithm) for array of [lat, lng] points
+ */
+export function computeConvexHull(points: [number, number][]): [number, number][] {
+  if (points.length <= 3) return points;
+  // Sort primarily by lng (x), secondarily by lat (y)
+  const sorted = [...points].sort((a, b) => (a[1] === b[1] ? a[0] - b[0] : a[1] - b[1]));
+  const cross = (o: [number, number], a: [number, number], b: [number, number]) =>
+    (a[1] - o[1]) * (b[0] - o[0]) - (a[0] - o[0]) * (b[1] - o[1]);
+
+  const lower: [number, number][] = [];
+  for (const p of sorted) {
+    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
+      lower.pop();
+    }
+    lower.push(p);
+  }
+
+  const upper: [number, number][] = [];
+  for (let i = sorted.length - 1; i >= 0; i--) {
+    const p = sorted[i];
+    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
+      upper.pop();
+    }
+    upper.push(p);
+  }
+
+  lower.pop();
+  upper.pop();
+  return [...lower, ...upper];
+}
+
+/**
+ * Computes an Area's outer boundary polygon dynamically from its member zones (scanners)
+ * Samples circular scanner perimeter points + margin so the polygon seamlessly wraps all scanner circles!
+ */
+export function computeAreaHullFromZones(
+  zones: ZoneData[],
+  padMeters: number = 22
+): [number, number][] {
+  if (zones.length === 0) return [];
+  const perimeterPoints: [number, number][] = [];
+
+  zones.forEach((z) => {
+    const lat = z.center.lat;
+    const lng = z.center.lng;
+    const r = (z.radius || 30) + padMeters;
+    // Sample 8 perimeter points around each circle
+    for (let a = 0; a < 360; a += 45) {
+      const rad = (a * Math.PI) / 180;
+      const dLat = (r * Math.cos(rad)) / 111000;
+      const dLng = (r * Math.sin(rad)) / (111000 * Math.cos((lat * Math.PI) / 180));
+      perimeterPoints.push([lat + dLat, lng + dLng]);
+    }
+  });
+
+  return computeConvexHull(perimeterPoints);
+}
+

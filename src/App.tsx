@@ -1,30 +1,40 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Header } from './components/Header';
 import { LeftPanel } from './components/LeftPanel';
 import { RightPanel } from './components/RightPanel';
 import { MapContainer } from './components/MapContainer';
 import { AirgapGuideModal } from './components/AirgapGuideModal';
 import { GeoJsonModal } from './components/GeoJsonModal';
-import { ServerConfigModal } from './components/ServerConfigModal';
-import { MapConceptModal } from './components/MapConceptModal';
+import { CctvModal } from './components/CctvModal';
 import { INITIAL_ZONES, INITIAL_CONGESTIONS } from './data/defaultZones';
-import { DEFAULT_TILE_SERVERS, DEFAULT_MAP_CONCEPT } from './utils/constants';
+import { CheckCircle2 } from 'lucide-react';
 import {
   ZoneData,
   CongestionData,
   AppMode,
-  TileServerConfig,
   LatLng,
   CongestionLevel,
-  MapConceptConfig,
 } from './types';
 import { determineCongestionLevel } from './utils/geoUtils';
 
 export default function App() {
-  // Main Data States
-  const [zones, setZones] = useState<ZoneData[]>(INITIAL_ZONES);
+  // Main Data States (persisted via localStorage cache & backend defaultZones.ts)
+  const [zones, setZones] = useState<ZoneData[]>(() => {
+    try {
+      const saved = localStorage.getItem('jongno_zones_data') || localStorage.getItem('jongno_zones_data_v4');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch (e) {
+      // fallback
+    }
+    return INITIAL_ZONES;
+  });
   const [congestions, setCongestions] = useState<Record<string, CongestionData>>(INITIAL_CONGESTIONS);
-  const [selectedZoneId, setSelectedZoneId] = useState<string | null>('ZONE-001');
+  const [selectedZoneId, setSelectedZoneId] = useState<string | null>(null);
 
   // App Configuration States
   const [mode, setMode] = useState<AppMode>('view');
@@ -33,18 +43,62 @@ export default function App() {
   const [lastUpdated, setLastUpdated] = useState<string>(
     new Date().toLocaleTimeString('ko-KR', { hour12: false })
   );
-  const [tileServer, setTileServer] = useState<TileServerConfig>(DEFAULT_TILE_SERVERS[0]);
 
   // Map & Creation States
   const [creatingZoneType, setCreatingZoneType] = useState<'circle' | 'polygon' | null>(null);
   const [focusTarget, setFocusTarget] = useState<LatLng | null>(null);
 
-  // Modals & Concept States
-  const [mapConcept, setMapConcept] = useState<MapConceptConfig>(DEFAULT_MAP_CONCEPT);
-  const [isConceptModalOpen, setIsConceptModalOpen] = useState<boolean>(false);
+  // Modals
   const [isGuideOpen, setIsGuideOpen] = useState<boolean>(false);
-  const [isServerConfigOpen, setIsServerConfigOpen] = useState<boolean>(false);
   const [isGeoJsonOpen, setIsGeoJsonOpen] = useState<boolean>(false);
+  const [cctvZone, setCctvZone] = useState<ZoneData | null>(null);
+
+  // Auto-save notification state
+  const [saveStatus, setSaveStatus] = useState<{ message: string; time: string } | null>(null);
+
+  // Directly persist zones to backend data file (src/data/defaultZones.ts)
+  const saveZonesToFile = useCallback(async (updatedZones: ZoneData[]) => {
+    try {
+      // 1. Instantly cache in browser localStorage so no reload can lose changes
+      try {
+        localStorage.setItem('jongno_zones_data', JSON.stringify(updatedZones));
+        localStorage.setItem('jongno_zones_data_v4', JSON.stringify(updatedZones));
+      } catch (e) {
+        // ignore
+      }
+
+      // 2. Persist to server data files (defaultZones.ts and zones.json)
+      const res = await fetch('/api/save-zones', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ zones: updatedZones }),
+      });
+      if (res.ok) {
+        setSaveStatus({
+          message: '임시 데이터 파일(defaultZones.ts)에 저장 완료',
+          time: new Date().toLocaleTimeString('ko-KR', { hour12: false }),
+        });
+        setTimeout(() => {
+          setSaveStatus(null);
+        }, 2800);
+      }
+    } catch (err) {
+      console.error('Failed to auto-save zones to data file:', err);
+    }
+  }, []);
+
+  // Debounced auto-save whenever zones change (from map drag, resize, or inspector edits)
+  const isFirstMount = useRef(true);
+  useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    const timer = setTimeout(() => {
+      saveZonesToFile(zones);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [zones, saveZonesToFile]);
 
   // Apply dark mode class to html element
   useEffect(() => {
@@ -126,9 +180,17 @@ export default function App() {
     setLastUpdated(new Date().toLocaleTimeString('ko-KR', { hour12: false }));
   }, [zones]);
 
-  // Select Zone
+  // Handle Mode Change (관제 모드로 전환 시 그리기 상태 초기화)
+  const handleModeChange = (newMode: AppMode) => {
+    setMode(newMode);
+    if (newMode === 'view') {
+      setCreatingZoneType(null);
+    }
+  };
+
+  // Select Zone (empty string or falsy deselects)
   const handleSelectZone = (zoneId: string) => {
-    setSelectedZoneId(zoneId);
+    setSelectedZoneId(zoneId ? zoneId : null);
   };
 
   // Update Zone (live reflection from map or inspector)
@@ -276,11 +338,11 @@ export default function App() {
   const selectedCongestion = selectedZoneId ? congestions[selectedZoneId] || null : null;
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-neutral-100 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 font-sans">
+    <div className={`flex flex-col h-screen w-screen overflow-hidden bg-neutral-100 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 font-sans ${isDarkMode ? 'dark' : ''}`}>
       {/* 1. Header */}
       <Header
         mode={mode}
-        setMode={setMode}
+        setMode={handleModeChange}
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
         isSimulating={isSimulating}
@@ -288,18 +350,14 @@ export default function App() {
         onRefreshCongestion={handleManualRefresh}
         lastUpdated={lastUpdated}
         onOpenGuide={() => setIsGuideOpen(true)}
-        onOpenServerConfig={() => setIsServerConfigOpen(true)}
         onOpenGeoJson={() => setIsGeoJsonOpen(true)}
-        onOpenConcept={() => setIsConceptModalOpen(true)}
-        currentConceptName={mapConcept.name}
-        isAirGappedActive={tileServer.isAirGapped}
-        tileServerName={tileServer.name}
       />
 
       {/* 2. Main Workspace Layout */}
       <div className="flex-1 flex overflow-hidden relative">
         {/* Left Panel: Zone List, Filters, Stats, Add */}
         <LeftPanel
+          mode={mode}
           zones={zones}
           congestions={congestions}
           selectedZoneId={selectedZoneId}
@@ -309,6 +367,7 @@ export default function App() {
           onDeleteZone={handleDeleteZone}
           onCreateZone={handleStartCreateZone}
           onFocusZoneOnMap={handleFocusZoneOnMap}
+          onOpenCctv={setCctvZone}
         />
 
         {/* Center: Leaflet Map Container */}
@@ -319,28 +378,29 @@ export default function App() {
           onSelectZone={handleSelectZone}
           onUpdateZone={handleUpdateZone}
           mode={mode}
-          tileServer={tileServer}
           isDarkMode={isDarkMode}
-          concept={mapConcept}
-          onOpenConcept={() => setIsConceptModalOpen(true)}
+          onOpenGuide={() => setIsGuideOpen(true)}
           onAddZoneComplete={handleAddZoneComplete}
           creatingZoneType={creatingZoneType}
           setCreatingZoneType={setCreatingZoneType}
           focusTarget={focusTarget}
           onFocusHandled={() => setFocusTarget(null)}
+          onOpenCctv={setCctvZone}
         />
 
-        {/* Right Panel: Zone Inspector & Geometry/Congestion Editor */}
-        <RightPanel
-          zone={selectedZone}
-          congestion={selectedCongestion}
-          onUpdateZone={handleUpdateZone}
-          onUpdateCongestion={handleUpdateCongestion}
-          onClose={() => setSelectedZoneId(null)}
-          onDeleteZone={handleDeleteZone}
-          onDuplicateZone={handleDuplicateZone}
-          onCenterMapOnZone={(z) => setFocusTarget(z.center)}
-        />
+        {/* Right Panel: Zone Inspector & Geometry/Congestion Editor (편집 모드에서만 표출) */}
+        {mode === 'edit' && (
+          <RightPanel
+            zone={selectedZone}
+            congestion={selectedCongestion}
+            onUpdateZone={handleUpdateZone}
+            onUpdateCongestion={handleUpdateCongestion}
+            onClose={() => setSelectedZoneId(null)}
+            onDeleteZone={handleDeleteZone}
+            onDuplicateZone={handleDuplicateZone}
+            onCenterMapOnZone={(z) => setFocusTarget(z.center)}
+          />
+        )}
       </div>
 
       {/* 3. Modals */}
@@ -352,18 +412,23 @@ export default function App() {
         congestions={congestions}
         onImport={handleImportGeoJson}
       />
-      <ServerConfigModal
-        isOpen={isServerConfigOpen}
-        onClose={() => setIsServerConfigOpen(false)}
-        currentConfig={tileServer}
-        onApplyConfig={(cfg) => setTileServer(cfg)}
+      <CctvModal
+        isOpen={!!cctvZone}
+        onClose={() => setCctvZone(null)}
+        zone={cctvZone}
+        congestion={cctvZone ? congestions[cctvZone.id] : undefined}
       />
-      <MapConceptModal
-        isOpen={isConceptModalOpen}
-        onClose={() => setIsConceptModalOpen(false)}
-        concept={mapConcept}
-        onApplyConcept={(c) => setMapConcept(c)}
-      />
+
+      {/* 4. Auto-save feedback toast */}
+      {saveStatus && (
+        <div className="fixed bottom-5 right-6 z-[9999] pointer-events-none flex items-center gap-2.5 px-4 py-2.5 bg-neutral-900/95 text-white dark:bg-neutral-800/95 border border-emerald-500/50 rounded-xl shadow-2xl backdrop-blur-md transition-all">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="flex flex-col">
+            <span className="text-xs font-bold text-white">{saveStatus.message}</span>
+            <span className="text-[10px] text-neutral-400 font-mono">저장 시각: {saveStatus.time}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

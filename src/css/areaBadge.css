@@ -1,0 +1,132 @@
+/* ==========================================================================
+   영역(Area) 요약 이름표 스타일 시트
+   위치: src/css/areaBadge.css
+   ========================================================================== */
+
+.area-summary-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* 영역 이름표 컨테이너 (검은색 배경 제거 및 투명 처리) */
+.area-badge-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.area-badge-card:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  z-index: 999;
+}
+
+/* 3D 상태 캐릭터 SVG 아이콘 (크기 확대) */
+.area-badge-icon {
+  width: 48px;
+  height: 56px;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.55));
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.area-badge-card:hover .area-badge-icon {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.75));
+}
+
+/* 영역명 라벨 (선명한 외곽선으로 지도 위 시인성 극대화) */
+.area-badge-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.3px;
+  margin-top: 3px;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95),
+               -1.2px -1.2px 0 #000,
+                1.2px -1.2px 0 #000,
+               -1.2px  1.2px 0 #000,
+                1.2px  1.2px 0 #000,
+                0 0 6px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  line-height: 1.2;
+}
+
+/* ==========================================================================
+   관제 영역(Area) 그라데이션 & 호흡 애니메이션 (서울경찰청 대시보드 스타일)
+   ========================================================================== */
+
+/* Leaflet overlay pane 전체에 hard-light를 적용하여 하위 지도 레이어(Canvas)와 자연스럽게 블렌딩 */
+.leaflet-overlay-pane {
+  mix-blend-mode: hard-light !important;
+}
+
+/* Leaflet overlay pane 내 관제 영역 path 스타일 */
+path.area-polygon-interactive,
+path.area-polygon-gradient {
+  filter: drop-shadow(0 0 0 rgba(0, 0, 0, 0.6));
+  animation: map-blank 3s infinite ease-in-out;
+}
+
+@keyframes map-blank {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.52;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 각 혼잡도 레벨별 그라데이션 및 테두리(stroke) 매핑 */
+path.area-level-6,
+path.area-gradient-critical_path {
+  fill: url(#critical_path) !important;
+  stroke: #BE0000 !important;
+}
+
+path.area-level-5,
+path.area-gradient-serious_path {
+  fill: url(#serious_path) !important;
+  stroke: #AB00D5 !important;
+}
+
+path.area-level-4,
+path.area-gradient-major_path {
+  fill: url(#major_path) !important;
+  stroke: #CE8D00 !important;
+}
+
+path.area-level-3,
+path.area-gradient-minor_path {
+  fill: url(#minor_path) !important;
+  stroke: #BFA900 !important;
+}
+
+path.area-level-2,
+path.area-gradient-warning_path,
+path.area-gradient-attention_path {
+  fill: url(#warning_path) !important;
+  stroke: #0095FF !important;
+}
+
+path.area-level-1,
+path.area-gradient-normal_path {
+  fill: url(#normal_path) !important;
+  stroke: #0099C3 !important;
+}
+
