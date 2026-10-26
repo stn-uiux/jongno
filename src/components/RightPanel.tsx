@@ -299,48 +299,29 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block text-neutral-600 dark:text-neutral-400 mb-1">구역 형태</label>
-              <div className="px-2.5 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-700 dark:text-neutral-300 font-mono text-[11px] flex items-center gap-1.5">
-                {draftZone.type === 'circle' ? (
-                  <>
-                    <CircleDot className="w-3 h-3 text-blue-500" />
-                    <span>원형 (Circle)</span>
-                  </>
-                ) : (
-                  <>
-                    <Hexagon className="w-3 h-3 text-emerald-500" />
-                    <span>다각형 (Polygon)</span>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-neutral-600 dark:text-neutral-400 mb-1">지도 표시 여부</label>
-              <button
-                type="button"
-                onClick={() => handleZoneFieldChange({ visible: !draftZone.visible })}
-                className={`w-full py-1.5 px-2.5 rounded-md border text-[11px] font-medium flex items-center justify-center gap-1.5 transition-colors ${
-                  draftZone.visible
-                    ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
-                    : 'bg-neutral-100 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-500'
-                }`}
-              >
-                {draftZone.visible ? (
-                  <>
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>표시 중</span>
-                  </>
-                ) : (
-                  <>
-                    <EyeOff className="w-3.5 h-3.5" />
-                    <span>숨김 상태</span>
-                  </>
-                )}
-              </button>
-            </div>
+          <div>
+            <label className="block text-neutral-600 dark:text-neutral-400 mb-1 font-medium">지도 표시 여부</label>
+            <button
+              type="button"
+              onClick={() => handleZoneFieldChange({ visible: !draftZone.visible })}
+              className={`w-full py-2 px-3 rounded-md border text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
+                draftZone.visible
+                  ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-300 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+                  : 'bg-neutral-100 dark:bg-neutral-800 border-neutral-200 dark:border-neutral-700 text-neutral-500'
+              }`}
+            >
+              {draftZone.visible ? (
+                <>
+                  <Eye className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <span>지도에 표시 중</span>
+                </>
+              ) : (
+                <>
+                  <EyeOff className="w-4 h-4 text-neutral-400" />
+                  <span>지도에서 숨김</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
@@ -349,117 +330,66 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           <div className="flex items-center justify-between">
             <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
               <MapPin className="w-3.5 h-3.5 text-blue-500" />
-              <span>좌표 및 형상 설정</span>
+              <span>좌표 및 형상 설정 (원형)</span>
             </span>
             <span className="text-[11px] text-neutral-400">실시간 지도 동기화</span>
           </div>
 
-          {draftZone.type === 'circle' ? (
-            /* Circle Geometry Inputs */
-            <div className="space-y-3 bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-lg border border-neutral-200 dark:border-neutral-700/60">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <label className="block text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">중심 위도 (Lat)</label>
-                  <input
-                    type="number"
-                    step="0.0001"
-                    value={draftZone.center.lat}
-                    onChange={(e) => handleCenterChange('lat', parseFloat(e.target.value) || 0)}
-                    className="w-full px-2.5 py-1 text-xs font-mono tabular-nums bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded text-neutral-900 dark:text-neutral-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">중심 경도 (Lng)</label>
-                  <input
-                    type="number"
-                    step="0.0001"
-                    value={draftZone.center.lng}
-                    onChange={(e) => handleCenterChange('lng', parseFloat(e.target.value) || 0)}
-                    className="w-full px-2.5 py-1 text-xs font-mono tabular-nums bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded text-neutral-900 dark:text-neutral-100"
-                  />
-                </div>
-              </div>
-
+          {/* Circle Geometry Inputs */}
+          <div className="space-y-3 bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-lg border border-neutral-200 dark:border-neutral-700/60">
+            <div className="grid grid-cols-2 gap-2">
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="text-[11px] text-neutral-500 dark:text-neutral-400">반경 (Radius)</label>
-                  <span className="font-mono text-xs font-bold tabular-nums text-neutral-900 dark:text-neutral-100">
-                    {draftZone.radius || 30} m
-                  </span>
-                </div>
+                <label className="block text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">중심 위도 (Lat)</label>
                 <input
-                  type="range"
-                  min="10"
-                  max="1000"
-                  step="5"
-                  value={draftZone.radius || 30}
-                  onChange={(e) => handleRadiusChange(parseInt(e.target.value, 10))}
-                  className="w-full accent-blue-600 cursor-pointer"
+                  type="number"
+                  step="0.0001"
+                  value={draftZone.center.lat}
+                  onChange={(e) => handleCenterChange('lat', parseFloat(e.target.value) || 0)}
+                  className="w-full px-2.5 py-1 text-xs font-mono tabular-nums bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded text-neutral-900 dark:text-neutral-100"
                 />
-                <div className="flex items-center gap-1.5 mt-1">
-                  {[-20, -10, +10, +20].map((delta) => (
-                    <button
-                      key={delta}
-                      type="button"
-                      onClick={() => handleRadiusChange((draftZone.radius || 30) + delta)}
-                      className="flex-1 py-0.5 text-[10px] font-mono bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 cursor-pointer"
-                    >
-                      {delta > 0 ? `+${delta}m` : `${delta}m`}
-                    </button>
-                  ))}
-                </div>
+              </div>
+              <div>
+                <label className="block text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">중심 경도 (Lng)</label>
+                <input
+                  type="number"
+                  step="0.0001"
+                  value={draftZone.center.lng}
+                  onChange={(e) => handleCenterChange('lng', parseFloat(e.target.value) || 0)}
+                  className="w-full px-2.5 py-1 text-xs font-mono tabular-nums bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded text-neutral-900 dark:text-neutral-100"
+                />
               </div>
             </div>
-          ) : (
-            /* Polygon Vertex Table */
-            <div className="space-y-2 bg-neutral-50 dark:bg-neutral-800/40 p-3 rounded-lg border border-neutral-200 dark:border-neutral-700/60">
-              <div className="flex items-center justify-between">
-                <span className="text-[11px] text-neutral-600 dark:text-neutral-300 font-medium">
-                  꼭짓점 목록 ({draftZone.coordinates?.length || 0}개)
-                </span>
-                <button
-                  type="button"
-                  onClick={handleAddVertex}
-                  className="flex items-center gap-1 px-2 py-0.5 text-[11px] bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded hover:bg-neutral-100 text-neutral-700 dark:text-neutral-300"
-                >
-                  <Plus className="w-3 h-3" />
-                  <span>점 추가</span>
-                </button>
-              </div>
 
-              <div className="max-h-44 overflow-y-auto space-y-1.5 pr-1">
-                {(draftZone.coordinates || []).map((coord, idx) => (
-                  <div key={idx} className="flex items-center gap-1.5 bg-white dark:bg-neutral-800 p-1.5 rounded border border-neutral-200 dark:border-neutral-700 text-[11px]">
-                    <span className="w-4 text-center font-mono text-neutral-400 font-semibold">{idx + 1}</span>
-                    <input
-                      type="number"
-                      step="0.0001"
-                      value={coord[0]}
-                      onChange={(e) => handleVertexChange(idx, 'lat', parseFloat(e.target.value) || 0)}
-                      className="flex-1 px-1.5 py-0.5 font-mono text-[11px] bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded"
-                      placeholder="Lat"
-                    />
-                    <input
-                      type="number"
-                      step="0.0001"
-                      value={coord[1]}
-                      onChange={(e) => handleVertexChange(idx, 'lng', parseFloat(e.target.value) || 0)}
-                      className="flex-1 px-1.5 py-0.5 font-mono text-[11px] bg-neutral-50 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded"
-                      placeholder="Lng"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveVertex(idx)}
-                      title="꼭짓점 삭제"
-                      className="p-1 text-neutral-400 hover:text-red-500 rounded"
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                  </div>
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[11px] text-neutral-500 dark:text-neutral-400">반경 (Radius)</label>
+                <span className="font-mono text-xs font-bold tabular-nums text-neutral-900 dark:text-neutral-100">
+                  {draftZone.radius || 30} m
+                </span>
+              </div>
+              <input
+                type="range"
+                min="10"
+                max="1000"
+                step="5"
+                value={draftZone.radius || 30}
+                onChange={(e) => handleRadiusChange(parseInt(e.target.value, 10))}
+                className="w-full accent-blue-600 cursor-pointer"
+              />
+              <div className="flex items-center gap-1.5 mt-1">
+                {[-20, -10, +10, +20].map((delta) => (
+                  <button
+                    key={delta}
+                    type="button"
+                    onClick={() => handleRadiusChange((draftZone.radius || 30) + delta)}
+                    className="flex-1 py-0.5 text-[10px] font-mono bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded hover:bg-neutral-100 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-300 cursor-pointer"
+                  >
+                    {delta > 0 ? `+${delta}m` : `${delta}m`}
+                  </button>
                 ))}
               </div>
             </div>
-          )}
+          </div>
         </div>
 
         {/* Congestion Metrics */}

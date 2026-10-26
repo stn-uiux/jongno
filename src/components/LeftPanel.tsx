@@ -1,12 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import {
   Search,
-  Plus,
   Eye,
   EyeOff,
   CircleDot,
-  Hexagon,
-  Trash2,
+  RotateCcw,
   Filter,
   CheckCircle2,
   AlertTriangle,
@@ -34,9 +32,10 @@ interface LeftPanelProps {
   onToggleZoneVisibility: (zoneId: string) => void;
   onDuplicateZone: (zoneId: string) => void;
   onDeleteZone: (zoneId: string) => void;
-  onCreateZone: (type: 'circle' | 'polygon') => void;
+  onCreateZone?: (type: 'circle' | 'polygon') => void;
   onFocusZoneOnMap: (zoneId: string) => void;
   onOpenCctv?: (zone: ZoneData) => void;
+  onResetZones?: () => void;
 }
 
 export const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -51,11 +50,11 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   onCreateZone,
   onFocusZoneOnMap,
   onOpenCctv,
+  onResetZones,
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [levelFilter, setLevelFilter] = useState<CongestionLevel | 'all'>('all');
   const [selectedAreaId, setSelectedAreaId] = useState<string | 'all'>('all');
-  const [showAddMenu, setShowAddMenu] = useState(false);
   const [sortType, setSortType] = useState<'density' | 'visitors' | 'name'>('density');
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc');
 
@@ -178,45 +177,17 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           </div>
         </div>
 
-        {/* View Mode Status Indicator or Edit Mode Add Dropdown */}
+        {/* View Mode Status Indicator or Edit Mode Reset Button */}
         {mode === 'edit' ? (
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setShowAddMenu(!showAddMenu)}
-              className="flex items-center gap-1 px-2.5 py-1.5 text-xs font-semibold text-white bg-amber-600 hover:bg-amber-700 rounded-lg shadow-xs transition-colors cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>구역 추가</span>
-            </button>
-
-            {showAddMenu && (
-              <div className="absolute right-0 top-9 w-40 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg z-50 p-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    onCreateZone('circle');
-                    setShowAddMenu(false);
-                  }}
-                  className="w-full text-left flex items-center gap-2 px-3 py-2 text-xs font-medium text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700/60 rounded-md cursor-pointer"
-                >
-                  <CircleDot className="w-3.5 h-3.5 text-blue-500" />
-                  <span>원형 구역 생성</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    onCreateZone('polygon');
-                    setShowAddMenu(false);
-                  }}
-                  className="w-full text-left flex items-center gap-2 px-3 py-2 text-xs font-medium text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-700/60 rounded-md cursor-pointer"
-                >
-                  <Hexagon className="w-3.5 h-3.5 text-emerald-500" />
-                  <span>다각형 구역 생성</span>
-                </button>
-              </div>
-            )}
-          </div>
+          <button
+            type="button"
+            onClick={onResetZones}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-neutral-700 dark:text-neutral-200 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 border border-neutral-300 dark:border-neutral-700 rounded-lg shadow-xs transition-colors cursor-pointer"
+            title="localStorage에 저장된 편집 데이터를 삭제하고 최초 기본값(48개 구역)으로 초기화합니다"
+          >
+            <RotateCcw className="w-3.5 h-3.5 text-neutral-500 dark:text-neutral-400" />
+            <span>초기화</span>
+          </button>
         ) : (
           <div className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/60 rounded-md select-none">
             <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
@@ -407,11 +378,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 {/* Left zone indicator */}
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 shrink-0">
-                    {zone.type === 'circle' ? (
-                      <CircleDot className="w-4 h-4 text-blue-500" />
-                    ) : (
-                      <Hexagon className="w-4 h-4 text-emerald-500" />
-                    )}
+                    <CircleDot className="w-4 h-4 text-blue-500" />
                   </div>
 
                   <div className="min-w-0">
@@ -435,7 +402,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                     <div className="text-[10px] text-neutral-400 dark:text-neutral-500 flex items-center gap-1 mt-0.5 font-mono">
                       <span>{zone.id}</span>
                       <span>·</span>
-                      <span>{zone.type === 'circle' ? `R=${zone.radius || 30}m` : `${zone.coordinates?.length || 0}점`}</span>
+                      <span>R={zone.radius || 30}m</span>
                       <span>·</span>
                       <span className={`font-sans ${sortType === 'visitors' ? 'text-blue-600 dark:text-blue-400 font-bold' : 'text-neutral-500 dark:text-neutral-400'}`}>
                         {visitors.toLocaleString()}명
@@ -463,7 +430,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                     </div>
                   )}
 
-                  {/* Quick Zone Action Buttons (CCTV 버튼 아래로 구역삭제 버튼 줄바꿈 배치) */}
+                  {/* Quick Zone Action Buttons (CCTV 버튼 아래로 지도 표시여부(show/hide) 토글 버튼 배치) */}
                   <div className="flex flex-col items-center justify-center gap-1 shrink-0 self-center">
                     {/* CCTV View Button (으르신 친화적 대형 원형 버튼) */}
                     <button
@@ -482,14 +449,23 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                     {mode === 'edit' && (
                       <button
                         type="button"
-                        title="구역 삭제"
+                        title={zone.visible ? '지도에서 숨기기' : '지도에 표시하기'}
                         onClick={(e) => {
                           e.stopPropagation();
-                          onDeleteZone(zone.id);
+                          onToggleZoneVisibility(zone.id);
                         }}
-                        className="p-1 text-neutral-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded transition-colors cursor-pointer"
+                        className={`p-1.5 rounded-md transition-colors cursor-pointer ${
+                          zone.visible
+                            ? 'text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50'
+                            : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
+                        }`}
+                        aria-label={zone.visible ? `${zone.name} 지도에서 숨기기` : `${zone.name} 지도에 표시하기`}
                       >
-                        <Trash2 className="w-3.5 h-3.5" />
+                        {zone.visible ? (
+                          <Eye className="w-4 h-4" />
+                        ) : (
+                          <EyeOff className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
+                        )}
                       </button>
                     )}
                   </div>

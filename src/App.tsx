@@ -87,6 +87,60 @@ export default function App() {
     }
   }, []);
 
+  // Flag to prevent auto-save from writing back to localStorage during reset
+  const isResettingRef = useRef(false);
+
+  // Reset zones and congestions to initial defaults and clear localStorage
+  const handleResetZones = useCallback(async () => {
+    if (
+      !window.confirm(
+        '모든 구역 데이터를 최초 기본값(48개 구역)으로 초기화하시겠습니까?\nlocalStorage에 저장된 편집 내용이 모두 삭제되고 원본 상태로 복원됩니다.'
+      )
+    ) {
+      return;
+    }
+
+    try {
+      isResettingRef.current = true;
+      // 1. Clear localStorage caches
+      try {
+        localStorage.removeItem('jongno_zones_data');
+        localStorage.removeItem('jongno_zones_data_v4');
+      } catch (e) {
+        // ignore
+      }
+
+      // 2. Reset React states
+      setZones(INITIAL_ZONES);
+      setCongestions(INITIAL_CONGESTIONS);
+      setSelectedZoneId(null);
+
+      // 3. Persist INITIAL_ZONES to server files via API if available (local dev)
+      try {
+        await fetch('/api/save-zones', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ zones: INITIAL_ZONES }),
+        });
+      } catch (e) {
+        // ignore in static hosting
+      }
+
+      setSaveStatus({
+        message: '기본 구역 데이터(48개 구역)로 초기화 완료 (localStorage 초기화)',
+        time: new Date().toLocaleTimeString('ko-KR', { hour12: false }),
+      });
+      setTimeout(() => {
+        setSaveStatus(null);
+        isResettingRef.current = false;
+      }, 2500);
+    } catch (err) {
+      console.error('Failed to reset zones:', err);
+      isResettingRef.current = false;
+      alert('초기화 중 오류가 발생했습니다.');
+    }
+  }, []);
+
   // Debounced auto-save whenever zones change (from map drag, resize, or inspector edits)
   const isFirstMount = useRef(true);
   useEffect(() => {
@@ -94,6 +148,7 @@ export default function App() {
       isFirstMount.current = false;
       return;
     }
+    if (isResettingRef.current) return;
     const timer = setTimeout(() => {
       saveZonesToFile(zones);
     }, 400);
@@ -368,6 +423,7 @@ export default function App() {
           onCreateZone={handleStartCreateZone}
           onFocusZoneOnMap={handleFocusZoneOnMap}
           onOpenCctv={setCctvZone}
+          onResetZones={handleResetZones}
         />
 
         {/* Center: Leaflet Map Container */}
