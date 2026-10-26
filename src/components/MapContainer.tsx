@@ -451,6 +451,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({
   onSelectZoneRef.current = onSelectZone;
   const onOpenCctvRef = useRef(onOpenCctv);
   onOpenCctvRef.current = onOpenCctv;
+  const modeRef = useRef<AppMode>(mode);
+  modeRef.current = mode;
   const creatingZoneTypeRef = useRef(creatingZoneType);
   creatingZoneTypeRef.current = creatingZoneType;
 
@@ -1678,6 +1680,16 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             existingMarker.on('mousedown', onDragMouseDown);
           }
 
+          // 클릭 이벤트 리스너 동기화 (편집 모드에서는 CCTV 모달을 띄우지 않고 선택만 수행)
+          existingMarker.off('click');
+          existingMarker.on('click', (e: L.LeafletMouseEvent) => {
+            L.DomEvent.stopPropagation(e);
+            onSelectZone(zone.id);
+            if (modeRef.current === 'view' && onOpenCctvRef.current) {
+              onOpenCctvRef.current(zone);
+            }
+          });
+
           return;
         }
 
@@ -1863,7 +1875,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         scannerMarker.on('click', (e: L.LeafletMouseEvent) => {
           L.DomEvent.stopPropagation(e);
           onSelectZone(zone.id);
-          if (mode === 'view' && onOpenCctvRef.current) {
+          // 편집 모드(mode === 'edit')에서는 기기 클릭 시 CCTV 모달 표출 방지, 관제 모드(mode === 'view')에서만 표출
+          if (modeRef.current === 'view' && onOpenCctvRef.current) {
             onOpenCctvRef.current(zone);
           }
         });
