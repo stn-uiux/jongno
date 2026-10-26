@@ -171,8 +171,14 @@ button:not(:disabled),
   cursor: pointer;
 }
 
+/* 호버된 마커 컨테이너 전체를 최상위 Z-Index로 올려 겹친 다른 툴팁/마커보다 무조건 최상단에 표출 */
+.leaflet-marker-icon.scanner-zone-badge:hover,
+.leaflet-marker-icon.scanner-zone-badge:focus-within {
+  z-index: 999999 !important;
+}
+
 .scanner-zone-node:hover {
-  z-index: 99999 !important;
+  z-index: 999999 !important;
 }
 
 .scanner-zone-node:hover .scanner-hover-bubble,
@@ -185,11 +191,21 @@ button:not(:disabled),
   pointer-events: auto !important;
 }
 
+/* 호버된 툴팁은 스케일 및 깊이 그림자를 강조하여 시각적으로도 가장 위로 올라왔음을 명확히 피드백 */
+.leaflet-marker-icon.scanner-zone-badge:hover .scanner-hover-bubble {
+  z-index: 999999 !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+  transform: translateX(-50%) translateY(-8px) scale(1.05) !important;
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease !important;
+}
+
 .scanner-hover-bubble {
   visibility: hidden;
   opacity: 0;
   transform: translateX(-50%) translateY(0);
   transition: opacity 0.16s ease-out, transform 0.16s ease-out, visibility 0.16s;
+  pointer-events: auto !important;
+  cursor: pointer;
 }
 
 .scanner-zone-node:hover .scanner-center-spot {
@@ -264,6 +280,14 @@ button:not(:disabled),
   transform: scale(1.24) !important;
   border-color: #DC2626 !important;
   box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.65) !important;
+  animation: emergency-spot-pulse 3s infinite ease-in-out !important;
+}
+
+.scanner-zone-node.is-emergency .scanner-heat-glow,
+.scanner-zone-node.level-6 .scanner-heat-glow {
+  animation: zone-emergency-pulse 3s infinite ease-in-out !important;
+  transform-origin: center center !important;
+  will-change: transform, opacity;
 }
 
 .scanner-zone-node.is-emergency .scanner-name-label span {

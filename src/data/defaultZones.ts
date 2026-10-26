@@ -51,7 +51,7 @@ export const INITIAL_ZONES: ZoneData[] = [
     areaId: "AREA-001",
     areaName: "익선동",
     type: "circle",
-    center: { lat: 37.57390483107054, lng: 126.99035487198219 },
+    center: { lat: 37.57404740947224, lng: 126.99025031024938 },
     radius: 30,
     visible: true,
     capacity: 2500,

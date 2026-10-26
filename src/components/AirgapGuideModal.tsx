@@ -122,6 +122,7 @@ export const AirgapGuideModal: React.FC<AirgapGuideModalProps> = ({ isOpen, onCl
         {/* Tab Contents */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6 text-sm">
           {/* TAB 1: 지도 라이브러리 & 렌더링 구조 */}
+          {/* TAB 1: 지도 라이브러리 & 렌더링 구조 */}
           {activeTab === 'libraries' && (
             <div className="space-y-6">
               <div className="bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60 rounded-xl p-4">
@@ -148,24 +149,46 @@ export const AirgapGuideModal: React.FC<AirgapGuideModalProps> = ({ isOpen, onCl
                     <li><strong>도형 편집/드래그</strong>: 구역 원형/다각형 생성, 실시간 꼭짓점 드래그 편집 (`L.divIcon`, `L.polygon`, `L.circle`)</li>
                     <li><strong>인터랙티브 레이어</strong>: 서울 지하철 노선/역/출구, 종로구 행정구역 경계선, 외곽 반전 마스크</li>
                     <li><strong>이벤트 제어</strong>: 0.5단위 마우스 휠 줌 스냅, 60fps 무지연 드래그, 다단계 줌 레벨 스위칭 (16.0 Threshold)</li>
-                    <li><strong>초경량/독립성</strong>: 외부 대형 라이브러리 의존성 없이 순수 DOM/SVG 기반으로 폐쇄망에서 매우 안정적</li>
+                    <li><strong>CSS 전담 SVG 렌더러</strong>: Leaflet 내장 기본 파란색 속성을 차단하고 순수 CSS 클래스로 색상/테두리 제어</li>
                   </ul>
                 </div>
 
                 <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-800/30 space-y-2">
                   <div className="flex items-center gap-2 font-bold text-neutral-900 dark:text-neutral-100">
                     <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                    <span>MapLibre GL (v5.1.0) & 브릿지</span>
+                    <span>MapLibre GL (v6.15.0) & 브릿지</span>
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300">
                       WebGL 하드웨어 가속 배경 타일
                     </span>
                   </div>
                   <ul className="text-xs text-neutral-600 dark:text-neutral-400 space-y-1.5 list-disc pl-4">
                     <li><strong>@maplibre/maplibre-gl-leaflet</strong>: Leaflet의 베이스 타일 레이어(`tileLayerRef`)에 MapLibre GL 캔버스를 완벽 마운트</li>
-                    <li><strong>OpenFreeMap / MapLibre 스타일</strong>: `positron.json`(다크) 및 `bright.json`(라이트) 표준 벡터 스타일 규격 지원</li>
-                    <li><strong>초고해상도 선명도</strong>: 레티나/4K 디스플레이에서도 텍스트와 도로선이 흐려지지 않고 선명하게 WebGL 렌더링</li>
+                    <li><strong>온프레미스 관제 스타일</strong>: 상업시설 POI가 제거된 `jongno-dark` 및 고선명 `bright.json` 벡터 규격 지원</li>
+                    <li><strong>도로 번호 쉴드 제어</strong>: 국도/고속도로 번호 표출 토글 기능 연동 지원</li>
                     <li><strong>Web Worker 로컬 번들링</strong>: 외부 CDN 없이 `maplibre-gl-worker.mjs`를 프로젝트 내부에서 자체 로드</li>
                   </ul>
+                </div>
+              </div>
+
+              {/* 줌 레벨 16.0 Threshold 렌더링 파이프라인 */}
+              <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-800/40 space-y-2.5">
+                <div className="flex items-center gap-2 font-bold text-xs text-neutral-900 dark:text-neutral-100">
+                  <span className="w-2 h-2 rounded-full bg-indigo-500" />
+                  <span>다단계 줌 스위칭 (16.0 Threshold) & 혼잡도 시각화 파이프라인</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                  <div className="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-900/60 border border-neutral-200/80 dark:border-neutral-700/80 space-y-1">
+                    <div className="font-bold text-indigo-600 dark:text-indigo-400">Zoom &lt; 16.0 (광역 영역 뷰)</div>
+                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-[11px]">
+                      4대 핵심 영역(Convex Hull 자동 생성)의 혼잡도 그라데이션(`radialGradient`) 배경 + 3D 상태 배지 표출. 다크 모드(`hard-light`)와 라이트 모드(`multiply`)에 최적화된 배경 블렌딩 적용.
+                    </p>
+                  </div>
+                  <div className="p-3 rounded-lg bg-neutral-50 dark:bg-neutral-900/60 border border-neutral-200/80 dark:border-neutral-700/80 space-y-1">
+                    <div className="font-bold text-emerald-600 dark:text-emerald-400">Zoom &ge; 16.0 (상세 구역 뷰)</div>
+                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed text-[11px]">
+                      <strong>영역 Fill 완전 투명화</strong>: 영역 내부 채우기를 0으로 제거하고 은은한 점선 테두리(`dashArray: 6, 6`)만 유지하여, 내부 개별 구역(스마트스캐너 원형 히트/CCTV)의 색상과 골목길명이 또렷하게 표출.
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -177,22 +200,28 @@ export const AirgapGuideModal: React.FC<AirgapGuideModalProps> = ({ isOpen, onCl
                 </div>
                 <div className="space-y-1.5 text-neutral-300">
                   <div className="p-2 bg-neutral-800/90 rounded border border-neutral-700">
-                    <span className="text-red-400 font-bold">Z: 600+</span> · <strong>혼잡도 심각/위험 상위 레이어 & 3D 상태 배지</strong> (DOM 순서 오름차순 정렬)
+                    <span className="text-red-400 font-bold">Z: 600+ (markerPane)</span> · <strong>스마트스캐너/CCTV 마커 & 3D 상태 배지</strong> (DOM 순서 오름차순 정렬)
                   </div>
                   <div className="p-2 bg-neutral-800/80 rounded border border-neutral-700/80">
-                    <span className="text-amber-400 font-bold">Z: 450</span> · <strong>관제 구역 (Zones) 다각형 & 스캐너 원형 (Radius 버퍼)</strong>
+                    <span className="text-amber-400 font-bold">Z: 400 (overlayPane)</span> · <strong>관제 구역 (Zones) 다각형 & 스캐너 원형 (Radius 버퍼)</strong>
+                  </div>
+                  <div className="p-2 bg-neutral-800/80 rounded border border-neutral-700/80">
+                    <span className="text-orange-400 font-bold">Z: 400 (overlayPane)</span> · <strong>4대 핵심 영역 (Areas)</strong>: Zoom &lt; 16 혼잡도 그라데이션 면 / Zoom &ge; 16 투명 점선 테두리
                   </div>
                   <div className="p-2 bg-neutral-800/70 rounded border border-neutral-700/70">
-                    <span className="text-emerald-400 font-bold">Z: 400</span> · <strong>종로구 행정구역 경계선 (Yellow 점선)</strong>
+                    <span className="text-emerald-400 font-bold">Z: 400 (overlayPane)</span> · <strong>종로구 행정구역 경계선</strong> (Yellow 점선 / Blue 점선)
                   </div>
                   <div className="p-2 bg-neutral-800/60 rounded border border-neutral-700/60">
-                    <span className="text-purple-400 font-bold">Z: 350</span> · <strong>종로구 외곽 반전 음영 마스크 (Inverted Donut World Mask)</strong>
+                    <span className="text-purple-400 font-bold">Z: 350 (outerMaskPane)</span> · <strong>종로구 외곽 반전 음영 마스크</strong> (Inverted Donut World Mask)
                   </div>
                   <div className="p-2 bg-neutral-800/50 rounded border border-neutral-700/50">
-                    <span className="text-sky-400 font-bold">Z: 250</span> · <strong>서울 지하철 노선망 / 지하철역 / 출입구 레이어</strong>
+                    <span className="text-cyan-400 font-bold">Z: 300 (subwayStationsPane)</span> · <strong>서울 지하철 역사 / 출입구 레이어</strong> (노선망 위 독립 Pane)
+                  </div>
+                  <div className="p-2 bg-neutral-800/50 rounded border border-neutral-700/50">
+                    <span className="text-sky-400 font-bold">Z: 250 (subwayLinesPane)</span> · <strong>서울 지하철 1~9호선 선로/노선망 폴리라인</strong>
                   </div>
                   <div className="p-2 bg-neutral-800/40 rounded border border-neutral-700/40">
-                    <span className="text-blue-400 font-bold">Z: 0</span> · <strong>MapLibre GL WebGL 벡터 베이스 타일 (`positron.json` / `bright.json`)</strong>
+                    <span className="text-blue-400 font-bold">Z: 0~200 (tilePane)</span> · <strong>MapLibre GL WebGL 벡터 베이스 타일</strong> (`jongno-dark` / `bright.json`)
                   </div>
                 </div>
               </div>
@@ -423,14 +452,14 @@ export const AirgapGuideModal: React.FC<AirgapGuideModalProps> = ({ isOpen, onCl
               <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-800/40 space-y-3">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-xs text-neutral-900 dark:text-neutral-100">
-                    Step 1. Docker 컨테이너 원클릭 구동 명령어
+                    Step 1. 내장 패키지(tileserver/) Docker 원클릭 구동
                   </h4>
                   <button
                     type="button"
                     onClick={() =>
                       handleCopy(
                         'docker-cmd',
-                        `docker run --name jongno-tileserver -d \\\n  -p 8080:8080 \\\n  -v $(pwd)/tiles:/data \\\n  maptiler/tileserver-gl`
+                        `cd tileserver\ndocker compose up -d`
                       )
                     }
                     className="flex items-center gap-1 text-[11px] text-blue-600 dark:text-blue-400 hover:underline"
@@ -440,26 +469,27 @@ export const AirgapGuideModal: React.FC<AirgapGuideModalProps> = ({ isOpen, onCl
                   </button>
                 </div>
                 <pre className="p-3 bg-neutral-900 rounded-lg text-emerald-400 font-mono text-xs overflow-x-auto">
-{`# 1. MBTiles 저장 디렉토리 생성 및 타일 파일 배치 (예: seoul.mbtiles 약 85MB)
-mkdir -p ~/map-server/tiles && cd ~/map-server
+{`# 1. 외부망 PC에서 MBTiles 다운로드 (배치 스크립트 실행)
+tileserver/download-mbtiles.bat
 
-# 2. TileServer GL 도커 컨테이너 구동 (포트 8080)
-docker run --name jongno-tileserver -d \\
-  -p 8080:8080 \\
-  -v $(pwd)/tiles:/data \\
-  --restart always \\
-  maptiler/tileserver-gl`}
+# 2. 폐쇄망 서버로 tileserver/ 폴더 반입 후 백그라운드 구동
+cd tileserver
+docker compose up -d
+
+# 3. 서비스 정상 가동 확인 (포트 8080)
+curl http://localhost:8080/health
+# 브라우저 확인: http://localhost:8080/styles/jongno-dark/`}
                 </pre>
               </div>
 
               <div className="p-4 rounded-xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-800/40 space-y-3">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold text-xs text-neutral-900 dark:text-neutral-100">
-                    Step 2. Nginx 또는 프론트엔드 환경변수 연결
+                    Step 2. 종로구 전용 관제 스타일 (jongno-dark) & Nginx 연동
                   </h4>
                 </div>
                 <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                  타일 서버 구동 후, 프론트엔드의 <code>public/styles/positron.json</code> 및 <code>bright.json</code> 내의 소스 URL만 내부 서버 주소(예: <code>http://192.168.1.100:8080/data/v3/&#123;z&#125;/&#123;x&#125;/&#123;y&#125;.pbf</code>)로 지정하면 외부 인터넷 통신 없이 완벽하게 동작합니다.
+                  <code>tileserver/data/styles/jongno-dark/style.json</code>은 <strong>상업시설(음식점/카페/쇼핑) 및 버스정류장 POI를 100% 제거</strong>하고 도로망·수계·녹지만을 명확하게 강조한 관제 최적화 스타일입니다.
                 </p>
                 <div className="p-3 bg-neutral-900 rounded-lg text-neutral-300 font-mono text-[11px] space-y-1">
                   <div className="text-neutral-500"># Nginx 리버스 프록시 연동 예시 (/tiles 경로 포워딩):</div>

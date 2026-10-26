@@ -299,20 +299,31 @@ const getAreaGradientId = (level: CongestionLevel): string => {
   }
 };
 
-// Leaflet overlayPane SVG 내부에 그라데이션 defs 주입 함수
-const injectAreaGradients = (map: L.Map) => {
+// Leaflet overlayPane SVG 내부에 그라데이션 defs 주입 함수 (다크/라이트 모드별 최적화 색상 적용)
+const injectAreaGradients = (map: L.Map, isDarkMode: boolean) => {
   try {
     const overlayPane = map.getPanes()?.overlayPane;
     if (!overlayPane) return;
     const svg = overlayPane.querySelector('svg');
     if (!svg) return;
-    if (!svg.querySelector('#critical_path')) {
-      let defs = svg.querySelector('defs');
-      if (!defs) {
-        defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-        svg.insertBefore(defs, svg.firstChild);
-      }
-      defs.innerHTML += `
+    let defs = svg.querySelector<SVGDefsElement>('defs#area-gradients-defs') || svg.querySelector<SVGDefsElement>('defs');
+    if (!defs) {
+      defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.id = 'area-gradients-defs';
+      svg.insertBefore(defs, svg.firstChild);
+    }
+
+    const currentTheme = defs.getAttribute('data-theme');
+    const targetTheme = isDarkMode ? 'dark' : 'light';
+    if (currentTheme === targetTheme && defs.querySelector('#critical_path')) {
+      return;
+    }
+
+    defs.setAttribute('data-theme', targetTheme);
+
+    if (isDarkMode) {
+      // 다크 모드용 radialGradient
+      defs.innerHTML = `
         <radialGradient id="critical_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.6">
           <stop offset="10%" stop-color="#FF0000"></stop>
           <stop offset="70%" stop-color="#930000"></stop>
@@ -340,6 +351,38 @@ const injectAreaGradients = (map: L.Map) => {
         <radialGradient id="active_path" cx="0.5" cy="0.5" r="0.6" gradientUnits="objectBoundingBox">
           <stop offset="10%" stop-color="#7D89A3"></stop>
           <stop offset="70%" stop-color="#7D89A3"></stop>
+        </radialGradient>
+      `;
+    } else {
+      // 라이트 모드용 radialGradient (피그마 디자인 스펙 반영)
+      defs.innerHTML = `
+        <radialGradient id="critical_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="0%" stop-color="#CA0000"></stop>
+          <stop offset="100%" stop-color="#FF7171"></stop>
+        </radialGradient>
+        <radialGradient id="serious_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="0%" stop-color="#9447FF"></stop>
+          <stop offset="100%" stop-color="#D4B5FF"></stop>
+        </radialGradient>
+        <radialGradient id="major_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.8">
+          <stop offset="0%" stop-color="#FF6C11"></stop>
+          <stop offset="100%" stop-color="#FFCEAF"></stop>
+        </radialGradient>
+        <radialGradient id="minor_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="0%" stop-color="#FFD900"></stop>
+          <stop offset="100%" stop-color="#FFF5BD"></stop>
+        </radialGradient>
+        <radialGradient id="warning_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="0%" stop-color="#5D9EFF"></stop>
+          <stop offset="100%" stop-color="#D0E3FF"></stop>
+        </radialGradient>
+        <radialGradient id="normal_path" gradientUnits="objectBoundingBox" cx="0.5" cy="0.5" r="0.7">
+          <stop offset="0%" stop-color="#4BD8FF"></stop>
+          <stop offset="100%" stop-color="#DFF8FF"></stop>
+        </radialGradient>
+        <radialGradient id="active_path" cx="0.5" cy="0.5" r="0.6" gradientUnits="objectBoundingBox">
+          <stop offset="0%" stop-color="#7D89A3"></stop>
+          <stop offset="100%" stop-color="#7D89A3"></stop>
         </radialGradient>
       `;
     }
@@ -426,6 +469,37 @@ export const MapContainer: React.FC<MapContainerProps> = ({
     isOutline: boolean;
   }>>(new Map());
   const lastIsZoneLevelRef = useRef<boolean | null>(null);
+
+  // CSS 클래스 전담 관리 레이어용 커스텀 SVG 렌더러: Leaflet의 내장 기본값(stroke="#3388ff", fill="#3388ff", fill-opacity="0.2") 주입을 원천 차단
+  const cssSvgRendererRef = useRef<L.SVG | null>(null);
+  if (!cssSvgRendererRef.current) {
+    const customSvg = L.svg({ padding: 0.5 });
+    (customSvg as any)._updateStyle = function (layer: L.Path) {
+      const path = (layer as any)._path as SVGPathElement | undefined;
+      const options = layer.options;
+      if (!path) return;
+
+      if (options.stroke && options.weight) {
+        path.setAttribute('stroke-width', String(options.weight));
+        path.setAttribute('stroke-linecap', options.lineCap || 'round');
+        path.setAttribute('stroke-linejoin', options.lineJoin || 'round');
+        if (options.dashArray) {
+          path.setAttribute('stroke-dasharray', String(options.dashArray));
+        } else {
+          path.removeAttribute('stroke-dasharray');
+        }
+      }
+
+      path.setAttribute('fill-rule', options.fillRule || 'evenodd');
+
+      // Leaflet의 기본 하드코딩 인라인 속성을 깨끗하게 제거하여 CSS 클래스에서만 순수하게 제어되도록 보장
+      path.removeAttribute('stroke');
+      path.removeAttribute('stroke-opacity');
+      path.removeAttribute('fill');
+      path.removeAttribute('fill-opacity');
+    };
+    cssSvgRendererRef.current = customSvg;
+  }
   // References to active edit handle markers for smooth synchronous updates
   const handleMarkersRef = useRef<{
     centroidMarker?: L.Marker;
@@ -1147,17 +1221,19 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             existing.coordsKey = coordsKey;
           }
 
+          const pathEl = (existing.polygon as any)._path as SVGPathElement | undefined;
+          if (pathEl) {
+            // Leaflet 기본 인라인 속성(#3388ff 등) 제거
+            pathEl.removeAttribute('stroke');
+            pathEl.removeAttribute('stroke-opacity');
+            pathEl.removeAttribute('fill');
+            pathEl.removeAttribute('fill-opacity');
+          }
+
           if (existing.level !== areaLevel) {
-            existing.polygon.setStyle({
-              color: levelInfo.borderColor,
-              fillColor: `url(#${gradientId})`,
-            });
-            const pathEl = (existing.polygon as any)._path as SVGPathElement | undefined;
+            const nextClass = `leaflet-interactive area-polygon-interactive area-polygon-gradient area-level-${areaLevel} area-gradient-${gradientId}`;
             if (pathEl) {
-              pathEl.setAttribute(
-                'class',
-                `leaflet-interactive area-polygon-interactive area-polygon-gradient area-level-${areaLevel} area-gradient-${gradientId}`
-              );
+              pathEl.setAttribute('class', nextClass);
             }
             existing.level = areaLevel;
           }
@@ -1188,11 +1264,10 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             areaLayersMap.current.delete(area.id);
           }
 
+          // 색상/채우기는 areaBadge.css의 클래스(area-level, area-gradient)에서 전담 관리
           const areaPolygon = L.polygon(hullCoords, {
-            color: levelInfo.borderColor,
+            renderer: cssSvgRendererRef.current ?? undefined,
             weight: 2,
-            fillColor: `url(#${gradientId})`,
-            fillOpacity: 1,
             className: `area-polygon-interactive area-polygon-gradient area-level-${areaLevel} area-gradient-${gradientId}`,
           });
 
@@ -1231,6 +1306,15 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           areaPolygon.addTo(areaGroup);
           badgeMarker.addTo(areaGroup);
 
+          // 추가 직후 인라인 속성 정리
+          const pathEl = (areaPolygon as any)._path as SVGPathElement | undefined;
+          if (pathEl) {
+            pathEl.removeAttribute('stroke');
+            pathEl.removeAttribute('stroke-opacity');
+            pathEl.removeAttribute('fill');
+            pathEl.removeAttribute('fill-opacity');
+          }
+
           areaLayersMap.current.set(area.id, {
             polygon: areaPolygon,
             badgeMarker,
@@ -1241,18 +1325,27 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           });
         }
       } else {
-        // Zoom >= 16.0: 은은한 점선 테두리로 영역 소속감 유지
-        const gradientId = getAreaGradientId(areaLevel);
+        // Zoom >= 16.0: 지도가 확대되어 구역이 보여질 때는 영역의 점선 테두리만 남기고 색상/투명도는 CSS(area-polygon-outline)에서 전담 관리
+        const outlineClassName = `area-polygon-outline area-outline-level-${areaLevel}`;
         if (existing && existing.isOutline) {
           if (existing.coordsKey !== coordsKey) {
             existing.polygon.setLatLngs(hullCoords);
             existing.coordsKey = coordsKey;
           }
+
+          const pathEl = (existing.polygon as any)._path as SVGPathElement | undefined;
+          if (pathEl) {
+            pathEl.removeAttribute('stroke');
+            pathEl.removeAttribute('stroke-opacity');
+            pathEl.removeAttribute('fill');
+            pathEl.removeAttribute('fill-opacity');
+          }
+
           if (existing.level !== areaLevel) {
-            existing.polygon.setStyle({
-              color: levelInfo.borderColor,
-              fillColor: `url(#${gradientId})`,
-            });
+            const nextOutlineClass = `leaflet-interactive ${outlineClassName}`;
+            if (pathEl) {
+              pathEl.setAttribute('class', nextOutlineClass);
+            }
             existing.level = areaLevel;
           }
         } else {
@@ -1262,15 +1355,23 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             areaLayersMap.current.delete(area.id);
           }
           const subtleAreaOutline = L.polygon(hullCoords, {
-            color: levelInfo.borderColor,
-            weight: 1.5,
-            dashArray: '5, 5',
-            fillColor: `url(#${gradientId})`,
-            fillOpacity: 0.2,
+            renderer: cssSvgRendererRef.current ?? undefined,
+            weight: 2,
+            dashArray: '6, 6',
+            fill: false,
             interactive: false,
-            className: `area-polygon-interactive area-polygon-gradient area-level-${areaLevel}`,
+            className: outlineClassName,
           });
           subtleAreaOutline.addTo(areaGroup);
+
+          const pathEl = (subtleAreaOutline as any)._path as SVGPathElement | undefined;
+          if (pathEl) {
+            pathEl.removeAttribute('stroke');
+            pathEl.removeAttribute('stroke-opacity');
+            pathEl.removeAttribute('fill');
+            pathEl.removeAttribute('fill-opacity');
+          }
+
           areaLayersMap.current.set(area.id, {
             polygon: subtleAreaOutline,
             level: areaLevel,
@@ -1291,15 +1392,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({
       }
     }
 
-    injectAreaGradients(map);
+    injectAreaGradients(map, isDarkMode);
 
     // 5-2. Render Scanner Zones (Zoom >= 16 확대 시 표출)
     // 평소에는 구역명 + 블러처리 된 히트(혼잡도 컬러) 표출
     // 호버 시에는 5번째 이미지처럼 말풍선(SVG 이미지 + 인원수 + 밀집도) 표출
     if (isZoneLevel) {
-      zoneGroup.clearLayers();
-      zoneLayersMap.current.clear();
-      scannerMarkersMap.current.clear();
+      const activeZoneIds = new Set<string>();
 
       // 혼잡도 단계(1~6)와 수치(0~100)가 높을수록 상단(나중에 렌더링)에 표출
       const sortedZones = [...zones].sort((a, b) => {
@@ -1321,6 +1420,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
 
       sortedZones.forEach((zone) => {
         if (!zone.visible) return;
+        activeZoneIds.add(zone.id);
 
         const isSelected = selectedZoneId === zone.id;
         const isShapeDraggable = mode === 'edit' && isSelected && !creatingZoneType;
@@ -1338,17 +1438,149 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         const glowColor = zone.customColor || levelInfo.color;
         const displayName = (zone.name || zone.scannerName || '').replace(/^cctv\s*/i, '').trim();
 
-        // 원형 구역 레이어 (선택 시에만 파란색 점선 테두리 표출, 투명 채우기로 인터랙션 유지하되 지도는 깨끗하게 투과)
+        // 줌 17 기준 크기 유지 보정: 줌 17 미만(예: 16.5, 16.0)에서도 줌 17일 때 정도의 시각적 크기를 그대로 유지하도록 스케일 보정
+        const zoomNow = map.getZoom();
+        const zoomScaleFactor = zoomNow < 17.0 ? Math.pow(2, 17.0 - zoomNow) : 1;
+        const effectiveRadius = (zone.radius || 30) * zoomScaleFactor;
+
+        const circleClasses = [
+          'zone-circle-coverage',
+          `zone-circle-level-${level}`,
+          isEmergency ? 'zone-circle-emergency' : '',
+          isSerious ? 'zone-circle-serious' : '',
+          isShapeDraggable ? 'zone-shape-draggable' : '',
+        ].filter(Boolean).join(' ');
+
+        // 혼잡도 단계(1~6)와 수치에 따라 zIndexOffset 비례 설정 (높은 단계일수록 상단)
+        const markerZIndexOffset = isSelected
+          ? 95000
+          : isEmergency
+            ? 9000 + Math.round(val)
+            : isSerious
+              ? 8500 + Math.round(val)
+              : level * 1000 + Math.round(val);
+
+        // 구역 반경(zone.radius)에 비례하는 픽셀 직경 계산하여 혼잡도 그라데이션 동적 확장
+        // 줌 16.5에서도 줌 17일 때의 시각적 픽셀 직경(최소 28px 이상)을 유지하도록 effectiveRadius 사용
+        const centerPt = map.latLngToLayerPoint([zone.center.lat, zone.center.lng]);
+        const edgePt = map.latLngToLayerPoint(getDestinationPoint(zone.center.lat, zone.center.lng, effectiveRadius, 90));
+        const dynamicRadiusPx = Math.max(28, Math.round(Math.abs(edgePt.x - centerPt.x)));
+        const dynamicDiameterPx = dynamicRadiusPx * 2;
+        const glowBlurPx = Math.max(4, Math.min(22, Math.round(dynamicRadiusPx * 0.14)));
+
+        // 단계별 투명도(LEVEL_HEAT_OPACITY)를 적용하여 아래쪽 지도 도로/골목길/건물명이 선명하게 투과
+        const heatOp = LEVEL_HEAT_OPACITY[level] || LEVEL_HEAT_OPACITY[1];
+        const cCenter = hexToRgba(glowColor, heatOp.peak);
+        const cMid = hexToRgba(glowColor, heatOp.mid);
+        const cOuter = hexToRgba(glowColor, heatOp.outer);
+        const cZero = hexToRgba(glowColor, 0);
+
+        // --- 기존 마커 및 원형 레이어 재사용 검사 (시뮬레이션 중 DOM 재생성 및 CSS 애니메이션 리셋 방지) ---
+        const existingMarker = scannerMarkersMap.current.get(zone.id);
+        const existingCircle = zoneLayersMap.current.get(zone.id) as L.Circle | undefined;
+
+        if (existingMarker && existingCircle) {
+          // 1. 기존 원형 구역 레이어 갱신
+          existingCircle.setLatLng([zone.center.lat, zone.center.lng]);
+          existingCircle.setRadius(effectiveRadius);
+          existingCircle.setStyle({
+            stroke: isSelected,
+            color: '#2563EB',
+            fillColor: glowColor,
+          });
+
+          const circlePathEl = (existingCircle as any)._path as SVGPathElement | undefined;
+          if (circlePathEl) {
+            const currentClass = circlePathEl.getAttribute('class') || '';
+            const targetClass = `leaflet-interactive ${circleClasses}`;
+            if (currentClass !== targetClass) {
+              circlePathEl.setAttribute('class', targetClass);
+            }
+          }
+
+          if (isSelected) {
+            existingCircle.bringToFront();
+          }
+
+          // 2. 기존 마커 갱신 (Z-Index 및 위치)
+          (existingMarker as any)._baseZIndexOffset = markerZIndexOffset;
+          existingMarker.setZIndexOffset(markerZIndexOffset);
+          existingMarker.setLatLng([zone.center.lat, zone.center.lng]);
+
+          // 3. 기존 마커 DOM 노드 갱신
+          const markerEl = existingMarker.getElement();
+          if (markerEl) {
+            const nodeEl = markerEl.querySelector<HTMLElement>('.scanner-zone-node');
+            if (nodeEl) {
+              const targetNodeClass = `scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''}`;
+              if (nodeEl.className !== targetNodeClass) {
+                nodeEl.className = targetNodeClass;
+              }
+
+              // 혼잡도 그라데이션 (단계 또는 줌 픽셀 직경이 변했을 때만 속성 갱신하여 CSS 애니메이션 보존)
+              const glowEl = nodeEl.querySelector<HTMLElement>('.scanner-heat-glow');
+              if (glowEl) {
+                const prevLevel = glowEl.getAttribute('data-level');
+                const prevRadius = glowEl.getAttribute('data-radius-px');
+
+                if (prevLevel !== String(level)) {
+                  glowEl.style.background = `radial-gradient(circle, ${cCenter} 0%, ${cMid} 35%, ${cOuter} 70%, ${cZero} 100%)`;
+                  glowEl.setAttribute('data-level', String(level));
+                  glowEl.classList.toggle('emergency-glow', isEmergency);
+                }
+
+                if (prevRadius !== String(dynamicRadiusPx)) {
+                  glowEl.style.top = `-${dynamicRadiusPx}px`;
+                  glowEl.style.left = `-${dynamicRadiusPx}px`;
+                  glowEl.style.width = `${dynamicDiameterPx}px`;
+                  glowEl.style.height = `${dynamicDiameterPx}px`;
+                  glowEl.style.filter = `blur(${glowBlurPx}px)`;
+                  glowEl.setAttribute('data-radius-px', String(dynamicRadiusPx));
+                }
+              }
+
+              // 호버 말풍선 내용 수치 갱신
+              const bubbleEl = nodeEl.querySelector<HTMLElement>('.scanner-hover-bubble');
+              if (bubbleEl) {
+                const statusImg = bubbleEl.querySelector<HTMLImageElement>('.scanner-status-img');
+                if (statusImg && !statusImg.src.endsWith(svgUrl)) {
+                  statusImg.src = svgUrl;
+                }
+                const visitorsSpan = bubbleEl.querySelector<HTMLSpanElement>('.scanner-visitors-count');
+                if (visitorsSpan) {
+                  visitorsSpan.textContent = `인원 ${visitors.toLocaleString()}명`;
+                }
+                const densitySpan = bubbleEl.querySelector<HTMLSpanElement>('.scanner-density-count');
+                if (densitySpan) {
+                  densitySpan.textContent = `밀집 ${density.toFixed(2)}명/㎡`;
+                }
+              }
+            }
+          }
+
+          return;
+        }
+
+        if (existingMarker && !existingCircle) {
+          zoneGroup.removeLayer(existingMarker);
+          scannerMarkersMap.current.delete(zone.id);
+        }
+        if (existingCircle && !existingMarker) {
+          zoneGroup.removeLayer(existingCircle);
+          zoneLayersMap.current.delete(zone.id);
+        }
+
+        // --- 신규 마커 및 원형 레이어 생성 (최초 1회 또는 누락 시에만 실행) ---
         const circleCoverage = L.circle([zone.center.lat, zone.center.lng], {
-          radius: zone.radius || 30,
-          stroke: isSelected, // 평소에는 테두리 없음, 선택 시에만 파란색 점선 표출
+          radius: effectiveRadius,
+          stroke: isSelected,
           color: '#2563EB',
           weight: 2.5,
           dashArray: '4, 4',
           fill: true,
           fillColor: glowColor,
-          fillOpacity: 0.001, // 클릭/드래그 인터랙션은 유지하고 중복 채색 차단
-          className: isShapeDraggable ? 'zone-shape-draggable' : undefined,
+          fillOpacity: 0.001,
+          className: circleClasses || undefined,
         });
 
         zoneLayersMap.current.set(zone.id, circleCoverage);
@@ -1370,6 +1602,24 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           onSelectZone(zone.id);
         });
 
+        circleCoverage.on('mouseover', () => {
+          const marker = scannerMarkersMap.current.get(zone.id);
+          if (marker) {
+            marker.setZIndexOffset(999999);
+            const el = marker.getElement();
+            if (el) el.style.zIndex = '999999';
+          }
+        });
+        circleCoverage.on('mouseout', () => {
+          const marker = scannerMarkersMap.current.get(zone.id);
+          if (marker) {
+            const baseOffset = (marker as any)._baseZIndexOffset ?? markerZIndexOffset;
+            marker.setZIndexOffset(baseOffset);
+            const el = marker.getElement();
+            if (el) el.style.zIndex = '';
+          }
+        });
+
         circleCoverage.addTo(zoneGroup);
         if (isSelected) {
           circleCoverage.bringToFront();
@@ -1385,7 +1635,6 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         let spotIconSvg = '';
 
         if (!isEditMode) {
-          // 1. 관제 모드 (view mode): CCTV 카메라 아이콘 표출
           spotTitle = `${displayName} CCTV 실시간 영상 관제 (클릭 시 화면 표출)`;
           spotIconSvg = `
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -1394,9 +1643,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             </svg>
           `;
         } else {
-          // 2. 편집 모드 (edit mode)
           if (isSelected) {
-            // 선택됨: 4방향 이동(Move) 화살표 아이콘 표출
             spotBg = '#2563EB';
             spotBorder = '2px solid #FFFFFF';
             spotShadow = '0 0 0 3.5px rgba(37, 99, 235, 0.45), 0 3px 8px rgba(0,0,0,0.5)';
@@ -1413,7 +1660,6 @@ export const MapContainer: React.FC<MapContainerProps> = ({
               </svg>
             `;
           } else {
-            // 미선택: 스마트스캐너 실물 기반 아이콘 표출
             spotBg = '#0F172A';
             spotBorder = '1.5px solid #38BDF8';
             spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
@@ -1439,11 +1685,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             gap: 8px;
             white-space: nowrap;
             z-index: 10000;
+            pointer-events: auto;
+            cursor: pointer;
           ">
-            <img src="${svgUrl}" style="width: 32px; height: 38px; object-fit: contain; flex-shrink: 0;" alt="상태" />
+            <img class="scanner-status-img" src="${svgUrl}" style="width: 32px; height: 38px; object-fit: contain; flex-shrink: 0;" alt="상태" />
             <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.25;">
-              <span style="font-size: 11px; font-weight: 700; color: #0F172A;">인원 ${visitors.toLocaleString()}명</span>
-              <span style="font-size: 10px; font-weight: 600; color: #64748B;">밀집 ${density.toFixed(2)}명/㎡</span>
+              <span class="scanner-visitors-count" style="font-size: 11px; font-weight: 700; color: #0F172A;">인원 ${visitors.toLocaleString()}명</span>
+              <span class="scanner-density-count" style="font-size: 10px; font-weight: 600; color: #64748B;">밀집 ${density.toFixed(2)}명/㎡</span>
             </div>
             <!-- 말풍선 하단 꼬리 -->
             <div style="
@@ -1460,24 +1708,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           </div>
         ` : '';
 
-        // 구역 반경(zone.radius)에 비례하는 픽셀 직경 계산하여 혼잡도 그라데이션 동적 확장
-        const centerPt = map.latLngToLayerPoint([zone.center.lat, zone.center.lng]);
-        const edgePt = map.latLngToLayerPoint(getDestinationPoint(zone.center.lat, zone.center.lng, zone.radius || 30, 90));
-        const dynamicRadiusPx = Math.max(20, Math.round(Math.abs(edgePt.x - centerPt.x)));
-        const dynamicDiameterPx = dynamicRadiusPx * 2;
-        const glowBlurPx = Math.max(3, Math.min(18, Math.round(dynamicRadiusPx * 0.12)));
-
-        // 단계별 투명도(LEVEL_HEAT_OPACITY)를 적용하여 아래쪽 지도 도로/골목길/건물명이 선명하게 투과
-        const heatOp = LEVEL_HEAT_OPACITY[level] || LEVEL_HEAT_OPACITY[1];
-        const cCenter = hexToRgba(glowColor, heatOp.peak);
-        const cMid = hexToRgba(glowColor, heatOp.mid);
-        const cOuter = hexToRgba(glowColor, heatOp.outer);
-        const cZero = hexToRgba(glowColor, 0);
-
         const markerHtml = `
           <div class="scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''}" data-zone-id="${zone.id}">
             <!-- 1. 블러처리 된 히트 (구역 반경과 일치하게 확장되며, 단계별 투명도로 지도 도로/골목명이 선명하게 투과) -->
-            <div class="scanner-heat-glow" style="
+            <div class="scanner-heat-glow leaflet-interactive ${isEmergency ? 'emergency-glow' : ''}"
+              data-level="${level}"
+              data-radius-px="${dynamicRadiusPx}"
+              style="
               position: absolute;
               top: -${dynamicRadiusPx}px;
               left: -${dynamicRadiusPx}px;
@@ -1493,7 +1730,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             ${hoverBubbleHtml}
 
             <!-- 3. 정중앙 스팟 (관제모드: CCTV, 편집모드 미선택: 스마트스캐너, 편집모드 선택: 4방향 이동) -->
-            <div class="scanner-center-spot" title="${spotTitle}" style="
+            <div class="scanner-center-spot" data-spot-state="${mode}_${isSelected ? 'selected' : 'normal'}" title="${spotTitle}" style="
               position: absolute;
               top: -13px;
               left: -13px;
@@ -1523,7 +1760,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({
               align-items: center;
               justify-content: center;
               white-space: nowrap;
-              pointer-events: none;
+              pointer-events: auto;
+              cursor: pointer;
               z-index: 9;
             ">
               <span style="
@@ -1549,18 +1787,25 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           iconAnchor: [0, 0],
         });
 
-        // 혼잡도 단계(1~6)와 수치에 따라 zIndexOffset 비례 설정 (높은 단계일수록 상단)
-        const markerZIndexOffset = isSelected
-          ? 95000
-          : isEmergency
-            ? 9000 + Math.round(val)
-            : isSerious
-              ? 8500 + Math.round(val)
-              : level * 1000 + Math.round(val);
-
         const scannerMarker = L.marker([zone.center.lat, zone.center.lng], {
           icon: scannerIcon,
           zIndexOffset: markerZIndexOffset,
+        });
+        (scannerMarker as any)._baseZIndexOffset = markerZIndexOffset;
+
+        // 호버 시 마커 및 툴팁을 최상단(999999)으로 올려 겹친 다른 툴팁들 위로 즉시 부상
+        scannerMarker.on('mouseover', () => {
+          scannerMarker.setZIndexOffset(999999);
+          const el = scannerMarker.getElement();
+          if (el) el.style.zIndex = '999999';
+        });
+
+        // 마우스가 벗어나면 원래의 혼잡도 단계별 zIndexOffset 위치로 즉시 복원
+        scannerMarker.on('mouseout', () => {
+          const baseOffset = (scannerMarker as any)._baseZIndexOffset ?? markerZIndexOffset;
+          scannerMarker.setZIndexOffset(baseOffset);
+          const el = scannerMarker.getElement();
+          if (el) el.style.zIndex = '';
         });
 
         if (isShapeDraggable) {
@@ -1586,6 +1831,20 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         scannerMarker.addTo(zoneGroup);
         scannerMarkersMap.current.set(zone.id, scannerMarker);
       });
+
+      // 더 이상 유효하지 않거나 숨김 처리된 구역 레이어 정리
+      for (const [id, marker] of scannerMarkersMap.current.entries()) {
+        if (!activeZoneIds.has(id)) {
+          zoneGroup.removeLayer(marker);
+          scannerMarkersMap.current.delete(id);
+        }
+      }
+      for (const [id, layer] of zoneLayersMap.current.entries()) {
+        if (!activeZoneIds.has(id)) {
+          zoneGroup.removeLayer(layer);
+          zoneLayersMap.current.delete(id);
+        }
+      }
     }
   }, [
     zones,
