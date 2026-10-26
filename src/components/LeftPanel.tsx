@@ -214,8 +214,8 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           </div>
         </div>
 
-        {/* View Mode Status Indicator or Edit Mode Reset Button */}
-        {mode === 'edit' ? (
+        {/* Edit Mode Reset Button */}
+        {mode === 'edit' && (
           <button
             type="button"
             onClick={onResetZones}
@@ -225,11 +225,6 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
             <RotateCcw className="w-3.5 h-3.5 text-neutral-500 dark:text-neutral-400" />
             <span>초기화</span>
           </button>
-        ) : (
-          <div className="flex items-center gap-1.5 px-2.5 py-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/60 rounded-md select-none">
-            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-            <span>관제 모드</span>
-          </div>
         )}
       </div>
 

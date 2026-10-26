@@ -212,9 +212,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({
       {/* Header */}
       <div className="p-3.5 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between bg-amber-500/5 dark:bg-amber-500/10">
         <div className="flex items-center gap-2">
-          <span className="px-1.5 py-0.5 rounded bg-amber-500/15 border border-amber-500/30 text-amber-700 dark:text-amber-300 font-bold text-[10px]">
-            편집 모드
-          </span>
           {draftZone.type === 'circle' ? (
             <CircleDot className="w-3.5 h-3.5 text-blue-500" />
           ) : (
@@ -285,7 +282,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
           </div>
 
           <div>
-            <label className="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 mb-1 font-medium">
+            <label className="flex items-center gap-1.5 text-neutral-600 dark:text-neutral-400 mb-1 font-medium text-left justify-start">
               <SmartScannerIcon size={14} className="text-blue-500 shrink-0" />
               <span>스마트 스캐너 기기명</span>
             </label>
@@ -294,6 +291,19 @@ export const RightPanel: React.FC<RightPanelProps> = ({
               value={draftZone.scannerName || ''}
               placeholder="예: CCTV 방범574"
               onChange={(e) => handleZoneFieldChange({ scannerName: e.target.value })}
+              className="w-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-neutral-600 dark:text-neutral-400 mb-1 font-medium text-left">
+              구역 설명 (Description)
+            </label>
+            <input
+              type="text"
+              value={draftZone.description || ''}
+              placeholder="예: 서울공예박물관 남동측 보행광장"
+              onChange={(e) => handleZoneFieldChange({ description: e.target.value })}
               className="w-full px-3 py-1.5 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 focus:ring-1 focus:ring-blue-500"
             />
           </div>

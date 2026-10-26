@@ -28,7 +28,7 @@ export const SmartScannerIcon: React.FC<SmartScannerIconProps> = ({
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
-      style={{ display: 'block', margin: 'auto', ...style }}
+      style={{ display: 'inline-block', verticalAlign: 'middle', ...style }}
       {...props}
     >
       {/* 상단 2개의 수직 안테나 (중심 x=12.0 대칭: 8 & 16) */}
