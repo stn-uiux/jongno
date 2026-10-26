@@ -6,7 +6,6 @@ import {
   EyeOff,
   CircleDot,
   Hexagon,
-  Copy,
   Trash2,
   Filter,
   CheckCircle2,
@@ -399,15 +398,15 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   onSelectZone(zone.id);
                   onFocusZoneOnMap(zone.id);
                 }}
-                className={`p-3 cursor-pointer transition-colors group relative flex items-start justify-between gap-2 ${
+                className={`p-3 cursor-pointer transition-colors group relative flex items-center justify-between gap-2 ${
                   isSelected
                     ? 'bg-blue-50/80 dark:bg-blue-950/30'
                     : 'hover:bg-neutral-50 dark:hover:bg-neutral-800/40'
                 } ${!zone.visible ? 'opacity-50' : ''}`}
               >
                 {/* Left zone indicator */}
-                <div className="flex items-start gap-2.5 min-w-0">
-                  <div className="mt-0.5 text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 shrink-0">
                     {zone.type === 'circle' ? (
                       <CircleDot className="w-4 h-4 text-blue-500" />
                     ) : (
@@ -446,9 +445,9 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                 </div>
 
                 {/* Right Congestion Status & Actions */}
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex items-center gap-2 shrink-0 self-center">
                   {c && (
-                    <div className="text-right">
+                    <div className="text-right flex flex-col justify-center">
                       <div className="flex items-center justify-end gap-1">
                         <span
                           className="w-2 h-2 rounded-full shrink-0"
@@ -464,8 +463,8 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                     </div>
                   )}
 
-                  {/* Quick Zone Action Buttons */}
-                  <div className="flex items-center gap-1 shrink-0">
+                  {/* Quick Zone Action Buttons (CCTV 버튼 아래로 구역삭제 버튼 줄바꿈 배치) */}
+                  <div className="flex flex-col items-center justify-center gap-1 shrink-0 self-center">
                     {/* CCTV View Button (으르신 친화적 대형 원형 버튼) */}
                     <button
                       type="button"
@@ -481,31 +480,17 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                     </button>
 
                     {mode === 'edit' && (
-                      <>
-                        <button
-                          type="button"
-                          title="구역 복제"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDuplicateZone(zone.id);
-                          }}
-                          className="p-1 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 rounded cursor-pointer"
-                        >
-                          <Copy className="w-3.5 h-3.5" />
-                        </button>
-
-                        <button
-                          type="button"
-                          title="구역 삭제"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDeleteZone(zone.id);
-                          }}
-                          className="p-1 text-neutral-400 hover:text-red-600 dark:hover:text-red-400 rounded cursor-pointer"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </>
+                      <button
+                        type="button"
+                        title="구역 삭제"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteZone(zone.id);
+                        }}
+                        className="p-1 text-neutral-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded transition-colors cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
                     )}
                   </div>
                 </div>

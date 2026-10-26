@@ -1475,6 +1475,82 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         const cOuter = hexToRgba(glowColor, heatOp.outer);
         const cZero = hexToRgba(glowColor, 0);
 
+        // 스캐너 마커 (구역 반경 혼잡도 그라데이션 + 정중앙 뱃지 + 아래쪽 구역명 + 관제모드에서만 호버 말풍선)
+        const isEditMode = mode === 'edit';
+        let spotBg = '#0F172A';
+        let spotBorder = '1.5px solid #FFFFFF';
+        let spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
+        let spotCursor = 'pointer';
+        let spotTitle = '';
+        let spotIconSvg = '';
+
+        if (!isEditMode) {
+          // 1. 관제 모드 (view mode): CCTV 카메라 아이콘 표출
+          spotTitle = `${displayName} CCTV 실시간 영상 관제 (클릭 시 화면 표출)`;
+          spotIconSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:auto;"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2" ry="2"/></svg>`;
+        } else {
+          // 2. 편집 모드 (edit mode)
+          if (isSelected) {
+            // 선택됨: 4방향 이동(Move) 화살표 아이콘 표출
+            spotBg = '#2563EB';
+            spotBorder = '2px solid #FFFFFF';
+            spotShadow = '0 0 0 3.5px rgba(37, 99, 235, 0.45), 0 3px 8px rgba(0,0,0,0.5)';
+            spotCursor = 'grab';
+            spotTitle = `${displayName} 스마트스캐너 (선택됨: 드래그하여 상하좌우 이동)`;
+            spotIconSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:auto;"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>`;
+          } else {
+            // 미선택: 스마트스캐너 실물 기반 기기 아이콘 표출 (정중앙 14x14 짝수 픽셀 정렬)
+            spotBg = '#0F172A';
+            spotBorder = '1.5px solid #38BDF8';
+            spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
+            spotCursor = 'pointer';
+            spotTitle = `${displayName} 스마트스캐너 (클릭하여 구역 선택)`;
+            spotIconSvg = getSmartScannerSvgString(14, 14, '#38BDF8', 2.2);
+          }
+        }
+
+        const currentSpotKey = `${mode}_${isSelected ? 'selected' : 'unselected'}`;
+
+        // 관제 모드에서만 말풍선 표출, 편집 모드에서는 완전히 사라짐
+        const hoverBubbleHtml = mode === 'view' ? `
+          <!-- 2. 호버 시 표출되는 혼잡도 정보 말풍선 (관제 모드에서만 표출) -->
+          <div class="scanner-hover-bubble" style="
+            position: absolute;
+            bottom: 18px;
+            left: 0;
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 5px 9px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.32);
+            border: 1px solid rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            z-index: 10000;
+            pointer-events: auto;
+            cursor: pointer;
+          ">
+            <img class="scanner-status-img" src="${svgUrl}" style="width: 32px; height: 38px; object-fit: contain; flex-shrink: 0;" alt="상태" />
+            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.25;">
+              <span class="scanner-visitors-count" style="font-size: 11px; font-weight: 700; color: #0F172A;">인원 ${visitors.toLocaleString()}명</span>
+              <span class="scanner-density-count" style="font-size: 10px; font-weight: 600; color: #64748B;">밀집 ${density.toFixed(2)}명/㎡</span>
+            </div>
+            <!-- 말풍선 하단 꼬리 -->
+            <div style="
+              position: absolute;
+              bottom: -5px;
+              left: 50%;
+              transform: translateX(-50%);
+              width: 0;
+              height: 0;
+              border-left: 5px solid transparent;
+              border-right: 5px solid transparent;
+              border-top: 5px solid #FFFFFF;
+            "></div>
+          </div>
+        ` : '';
+
         // --- 기존 마커 및 원형 레이어 재사용 검사 (시뮬레이션 중 DOM 재생성 및 CSS 애니메이션 리셋 방지) ---
         const existingMarker = scannerMarkersMap.current.get(zone.id);
         const existingCircle = zoneLayersMap.current.get(zone.id) as L.Circle | undefined;
@@ -1539,23 +1615,67 @@ export const MapContainer: React.FC<MapContainerProps> = ({
                 }
               }
 
-              // 호버 말풍선 내용 수치 갱신
+              // 중앙 스팟 상태 (관제 CCTV vs 편집 미선택 스마트스캐너 vs 편집 선택 이동화살표) 동기화
+              const spotEl = nodeEl.querySelector<HTMLElement>('.scanner-center-spot');
+              if (spotEl && spotEl.getAttribute('data-spot-key') !== currentSpotKey) {
+                spotEl.style.backgroundColor = spotBg;
+                spotEl.style.border = spotBorder;
+                spotEl.style.boxShadow = spotShadow;
+                spotEl.style.cursor = spotCursor;
+                spotEl.title = spotTitle;
+                spotEl.innerHTML = spotIconSvg.trim();
+                spotEl.setAttribute('data-spot-key', currentSpotKey);
+              }
+
+              // 호버 말풍선 제어: 편집 모드에서는 완전히 제거/숨김, 관제 모드에서는 수치 갱신 또는 재부착
               const bubbleEl = nodeEl.querySelector<HTMLElement>('.scanner-hover-bubble');
-              if (bubbleEl) {
-                const statusImg = bubbleEl.querySelector<HTMLImageElement>('.scanner-status-img');
-                if (statusImg && !statusImg.src.endsWith(svgUrl)) {
-                  statusImg.src = svgUrl;
+              if (mode === 'edit') {
+                if (bubbleEl) {
+                  bubbleEl.remove();
                 }
-                const visitorsSpan = bubbleEl.querySelector<HTMLSpanElement>('.scanner-visitors-count');
-                if (visitorsSpan) {
-                  visitorsSpan.textContent = `인원 ${visitors.toLocaleString()}명`;
-                }
-                const densitySpan = bubbleEl.querySelector<HTMLSpanElement>('.scanner-density-count');
-                if (densitySpan) {
-                  densitySpan.textContent = `밀집 ${density.toFixed(2)}명/㎡`;
+              } else {
+                // 관제 모드 (mode === 'view')
+                if (bubbleEl) {
+                  const statusImg = bubbleEl.querySelector<HTMLImageElement>('.scanner-status-img');
+                  if (statusImg && !statusImg.src.endsWith(svgUrl)) {
+                    statusImg.src = svgUrl;
+                  }
+                  const visitorsSpan = bubbleEl.querySelector<HTMLSpanElement>('.scanner-visitors-count');
+                  if (visitorsSpan) {
+                    visitorsSpan.textContent = `인원 ${visitors.toLocaleString()}명`;
+                  }
+                  const densitySpan = bubbleEl.querySelector<HTMLSpanElement>('.scanner-density-count');
+                  if (densitySpan) {
+                    densitySpan.textContent = `밀집 ${density.toFixed(2)}명/㎡`;
+                  }
+                } else {
+                  // 편집 모드에서 관제 모드로 복귀한 경우 말풍선 삽입
+                  const spot = nodeEl.querySelector<HTMLElement>('.scanner-center-spot');
+                  if (spot) {
+                    spot.insertAdjacentHTML('beforebegin', hoverBubbleHtml);
+                  } else {
+                    nodeEl.insertAdjacentHTML('beforeend', hoverBubbleHtml);
+                  }
                 }
               }
             }
+          }
+
+          // 편집 모드 선택 구역 드래그(Drag) 이벤트 리스너 동기화
+          existingCircle.off('mousedown');
+          existingMarker.off('mousedown');
+          if (isShapeDraggable) {
+            const onDragMouseDown = (e: L.LeafletMouseEvent) => {
+              if (e.originalEvent.button !== 0) return;
+              L.DomEvent.stop(e.originalEvent);
+              isDraggingRef.current = true;
+              map.dragging.disable();
+              map.closePopup();
+              shapeDragRef.current = { zone, start: e.latlng, lastTranslated: zone };
+              map.getContainer().classList.add('zone-dragging');
+            };
+            existingCircle.on('mousedown', onDragMouseDown);
+            existingMarker.on('mousedown', onDragMouseDown);
           }
 
           return;
@@ -1625,89 +1745,6 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           circleCoverage.bringToFront();
         }
 
-        // 스캐너 마커 (구역 반경 혼잡도 그라데이션 + 정중앙 뱃지 + 아래쪽 구역명 + 관제모드에서만 호버 말풍선)
-        const isEditMode = mode === 'edit';
-        let spotBg = '#0F172A';
-        let spotBorder = '1.5px solid #FFFFFF';
-        let spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
-        let spotCursor = 'pointer';
-        let spotTitle = '';
-        let spotIconSvg = '';
-
-        if (!isEditMode) {
-          spotTitle = `${displayName} CCTV 실시간 영상 관제 (클릭 시 화면 표출)`;
-          spotIconSvg = `
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m22 8-6 4 6 4V8Z"/>
-              <rect width="14" height="12" x="2" y="6" rx="2" ry="2"/>
-            </svg>
-          `;
-        } else {
-          if (isSelected) {
-            spotBg = '#2563EB';
-            spotBorder = '2px solid #FFFFFF';
-            spotShadow = '0 0 0 3.5px rgba(37, 99, 235, 0.45), 0 3px 8px rgba(0,0,0,0.5)';
-            spotCursor = 'grab';
-            spotTitle = `${displayName} 스마트스캐너 (선택됨: 드래그하여 상하좌우 이동)`;
-            spotIconSvg = `
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="5 9 2 12 5 15"/>
-                <polyline points="9 5 12 2 15 5"/>
-                <polyline points="15 19 12 22 9 19"/>
-                <polyline points="19 9 22 12 19 15"/>
-                <line x1="2" y1="12" x2="22" y2="12"/>
-                <line x1="12" y1="2" x2="12" y2="22"/>
-              </svg>
-            `;
-          } else {
-            spotBg = '#0F172A';
-            spotBorder = '1.5px solid #38BDF8';
-            spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
-            spotCursor = 'pointer';
-            spotTitle = `${displayName} 스마트스캐너 (클릭하여 구역 선택)`;
-            spotIconSvg = getSmartScannerSvgString(15, 15, '#38BDF8', 2.2);
-          }
-        }
-
-        const hoverBubbleHtml = mode === 'view' ? `
-          <!-- 2. 호버 시 표출되는 혼잡도 정보 말풍선 (관제 모드에서만 표출) -->
-          <div class="scanner-hover-bubble" style="
-            position: absolute;
-            bottom: 18px;
-            left: 0;
-            background: #FFFFFF;
-            border-radius: 12px;
-            padding: 5px 9px;
-            box-shadow: 0 4px 18px rgba(0,0,0,0.32);
-            border: 1px solid rgba(0,0,0,0.08);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            z-index: 10000;
-            pointer-events: auto;
-            cursor: pointer;
-          ">
-            <img class="scanner-status-img" src="${svgUrl}" style="width: 32px; height: 38px; object-fit: contain; flex-shrink: 0;" alt="상태" />
-            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.25;">
-              <span class="scanner-visitors-count" style="font-size: 11px; font-weight: 700; color: #0F172A;">인원 ${visitors.toLocaleString()}명</span>
-              <span class="scanner-density-count" style="font-size: 10px; font-weight: 600; color: #64748B;">밀집 ${density.toFixed(2)}명/㎡</span>
-            </div>
-            <!-- 말풍선 하단 꼬리 -->
-            <div style="
-              position: absolute;
-              bottom: -5px;
-              left: 50%;
-              transform: translateX(-50%);
-              width: 0;
-              height: 0;
-              border-left: 5px solid transparent;
-              border-right: 5px solid transparent;
-              border-top: 5px solid #FFFFFF;
-            "></div>
-          </div>
-        ` : '';
-
         const markerHtml = `
           <div class="scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''}" data-zone-id="${zone.id}">
             <!-- 1. 블러처리 된 히트 (구역 반경과 일치하게 확장되며, 단계별 투명도로 지도 도로/골목명이 선명하게 투과) -->
@@ -1730,7 +1767,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             ${hoverBubbleHtml}
 
             <!-- 3. 정중앙 스팟 (관제모드: CCTV, 편집모드 미선택: 스마트스캐너, 편집모드 선택: 4방향 이동) -->
-            <div class="scanner-center-spot" data-spot-state="${mode}_${isSelected ? 'selected' : 'normal'}" title="${spotTitle}" style="
+            <div class="scanner-center-spot" data-spot-key="${currentSpotKey}" title="${spotTitle}" style="
               position: absolute;
               top: -13px;
               left: -13px;
@@ -1742,12 +1779,15 @@ export const MapContainer: React.FC<MapContainerProps> = ({
               display: flex;
               align-items: center;
               justify-content: center;
+              box-sizing: border-box;
+              padding: 0;
+              line-height: 0;
               box-shadow: ${spotShadow};
               cursor: ${spotCursor};
               z-index: 10;
               transition: transform 0.15s ease, background-color 0.2s ease;
             ">
-              ${spotIconSvg}
+              ${spotIconSvg.trim()}
             </div>
 
             <!-- 4. 정중앙 스팟 바로 아래쪽에 표출되는 구역명 (스마트스캐너 기기명, CCTV 제외) -->
