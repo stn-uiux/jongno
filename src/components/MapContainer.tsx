@@ -1153,7 +1153,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({
       return;
     }
 
-    const isZoneLevel = currentZoom >= 16.0;
+    // 편집 모드(mode === 'edit')에서는 줌 레벨과 상관없이 항상 모든 개별 구역(숨김 구역 포함)의 기기아이콘과 구역명을 표출
+    const isZoneLevel = currentZoom >= 16.0 || mode === 'edit';
     const zoneLevelChanged = lastIsZoneLevelRef.current !== isZoneLevel;
     lastIsZoneLevelRef.current = isZoneLevel;
 
@@ -1167,9 +1168,11 @@ export const MapContainer: React.FC<MapContainerProps> = ({
 
     // 5-1. Render 4 Core Areas (Convex Hull automatically generated from zones)
     // 구역(zone)들이 모여있는 가장자리를 꼭짓점처럼 자동으로 이어 영역 다각형을 동적 계산
-    // 혼잡도 단계가 높을수록 상단(나중에 렌더링)에 표출되도록 정렬
+    // 숨김 처리된 기기는 영역 테두리에서 제외하고 오직 지도에 표시 중인(z.visible) 기기들만으로 영역 테두리 계산
     const areaDataList = AREAS.map((area) => {
-      const areaZones = zones.filter((z) => (z.areaId === area.id || z.areaName === area.name) && z.visible);
+      const areaZones = zones.filter(
+        (z) => (z.areaId === area.id || z.areaName === area.name) && z.visible
+      );
       let maxLevel: CongestionLevel = 1;
       let maxVal = 0;
       areaZones.forEach((z) => {
@@ -1421,9 +1424,12 @@ export const MapContainer: React.FC<MapContainerProps> = ({
       });
 
       sortedZones.forEach((zone) => {
-        if (!zone.visible) return;
+        // 관제 모드(mode === 'view')에서는 지도에서 숨김 처리된 구역을 렌더링하지 않음
+        // 편집 모드(mode === 'edit')에서는 지도에서 숨긴 구역이라도 기기아이콘과 구역명을 표출하여 선택/편집 가능하도록 지원
+        if (mode !== 'edit' && !zone.visible) return;
         activeZoneIds.add(zone.id);
 
+        const isHiddenZone = !zone.visible;
         const isSelected = selectedZoneId === zone.id;
         const isShapeDraggable = mode === 'edit' && isSelected && !creatingZoneType;
         const c = congestions[zone.id];
@@ -1451,6 +1457,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           isEmergency ? 'zone-circle-emergency' : '',
           isSerious ? 'zone-circle-serious' : '',
           isShapeDraggable ? 'zone-shape-draggable' : '',
+          isHiddenZone ? 'zone-circle-hidden' : '',
         ].filter(Boolean).join(' ');
 
         // 혼잡도 단계(1~6)와 수치에 따라 zIndexOffset 비례 설정 (높은 단계일수록 상단)
@@ -1502,16 +1509,49 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             spotIconSvg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:auto;"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>`;
           } else {
             // 미선택: 스마트스캐너 실물 기반 기기 아이콘 표출 (정중앙 14x14 짝수 픽셀 정렬)
-            spotBg = '#0F172A';
-            spotBorder = '1.5px solid #38BDF8';
-            spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
-            spotCursor = 'pointer';
-            spotTitle = `${displayName} 스마트스캐너 (클릭하여 구역 선택)`;
-            spotIconSvg = getSmartScannerSvgString(14, 14, '#38BDF8', 2.2);
+            if (isHiddenZone) {
+              // 숨김 구역: 점선 테두리와 은은한 회색조 기기 아이콘으로 구분 표출
+              spotBg = '#1E293B';
+              spotBorder = '1.5px dashed #94A3B8';
+              spotShadow = '0 2px 6px rgba(0,0,0,0.35)';
+              spotCursor = 'pointer';
+              spotTitle = `${displayName} 스마트스캐너 (지도 숨김 상태 - 클릭하여 선택/편집)`;
+              spotIconSvg = getSmartScannerSvgString(14, 14, '#94A3B8', 2.0);
+            } else {
+              spotBg = '#0F172A';
+              spotBorder = '1.5px solid #38BDF8';
+              spotShadow = '0 2px 6px rgba(0,0,0,0.45)';
+              spotCursor = 'pointer';
+              spotTitle = `${displayName} 스마트스캐너 (클릭하여 구역 선택)`;
+              spotIconSvg = getSmartScannerSvgString(14, 14, '#38BDF8', 2.2);
+            }
           }
         }
 
-        const currentSpotKey = `${mode}_${isSelected ? 'selected' : 'unselected'}`;
+        const currentSpotKey = `${mode}_${isSelected ? 'selected' : 'unselected'}_${isHiddenZone ? 'hidden' : 'visible'}`;
+        const currentLabelKey = `${zone.name}_${isHiddenZone ? 'hidden' : 'visible'}`;
+
+        // 구역명 배지 HTML (숨김 구역일 때는 (숨김) 라벨과 함께 은은한 점선 테두리 표출)
+        const nameLabelInnerHtml = `
+          <span style="
+            font-size: 11px;
+            font-weight: 800;
+            color: ${isHiddenZone ? '#CBD5E1' : '#FFFFFF'};
+            background: ${isHiddenZone ? 'rgba(30, 41, 59, 0.90)' : 'rgba(15, 23, 42, 0.85)'};
+            border: ${isHiddenZone ? '1px dashed rgba(148, 163, 184, 0.7)' : '1px solid rgba(255, 255, 255, 0.25)'};
+            padding: 1.5px 6px;
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
+            letter-spacing: -0.3px;
+            line-height: 1.25;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+          ">
+            <span>${displayName}</span>
+            ${isHiddenZone ? '<span style="font-size: 9px; color: #94A3B8; font-weight: 600;">(숨김)</span>' : ''}
+          </span>
+        `;
 
         // 관제 모드에서만 말풍선 표출, 편집 모드에서는 완전히 사라짐
         const hoverBubbleHtml = mode === 'view' ? `
@@ -1562,9 +1602,11 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           existingCircle.setLatLng([zone.center.lat, zone.center.lng]);
           existingCircle.setRadius(effectiveRadius);
           existingCircle.setStyle({
-            stroke: isSelected,
+            stroke: isSelected || (!isHiddenZone && (isEmergency || isSerious)),
             color: '#2563EB',
+            fill: isSelected || !isHiddenZone,
             fillColor: glowColor,
+            fillOpacity: isHiddenZone ? (isSelected ? 0.04 : 0) : 0.001,
           });
 
           const circlePathEl = (existingCircle as any)._path as SVGPathElement | undefined;
@@ -1590,34 +1632,39 @@ export const MapContainer: React.FC<MapContainerProps> = ({
           if (markerEl) {
             const nodeEl = markerEl.querySelector<HTMLElement>('.scanner-zone-node');
             if (nodeEl) {
-              const targetNodeClass = `scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''}`;
+              const targetNodeClass = `scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''} ${isHiddenZone ? 'is-hidden-zone' : ''}`;
               if (nodeEl.className !== targetNodeClass) {
                 nodeEl.className = targetNodeClass;
               }
 
-              // 혼잡도 그라데이션 (단계 또는 줌 픽셀 직경이 변했을 때만 속성 갱신하여 CSS 애니메이션 보존)
+              // 혼잡도 그라데이션 (숨김 구역일 때는 표출하지 않고, 일반 구역은 단계/줌 픽셀 직경 변경 시 갱신)
               const glowEl = nodeEl.querySelector<HTMLElement>('.scanner-heat-glow');
               if (glowEl) {
-                const prevLevel = glowEl.getAttribute('data-level');
-                const prevRadius = glowEl.getAttribute('data-radius-px');
+                if (isHiddenZone) {
+                  glowEl.style.display = 'none';
+                } else {
+                  glowEl.style.display = 'block';
+                  const prevLevel = glowEl.getAttribute('data-level');
+                  const prevRadius = glowEl.getAttribute('data-radius-px');
 
-                if (prevLevel !== String(level)) {
-                  glowEl.style.background = `radial-gradient(circle, ${cCenter} 0%, ${cMid} 35%, ${cOuter} 70%, ${cZero} 100%)`;
-                  glowEl.setAttribute('data-level', String(level));
-                  glowEl.classList.toggle('emergency-glow', isEmergency);
-                }
+                  if (prevLevel !== String(level)) {
+                    glowEl.style.background = `radial-gradient(circle, ${cCenter} 0%, ${cMid} 35%, ${cOuter} 70%, ${cZero} 100%)`;
+                    glowEl.setAttribute('data-level', String(level));
+                    glowEl.classList.toggle('emergency-glow', isEmergency);
+                  }
 
-                if (prevRadius !== String(dynamicRadiusPx)) {
-                  glowEl.style.top = `-${dynamicRadiusPx}px`;
-                  glowEl.style.left = `-${dynamicRadiusPx}px`;
-                  glowEl.style.width = `${dynamicDiameterPx}px`;
-                  glowEl.style.height = `${dynamicDiameterPx}px`;
-                  glowEl.style.filter = `blur(${glowBlurPx}px)`;
-                  glowEl.setAttribute('data-radius-px', String(dynamicRadiusPx));
+                  if (prevRadius !== String(dynamicRadiusPx)) {
+                    glowEl.style.top = `-${dynamicRadiusPx}px`;
+                    glowEl.style.left = `-${dynamicRadiusPx}px`;
+                    glowEl.style.width = `${dynamicDiameterPx}px`;
+                    glowEl.style.height = `${dynamicDiameterPx}px`;
+                    glowEl.style.filter = `blur(${glowBlurPx}px)`;
+                    glowEl.setAttribute('data-radius-px', String(dynamicRadiusPx));
+                  }
                 }
               }
 
-              // 중앙 스팟 상태 (관제 CCTV vs 편집 미선택 스마트스캐너 vs 편집 선택 이동화살표) 동기화
+              // 중앙 스팟 상태 (관제 CCTV vs 편집 미선택 스마트스캐너 vs 편집 선택 이동화살표 vs 숨김 기기) 동기화
               const spotEl = nodeEl.querySelector<HTMLElement>('.scanner-center-spot');
               if (spotEl && spotEl.getAttribute('data-spot-key') !== currentSpotKey) {
                 spotEl.style.backgroundColor = spotBg;
@@ -1627,6 +1674,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({
                 spotEl.title = spotTitle;
                 spotEl.innerHTML = spotIconSvg.trim();
                 spotEl.setAttribute('data-spot-key', currentSpotKey);
+              }
+
+              // 구역명 라벨 (숨김 상태 토글 시 (숨김) 표시 및 테두리 동기화)
+              const labelEl = nodeEl.querySelector<HTMLElement>('.scanner-name-label');
+              if (labelEl && labelEl.getAttribute('data-label-key') !== currentLabelKey) {
+                labelEl.setAttribute('data-label-key', currentLabelKey);
+                labelEl.innerHTML = nameLabelInnerHtml.trim();
               }
 
               // 호버 말풍선 제어: 편집 모드에서는 완전히 제거/숨김, 관제 모드에서는 수치 갱신 또는 재부착
@@ -1705,13 +1759,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         // --- 신규 마커 및 원형 레이어 생성 (최초 1회 또는 누락 시에만 실행) ---
         const circleCoverage = L.circle([zone.center.lat, zone.center.lng], {
           radius: effectiveRadius,
-          stroke: isSelected,
+          stroke: isSelected || (!isHiddenZone && (isEmergency || isSerious)),
           color: '#2563EB',
           weight: 2.5,
           dashArray: '4, 4',
-          fill: true,
+          fill: isSelected || !isHiddenZone,
           fillColor: glowColor,
-          fillOpacity: 0.001,
+          fillOpacity: isHiddenZone ? (isSelected ? 0.04 : 0) : 0.001,
           className: circleClasses || undefined,
         });
 
@@ -1758,12 +1812,13 @@ export const MapContainer: React.FC<MapContainerProps> = ({
         }
 
         const markerHtml = `
-          <div class="scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''}" data-zone-id="${zone.id}">
-            <!-- 1. 블러처리 된 히트 (구역 반경과 일치하게 확장되며, 단계별 투명도로 지도 도로/골목명이 선명하게 투과) -->
+          <div class="scanner-zone-node level-${level} ${isSelected ? 'selected' : ''} ${isSerious ? 'is-serious' : ''} ${isEmergency ? 'is-emergency' : ''} ${isHiddenZone ? 'is-hidden-zone' : ''}" data-zone-id="${zone.id}">
+            <!-- 1. 블러처리 된 히트 (숨김 구역일 때는 표출 안 함) -->
             <div class="scanner-heat-glow leaflet-interactive ${isEmergency ? 'emergency-glow' : ''}"
               data-level="${level}"
               data-radius-px="${dynamicRadiusPx}"
               style="
+              display: ${isHiddenZone ? 'none' : 'block'};
               position: absolute;
               top: -${dynamicRadiusPx}px;
               left: -${dynamicRadiusPx}px;
@@ -1778,7 +1833,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
 
             ${hoverBubbleHtml}
 
-            <!-- 3. 정중앙 스팟 (관제모드: CCTV, 편집모드 미선택: 스마트스캐너, 편집모드 선택: 4방향 이동) -->
+            <!-- 3. 정중앙 스팟 (관제모드: CCTV, 편집모드 미선택: 스마트스캐너, 편집모드 선택: 4방향 이동, 숨김: 점선 테두리 기기) -->
             <div class="scanner-center-spot" data-spot-key="${currentSpotKey}" title="${spotTitle}" style="
               position: absolute;
               top: -13px;
@@ -1802,8 +1857,8 @@ export const MapContainer: React.FC<MapContainerProps> = ({
               ${spotIconSvg.trim()}
             </div>
 
-            <!-- 4. 정중앙 스팟 바로 아래쪽에 표출되는 구역명 (스마트스캐너 기기명, CCTV 제외) -->
-            <div class="scanner-name-label" style="
+            <!-- 4. 정중앙 스팟 바로 아래쪽에 표출되는 구역명 (스마트스캐너 기기명, 숨김 시 (숨김) 뱃지 동반) -->
+            <div class="scanner-name-label" data-label-key="${currentLabelKey}" style="
               position: absolute;
               top: 15px;
               left: 0;
@@ -1816,18 +1871,7 @@ export const MapContainer: React.FC<MapContainerProps> = ({
               cursor: pointer;
               z-index: 9;
             ">
-              <span style="
-                font-size: 11px;
-                font-weight: 800;
-                color: #FFFFFF;
-                background: rgba(15, 23, 42, 0.85);
-                border: 1px solid rgba(255, 255, 255, 0.25);
-                padding: 1.5px 6px;
-                border-radius: 4px;
-                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.55);
-                letter-spacing: -0.3px;
-                line-height: 1.25;
-              ">${displayName}</span>
+              ${nameLabelInnerHtml.trim()}
             </div>
           </div>
         `;

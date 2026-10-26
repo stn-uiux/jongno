@@ -12,7 +12,6 @@ import {
   Minus,
   Navigation,
   Sliders,
-  Palette,
   Eye,
   EyeOff,
   Crosshair,
@@ -446,70 +445,6 @@ export const RightPanel: React.FC<RightPanelProps> = ({
             </div>
           </div>
         )}
-
-        {/* Appearance Styling */}
-        <div className="pt-3 border-t border-neutral-200 dark:border-neutral-800 space-y-3">
-          <span className="font-semibold text-neutral-800 dark:text-neutral-200 flex items-center gap-1.5">
-            <Palette className="w-3.5 h-3.5 text-indigo-500" />
-            <span>표시 스타일 커스텀</span>
-          </span>
-
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <label className="block text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">채우기 색상</label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="color"
-                  value={draftZone.customColor || levelInfo.color}
-                  onChange={(e) => handleZoneFieldChange({ customColor: e.target.value })}
-                  className="w-8 h-8 rounded border border-neutral-300 dark:border-neutral-700 cursor-pointer p-0"
-                />
-                <input
-                  type="text"
-                  value={draftZone.customColor || levelInfo.color}
-                  onChange={(e) => handleZoneFieldChange({ customColor: e.target.value })}
-                  className="flex-1 px-2 py-1 text-xs font-mono uppercase bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-[11px] text-neutral-500 dark:text-neutral-400 mb-1">경계선 색상</label>
-              <div className="flex items-center gap-2">
-                <input
-                  type="color"
-                  value={draftZone.customBorderColor || levelInfo.borderColor}
-                  onChange={(e) => handleZoneFieldChange({ customBorderColor: e.target.value })}
-                  className="w-8 h-8 rounded border border-neutral-300 dark:border-neutral-700 cursor-pointer p-0"
-                />
-                <input
-                  type="text"
-                  value={draftZone.customBorderColor || levelInfo.borderColor}
-                  onChange={(e) => handleZoneFieldChange({ customBorderColor: e.target.value })}
-                  className="flex-1 px-2 py-1 text-xs font-mono uppercase bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="flex items-center justify-between mb-1">
-              <span className="text-[11px] text-neutral-500 dark:text-neutral-400">투명도 (Opacity)</span>
-              <span className="font-mono text-xs font-bold tabular-nums text-neutral-900 dark:text-neutral-100">
-                {Math.round((draftZone.customOpacity ?? 0.35) * 100)} %
-              </span>
-            </div>
-            <input
-              type="range"
-              min="0.1"
-              max="0.8"
-              step="0.05"
-              value={draftZone.customOpacity ?? 0.35}
-              onChange={(e) => handleZoneFieldChange({ customOpacity: parseFloat(e.target.value) })}
-              className="w-full accent-blue-600"
-            />
-          </div>
-        </div>
       </div>
 
       {/* Footer Action Buttons */}
