@@ -1,0 +1,256 @@
+/**
+ * 종로구 스마트 혼잡도 안전 관제 시스템 - 자체 디자인 시스템
+ * Design Tokens (색상, 다크/라이트 테마, 6단계 혼잡도, 간격, 타이포그래피, 모서리, 그림자)
+ */
+
+:root {
+  /* ==========================================================================
+     1. Base Color Palette (기본 팔레트)
+     ========================================================================== */
+  --ds-color-white: #ffffff;
+  --ds-color-black: #000000;
+
+  /* Blue (Primary Brand) */
+  --ds-blue-50: #eff6ff;
+  --ds-blue-100: #dbeafe;
+  --ds-blue-200: #bfdbfe;
+  --ds-blue-300: #93c5fd;
+  --ds-blue-400: #60a5fa;
+  --ds-blue-500: #3b82f6;
+  --ds-blue-600: #2563eb;
+  --ds-blue-700: #1d4ed8;
+  --ds-blue-800: #1e40af;
+  --ds-blue-900: #1e3a8a;
+  --ds-blue-950: #172554;
+
+  /* Amber (Warning & Edit Mode Accent) */
+  --ds-amber-50: #fffbeb;
+  --ds-amber-100: #fef3c7;
+  --ds-amber-200: #fde68a;
+  --ds-amber-300: #fcd34d;
+  --ds-amber-400: #fbbf24;
+  --ds-amber-500: #f59e0b;
+  --ds-amber-600: #d97706;
+  --ds-amber-700: #b45309;
+  --ds-amber-800: #92400e;
+  --ds-amber-900: #78350f;
+  --ds-amber-950: #451a03;
+
+  /* Red / Rose (Danger & Emergency) */
+  --ds-red-50: #fef2f2;
+  --ds-red-100: #fee2e2;
+  --ds-red-200: #fecaca;
+  --ds-red-300: #fca5a5;
+  --ds-red-400: #f87171;
+  --ds-red-500: #ef4444;
+  --ds-red-600: #dc2626;
+  --ds-red-700: #b91c1c;
+  --ds-red-800: #991b1b;
+  --ds-red-900: #7f1d1d;
+  --ds-red-950: #450a0a;
+
+  /* Emerald (Success & Live Status) */
+  --ds-emerald-50: #ecfdf5;
+  --ds-emerald-100: #d1fae5;
+  --ds-emerald-200: #a7f3d0;
+  --ds-emerald-300: #6ee7b7;
+  --ds-emerald-400: #34d399;
+  --ds-emerald-500: #10b981;
+  --ds-emerald-600: #059669;
+  --ds-emerald-700: #047857;
+  --ds-emerald-800: #065f46;
+  --ds-emerald-900: #064e3b;
+
+  /* ==========================================================================
+     2. 6-Level Congestion Standard (국토부/행안부/서울시 기반 6단계 표준 혼잡도)
+     ========================================================================== */
+  /* Level 1: 여유 (0~19%) */
+  --ds-lvl-1-color: #00c853;
+  --ds-lvl-1-bg-light: rgba(0, 200, 83, 0.12);
+  --ds-lvl-1-border: rgba(0, 200, 83, 0.35);
+  --ds-lvl-1-text: #00b047;
+
+  /* Level 2: 보통 (20~39%) */
+  --ds-lvl-2-color: #00d2d3;
+  --ds-lvl-2-bg-light: rgba(0, 210, 211, 0.12);
+  --ds-lvl-2-border: rgba(0, 210, 211, 0.35);
+  --ds-lvl-2-text: #00b4b5;
+
+  /* Level 3: 약간 붐빔 (40~59%) */
+  --ds-lvl-3-color: #ffd32a;
+  --ds-lvl-3-bg-light: rgba(255, 211, 42, 0.12);
+  --ds-lvl-3-border: rgba(255, 211, 42, 0.4);
+  --ds-lvl-3-text: #d4a700;
+
+  /* Level 4: 붐빔 (60~79%) */
+  --ds-lvl-4-color: #ff9f1a;
+  --ds-lvl-4-bg-light: rgba(255, 159, 26, 0.14);
+  --ds-lvl-4-border: rgba(255, 159, 26, 0.45);
+  --ds-lvl-4-text: #e67e00;
+
+  /* Level 5: 매우 붐빔 / 심각 (80~89%) */
+  --ds-lvl-5-color: #a64bff;
+  --ds-lvl-5-bg-light: rgba(166, 75, 255, 0.16);
+  --ds-lvl-5-border: rgba(166, 75, 255, 0.45);
+  --ds-lvl-5-text: #9024fa;
+
+  /* Level 6: 심각 / 경보 (90~100%) */
+  --ds-lvl-6-color: #ff3838;
+  --ds-lvl-6-bg-light: rgba(255, 56, 56, 0.18);
+  --ds-lvl-6-border: rgba(255, 56, 56, 0.5);
+  --ds-lvl-6-text: #e51d1d;
+
+  /* ==========================================================================
+     3. Typography Tokens
+     ========================================================================== */
+  --ds-font-sans: -apple-system, BlinkMacSystemFont, "Pretendard Variable", "Pretendard", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ds-font-mono: "JetBrains Mono", "SF Mono", "Fira Code", Menlo, Monaco, Consolas, monospace;
+
+  --ds-text-2xs: 10px;
+  --ds-text-xs: 11px;
+  --ds-text-sm: 12px;
+  --ds-text-base: 13px;
+  --ds-text-md: 14px;
+  --ds-text-lg: 16px;
+  --ds-text-xl: 18px;
+  --ds-text-2xl: 20px;
+  --ds-text-3xl: 24px;
+
+  --ds-weight-normal: 400;
+  --ds-weight-medium: 500;
+  --ds-weight-semibold: 600;
+  --ds-weight-bold: 700;
+  --ds-weight-extrabold: 800;
+  --ds-weight-black: 900;
+
+  /* ==========================================================================
+     4. Spacing Tokens
+     ========================================================================== */
+  --ds-space-1: 4px;
+  --ds-space-1-5: 6px;
+  --ds-space-2: 8px;
+  --ds-space-2-5: 10px;
+  --ds-space-3: 12px;
+  --ds-space-3-5: 14px;
+  --ds-space-4: 16px;
+  --ds-space-5: 20px;
+  --ds-space-6: 24px;
+  --ds-space-8: 32px;
+
+  /* ==========================================================================
+     5. Border Radius Tokens
+     ========================================================================== */
+  --ds-radius-xs: 4px;
+  --ds-radius-sm: 6px;
+  --ds-radius-md: 8px;
+  --ds-radius-lg: 12px;
+  --ds-radius-xl: 16px;
+  --ds-radius-2xl: 20px;
+  --ds-radius-full: 9999px;
+
+  /* ==========================================================================
+     6. Transitions & Easing
+     ========================================================================== */
+  --ds-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ds-transition-fast: 150ms var(--ds-ease-default);
+  --ds-transition-normal: 220ms var(--ds-ease-default);
+  --ds-transition-slow: 350ms var(--ds-ease-default);
+
+  /* ==========================================================================
+     7. Semantic Theme Tokens (LIGHT MODE DEFAULT)
+     ========================================================================== */
+  --ds-bg-app: #f8fafc;
+  --ds-bg-surface: #ffffff;
+  --ds-bg-surface-elevated: #ffffff;
+  --ds-bg-surface-sunken: #f1f5f9;
+  --ds-bg-surface-subtle: #f8fafc;
+  --ds-bg-surface-hover: #f1f5f9;
+  --ds-bg-surface-active: #e2e8f0;
+
+  --ds-text-primary: #0f172a;
+  --ds-text-secondary: #475569;
+  --ds-text-muted: #64748b;
+  --ds-text-disabled: #94a3b8;
+  --ds-text-inverse: #ffffff;
+
+  --ds-border-default: #e2e8f0;
+  --ds-border-subtle: #f1f5f9;
+  --ds-border-strong: #cbd5e1;
+  --ds-border-focus: #3b82f6;
+
+  --ds-primary: #2563eb;
+  --ds-primary-hover: #1d4ed8;
+  --ds-primary-active: #1e40af;
+  --ds-primary-subtle: #eff6ff;
+  --ds-primary-border: #bfdbfe;
+  --ds-primary-text: #1d4ed8;
+
+  --ds-accent-edit: #d97706;
+  --ds-accent-edit-hover: #b45309;
+  --ds-accent-edit-subtle: #fffbeb;
+  --ds-accent-edit-border: #fde68a;
+
+  --ds-danger: #dc2626;
+  --ds-danger-hover: #b91c1c;
+  --ds-danger-subtle: #fef2f2;
+  --ds-danger-border: #fecaca;
+  --ds-danger-text: #b91c1c;
+
+  --ds-shadow-2xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --ds-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --ds-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  --ds-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --ds-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --ds-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --ds-shadow-glow-blue: 0 0 16px rgba(37, 99, 235, 0.35);
+}
+
+/* ==========================================================================
+   8. DARK MODE TOKENS (관제 센터 최적화 프리미엄 다크 테마)
+   ========================================================================== */
+.dark, [data-theme="dark"] {
+  --ds-bg-app: #090d16;
+  --ds-bg-surface: #0e1526;
+  --ds-bg-surface-elevated: #141d33;
+  --ds-bg-surface-sunken: #070b13;
+  --ds-bg-surface-subtle: #0b111e;
+  --ds-bg-surface-hover: #19233d;
+  --ds-bg-surface-active: #202d4d;
+
+  --ds-text-primary: #f8fafc;
+  --ds-text-secondary: #cbd5e1;
+  --ds-text-muted: #8292ab;
+  --ds-text-disabled: #4c5a70;
+  --ds-text-inverse: #0f172a;
+
+  --ds-border-default: #1c273e;
+  --ds-border-subtle: #141d30;
+  --ds-border-strong: #2a3a5a;
+  --ds-border-focus: #3b82f6;
+
+  --ds-primary: #3b82f6;
+  --ds-primary-hover: #60a5fa;
+  --ds-primary-active: #2563eb;
+  --ds-primary-subtle: rgba(59, 130, 246, 0.16);
+  --ds-primary-border: rgba(59, 130, 246, 0.38);
+  --ds-primary-text: #93c5fd;
+
+  --ds-accent-edit: #f59e0b;
+  --ds-accent-edit-hover: #fbbf24;
+  --ds-accent-edit-subtle: rgba(245, 158, 11, 0.16);
+  --ds-accent-edit-border: rgba(245, 158, 11, 0.38);
+
+  --ds-danger: #ef4444;
+  --ds-danger-hover: #f87171;
+  --ds-danger-subtle: rgba(239, 68, 68, 0.16);
+  --ds-danger-border: rgba(239, 68, 68, 0.38);
+  --ds-danger-text: #fca5a5;
+
+  --ds-shadow-2xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --ds-shadow-xs: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --ds-shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+  --ds-shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.55);
+  --ds-shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.65);
+  --ds-shadow-xl: 0 24px 38px -8px rgba(0, 0, 0, 0.75);
+  --ds-shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.4);
+}

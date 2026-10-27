@@ -1,0 +1,387 @@
+/**
+ * 종로구 혼잡도 관제 시스템 디자인시스템
+ * App Layouts, Workspace, Panels & Map Floating Controls
+ */
+
+/* 전체 화면 앱 쉘 */
+.ds-app-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--ds-bg-app);
+  color: var(--ds-text-primary);
+  font-family: var(--ds-font-sans);
+}
+
+/* 상단 메인 헤더 */
+.ds-header {
+  height: 64px;
+  min-height: 64px;
+  padding: 0 var(--ds-space-5);
+  background-color: var(--ds-bg-surface);
+  border-bottom: 1px solid var(--ds-border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-space-6);
+  flex-shrink: 0;
+  z-index: 100;
+  transition: background-color var(--ds-transition-fast), border-color var(--ds-transition-fast);
+}
+
+.ds-header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  flex-shrink: 0;
+}
+
+.ds-header-logo-box {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--ds-radius-md);
+  background-color: var(--ds-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: var(--ds-shadow-xs);
+  flex-shrink: 0;
+}
+
+.ds-header-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.ds-header-title-row {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+}
+
+.ds-header-title {
+  font-size: var(--ds-text-lg);
+  font-weight: var(--ds-weight-bold);
+  letter-spacing: -0.02em;
+  color: var(--ds-text-primary);
+  white-space: nowrap;
+}
+
+.ds-header-dot {
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+}
+
+.ds-header-location {
+  font-size: var(--ds-text-sm);
+  font-weight: var(--ds-weight-medium);
+  color: var(--ds-text-secondary);
+  white-space: nowrap;
+}
+
+.ds-header-meta {
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  margin-top: 2px;
+}
+
+.ds-header-center-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+}
+
+.ds-header-right-tools {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-3);
+  flex-shrink: 0;
+}
+
+/* 메인 작업 영역 워크스페이스 */
+.ds-workspace {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 64px);
+}
+
+/* 좌측 패널 (관제 구역 리스트 & 통계 그리드) */
+.ds-panel-left {
+  width: 340px;
+  min-width: 340px;
+  max-width: 340px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background-color: var(--ds-bg-surface);
+  border-right: 1px solid var(--ds-border-default);
+  z-index: 20;
+  user-select: none;
+  transition: background-color var(--ds-transition-fast), border-color var(--ds-transition-fast);
+}
+
+/* 우측 패널 (구역 편집기 인스펙터) */
+.ds-panel-right {
+  width: 370px;
+  min-width: 370px;
+  max-width: 370px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  background-color: var(--ds-bg-surface);
+  border-left: 1px solid var(--ds-border-default);
+  z-index: 20;
+  user-select: none;
+  transition: background-color var(--ds-transition-fast), border-color var(--ds-transition-fast);
+}
+
+/* 패널 헤더, 바디, 푸터 */
+.ds-panel-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--ds-border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  background-color: var(--ds-bg-surface);
+}
+
+.ds-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.ds-panel-footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--ds-border-default);
+  background-color: var(--ds-bg-surface-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--ds-text-xs);
+  color: var(--ds-text-muted);
+  flex-shrink: 0;
+}
+
+/* 중앙 맵 컨테이너 래퍼 */
+.ds-map-wrapper {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #0b111e;
+}
+
+/* ==========================================================================
+   Map Floating Controls (전체 구역 보기, 줌/레이어 컨트롤, 범례, 좌표 뱃지)
+   ========================================================================== */
+/* 지도 위 플로팅 컨트롤 기본 컨테이너 (Leaflet panes 위로 항상 노출되도록 z-index 1000) */
+.ds-map-floating-top-left {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.ds-map-floating-top-right {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.ds-map-floating-bottom-left {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.ds-map-floating-bottom-right {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.ds-map-floating-top-center {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* 전체 구역 보기 플로팅 버튼 */
+.ds-map-btn-fit-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  background-color: var(--ds-bg-surface-elevated);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  box-shadow: var(--ds-shadow-md);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-text-xs);
+  font-weight: var(--ds-weight-bold);
+  color: var(--ds-text-primary);
+  cursor: pointer;
+  user-select: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all var(--ds-transition-fast);
+}
+
+.ds-map-btn-fit-all:hover {
+  background-color: var(--ds-bg-surface-hover);
+  border-color: var(--ds-border-strong);
+  color: var(--ds-primary);
+  box-shadow: var(--ds-shadow-lg);
+  transform: translateY(-1px);
+}
+
+/* 지도 우측 상단 툴박스 (줌, 레이어 토글) */
+.ds-map-tool-box {
+  width: 36px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--ds-bg-surface-elevated);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  box-shadow: var(--ds-shadow-md);
+  overflow: hidden;
+  color: var(--ds-text-primary);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.ds-map-tool-btn {
+  width: 36px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--ds-border-subtle);
+  color: var(--ds-text-secondary);
+  cursor: pointer;
+  transition: all var(--ds-transition-fast);
+}
+
+.ds-map-tool-btn:last-child {
+  border-bottom: none;
+}
+
+.ds-map-tool-btn:hover {
+  background-color: var(--ds-bg-surface-hover);
+  color: var(--ds-text-primary);
+}
+
+.ds-map-tool-btn.is-active {
+  color: var(--ds-primary);
+  font-weight: var(--ds-weight-bold);
+}
+
+.ds-map-zoom-label {
+  width: 100%;
+  font-size: 9.5px;
+  font-family: var(--ds-font-mono);
+  font-weight: var(--ds-weight-bold);
+  text-align: center;
+  padding: 3px 0;
+  color: var(--ds-text-muted);
+  background-color: var(--ds-bg-surface-sunken);
+  border-bottom: 1px solid var(--ds-border-subtle);
+  letter-spacing: -0.02em;
+}
+
+/* 지도 좌측 하단 좌표 뱃지 */
+.ds-map-coord-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(15, 23, 42, 0.88);
+  color: #f1f5f9;
+  padding: 6px 12px;
+  border-radius: var(--ds-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--ds-shadow-md);
+  font-size: var(--ds-text-xs);
+  font-family: var(--ds-font-mono);
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+/* 지도 우측 하단 6단계 혼잡도 범례 (Legend) */
+.ds-map-legend-box {
+  background-color: var(--ds-bg-surface-elevated);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-lg);
+  padding: 12px 14px;
+  font-size: var(--ds-text-xs);
+  min-width: 165px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ds-map-legend-header {
+  font-size: 11px;
+  font-weight: var(--ds-weight-bold);
+  color: var(--ds-text-primary);
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--ds-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ds-map-legend-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+}
+
+.ds-map-legend-item-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.ds-map-legend-range {
+  font-family: var(--ds-font-mono);
+  font-size: 10px;
+  color: var(--ds-text-muted);
+}

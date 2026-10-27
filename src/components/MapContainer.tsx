@@ -2489,72 +2489,70 @@ export const MapContainer: React.FC<MapContainerProps> = ({
 
       {/* Edit-mode hint: selected shape can be dragged as a whole */}
       {mode === 'edit' && selectedZoneId && !creatingZoneType && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 bg-neutral-900/90 text-neutral-200 px-4 py-2 rounded-lg shadow-lg border border-neutral-700/80 flex items-center gap-2 text-xs backdrop-blur-xs pointer-events-none">
-          <Move className="w-3.5 h-3.5 text-blue-400" />
-          <span>선택한 구역 도형을 드래그하면 통째로 이동합니다 · 핸들로 형태/크기 편집</span>
+        <div className="ds-map-floating-top-center">
+          <div className="flex items-center gap-2 px-4 py-2 bg-neutral-900/90 text-neutral-200 rounded-lg shadow-lg border border-neutral-700/80 text-xs backdrop-blur-xs">
+            <Move style={{ width: 14, height: 14, color: '#60a5fa' }} />
+            <span>선택한 구역 도형을 드래그하면 통째로 이동합니다 · 핸들로 형태/크기 편집</span>
+          </div>
         </div>
       )}
 
       {/* Map Floating Controls (Top Left) - 전체 구역 보기 */}
-      <div className="absolute top-4 left-4 z-10">
+      <div className="ds-map-floating-top-left">
         <button
           type="button"
           onClick={handleResetCenter}
           title="전체 구역 보기 (관제 중인 전체 구역 화면 맞춤)"
-          className="flex items-center gap-1.5 h-9 px-3 bg-white/95 dark:bg-neutral-900/95 border border-neutral-200 dark:border-neutral-700/80 rounded-lg shadow-md text-xs font-bold text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-blue-600 dark:hover:text-blue-400 transition-colors cursor-pointer select-none backdrop-blur-xs"
+          className="ds-map-btn-fit-all"
         >
-          <span className="text-sm leading-none font-bold">⛶</span>
+          <span style={{ fontSize: 14, fontWeight: 'bold' }}>⛶</span>
           <span>전체 구역 보기</span>
         </button>
       </div>
 
       {/* Map Floating Controls (Top Right) */}
-      <div className="absolute top-4 right-4 z-10 flex flex-col gap-2 items-center">
+      <div className="ds-map-floating-top-right">
         {/* Zoom Controls */}
-        <div className="w-9 flex flex-col bg-white/95 dark:bg-neutral-900/95 border border-neutral-200 dark:border-neutral-700/80 rounded-lg shadow-md overflow-hidden text-neutral-700 dark:text-neutral-200">
+        <div className="ds-map-tool-box">
           <button
             type="button"
             onClick={handleZoomIn}
             title="지도 확대"
-            className="w-full h-8 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-800 transition-colors cursor-pointer"
+            className="ds-map-tool-btn"
           >
-            <Plus className="w-4 h-4 shrink-0" />
+            <Plus style={{ width: 16, height: 16 }} />
           </button>
-          <div className="w-full text-[9.5px] font-mono font-bold text-center py-1 text-neutral-500 dark:text-neutral-400 bg-neutral-50 dark:bg-neutral-800/50 flex items-center justify-center tracking-tight">
+          <div className="ds-map-zoom-label">
             Z{typeof currentZoom === 'number' ? (Number.isInteger(currentZoom) ? currentZoom : currentZoom.toFixed(2)) : currentZoom}
           </div>
           <button
             type="button"
             onClick={handleZoomOut}
             title="지도 축소"
-            className="w-full h-8 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+            className="ds-map-tool-btn"
           >
-            <Minus className="w-4 h-4 shrink-0" />
+            <Minus style={{ width: 16, height: 16 }} />
           </button>
         </div>
 
         {/* Layer Toggles */}
-        <div className="w-9 flex flex-col bg-white/95 dark:bg-neutral-900/95 border border-neutral-200 dark:border-neutral-700/80 rounded-lg shadow-md overflow-hidden text-neutral-700 dark:text-neutral-200">
+        <div className="ds-map-tool-box">
           <button
             type="button"
             onClick={() => setShowCongestionLayers(!showCongestionLayers)}
             title={showCongestionLayers ? '혼잡도 레이어 숨김' : '혼잡도 레이어 표시'}
-            className={`w-full h-9 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-800 transition-colors cursor-pointer ${showCongestionLayers ? 'text-blue-600 dark:text-blue-400' : 'text-neutral-400 opacity-60'
-              }`}
+            className={`ds-map-tool-btn ${showCongestionLayers ? 'is-active' : ''}`}
           >
-            <Layers className="w-4 h-4 shrink-0" />
+            <Layers style={{ width: 16, height: 16 }} />
           </button>
 
           <button
             type="button"
             onClick={() => setShowRoadNumbers((prev) => !prev)}
             title={showRoadNumbers ? '도로 번호 숨김' : '도로 번호 표시'}
-            className={`w-full h-9 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-800 transition-colors cursor-pointer ${showRoadNumbers
-              ? 'text-blue-600 dark:text-blue-400 font-bold'
-              : 'text-neutral-400 opacity-60'
-              }`}
+            className={`ds-map-tool-btn ${showRoadNumbers ? 'is-active' : ''}`}
           >
-            <Milestone className="w-4 h-4 shrink-0" />
+            <Milestone style={{ width: 16, height: 16 }} />
           </button>
 
           {/* Dim Outside Toggle Button */}
@@ -2562,12 +2560,9 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             type="button"
             onClick={() => setDimOutside(!dimOutside)}
             title={dimOutside ? '종로구 외곽 음영 끄기 (전체 밝게)' : '종로구 외곽 어둡게 켜기 (포커스 모드)'}
-            className={`w-full h-9 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 border-b border-neutral-200 dark:border-neutral-800 transition-colors cursor-pointer ${dimOutside && showBoundary
-              ? 'text-blue-600 dark:text-blue-400 font-bold'
-              : 'text-neutral-400 opacity-60'
-              }`}
+            className={`ds-map-tool-btn ${dimOutside && showBoundary ? 'is-active' : ''}`}
           >
-            <Contrast className="w-4 h-4 shrink-0" />
+            <Contrast style={{ width: 16, height: 16 }} />
           </button>
 
           {/* Subway Layer Toggle Button */}
@@ -2575,51 +2570,49 @@ export const MapContainer: React.FC<MapContainerProps> = ({
             type="button"
             onClick={() => setIsSubwayPanelOpen(!isSubwayPanelOpen)}
             title="지하철 노선 및 지하철역 레이어 제어"
-            className={`w-full h-9 flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer ${subwayConfig.showLines || subwayConfig.showStations
-              ? 'text-blue-600 dark:text-blue-400 font-bold'
-              : 'text-neutral-400 opacity-60'
-              }`}
+            className={`ds-map-tool-btn ${subwayConfig.showLines || subwayConfig.showStations ? 'is-active' : ''}`}
           >
-            <Train className="w-4 h-4 shrink-0" />
+            <Train style={{ width: 16, height: 16 }} />
           </button>
         </div>
       </div>
 
       {/* Floating Coordinate Bar (Bottom Left) */}
-      <div className="absolute bottom-4 left-4 z-10 flex items-center gap-2 bg-neutral-900/85 backdrop-blur-xs text-neutral-200 px-3 py-1.5 rounded-md border border-neutral-700/60 shadow-md text-xs font-mono tabular-nums">
-        <Crosshair className="w-3.5 h-3.5 text-blue-400" />
-        <span>
-          {mouseCoords
-            ? `${formatCoordinate(mouseCoords.lat, mouseCoords.lng)}`
-            : `종로구 중심: ${formatCoordinate(JONGNO_CENTER.lat, JONGNO_CENTER.lng)}`}
-        </span>
+      <div className="ds-map-floating-bottom-left">
+        <div className="ds-map-coord-badge">
+          <Crosshair style={{ width: 14, height: 14, color: '#60a5fa' }} />
+          <span>
+            {mouseCoords
+              ? `${formatCoordinate(mouseCoords.lat, mouseCoords.lng)}`
+              : `종로구 중심: ${formatCoordinate(JONGNO_CENTER.lat, JONGNO_CENTER.lng)}`}
+          </span>
+        </div>
       </div>
 
       {/* Congestion Legend (Bottom Right) */}
-      <div className="absolute bottom-4 right-4 z-10 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-xs p-3 rounded-lg border border-neutral-200 dark:border-neutral-700/80 shadow-lg text-xs space-y-1.5 min-w-[160px]">
-        <div className="text-[11px] font-semibold text-neutral-700 dark:text-neutral-300 pb-1 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
-          <span>혼잡도 범례</span>
-          <span className="text-[10px] text-neutral-400">6단계 관제</span>
-        </div>
-        {([1, 2, 3, 4, 5, 6] as CongestionLevel[]).map((lvl) => {
-          const info = CONGESTION_LEVEL_MAP[lvl];
-          return (
-            <div key={lvl} className="flex items-center justify-between gap-3 text-[11px]">
-              <div className="flex items-center gap-2">
-                <span
-                  className="w-2.5 h-2.5 rounded-full shrink-0"
-                  style={{ backgroundColor: info.color }}
-                />
-                <span className="text-neutral-800 dark:text-neutral-200 font-medium">
-                  {info.name}
+      <div className="ds-map-floating-bottom-right">
+        <div className="ds-map-legend-box">
+          <div className="ds-map-legend-header">
+            <span>혼잡도 범례</span>
+            <span className="text-2xs text-muted">6단계 관제</span>
+          </div>
+          {([1, 2, 3, 4, 5, 6] as CongestionLevel[]).map((lvl) => {
+            const info = CONGESTION_LEVEL_MAP[lvl];
+            return (
+              <div key={lvl} className="ds-map-legend-row">
+                <div className="ds-map-legend-item-left">
+                  <span className={`ds-lvl-dot ds-lvl-dot-${lvl}`} />
+                  <span className="text-xs font-medium text-primary">
+                    {info.name}
+                  </span>
+                </div>
+                <span className="ds-map-legend-range">
+                  {lvl === 1 ? '0~25%' : lvl === 2 ? '26~45%' : lvl === 3 ? '46~65%' : lvl === 4 ? '66~80%' : lvl === 5 ? '81~90%' : '91~100%'}
                 </span>
               </div>
-              <span className="text-neutral-400 font-mono text-[10px]">
-                {lvl === 1 ? '0~25%' : lvl === 2 ? '26~45%' : lvl === 3 ? '46~65%' : lvl === 4 ? '66~80%' : lvl === 5 ? '81~90%' : '91~100%'}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
 

@@ -1,0 +1,202 @@
+/**
+ * 종로구 혼잡도 관제 시스템 디자인시스템
+ * Form Components (Inputs, Selects, Sliders, Labels, Form Groups)
+ */
+
+/* ==========================================================================
+   1. Form Group & Label
+   ========================================================================== */
+.ds-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-1-5);
+  margin-bottom: var(--ds-space-4);
+}
+
+.ds-form-label {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-1-5);
+  font-size: var(--ds-text-xs);
+  font-weight: var(--ds-weight-semibold);
+  color: var(--ds-text-secondary);
+  text-align: left;
+  margin-bottom: 6px;
+}
+
+.ds-form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+/* Section Dividers & Grouping in Panels */
+.ds-form-section {
+  border-top: 1px solid var(--ds-border-default);
+  padding-top: var(--ds-space-5);
+  /* 20px - generous comfortable spacing between line and title */
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+}
+
+.ds-form-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+/* ==========================================================================
+   2. Text Input
+   ========================================================================== */
+.ds-input {
+  width: 100%;
+  padding: 7px 12px;
+  font-size: var(--ds-text-sm);
+  font-family: var(--ds-font-sans);
+  color: var(--ds-text-primary);
+  background-color: var(--ds-bg-surface-sunken);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  outline: none;
+  transition: border-color var(--ds-transition-fast), box-shadow var(--ds-transition-fast), background-color var(--ds-transition-fast);
+}
+
+.ds-input:focus {
+  border-color: var(--ds-primary);
+  box-shadow: 0 0 0 2px var(--ds-primary-subtle);
+  background-color: var(--ds-bg-surface);
+}
+
+.ds-input::placeholder {
+  color: var(--ds-text-muted);
+}
+
+.ds-input-mono {
+  font-family: var(--ds-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.ds-input-bold {
+  font-weight: var(--ds-weight-bold);
+}
+
+.ds-input-sm {
+  padding: 4px 8px;
+  font-size: var(--ds-text-xs);
+  border-radius: var(--ds-radius-sm);
+}
+
+/* ==========================================================================
+   3. Custom Select Dropdown
+   ========================================================================== */
+.ds-select-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.ds-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 7px 30px 7px 12px;
+  font-size: var(--ds-text-sm);
+  font-family: var(--ds-font-sans);
+  font-weight: var(--ds-weight-medium);
+  color: var(--ds-text-primary);
+  background-color: var(--ds-bg-surface);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-md);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--ds-transition-fast), box-shadow var(--ds-transition-fast);
+}
+
+.ds-select:focus {
+  border-color: var(--ds-primary);
+  box-shadow: 0 0 0 2px var(--ds-primary-subtle);
+}
+
+.ds-select-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--ds-text-muted);
+}
+
+/* ==========================================================================
+   4. Range Slider
+   ========================================================================== */
+.ds-slider {
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  -webkit-appearance: none;
+  background: var(--ds-border-default);
+  border-radius: var(--ds-radius-full);
+  outline: none;
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+.ds-slider::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ds-primary);
+  border: 2px solid #ffffff;
+  box-shadow: var(--ds-shadow-sm);
+  cursor: pointer;
+  transition: transform var(--ds-transition-fast), background-color var(--ds-transition-fast);
+}
+
+.ds-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.ds-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--ds-primary);
+  border: 2px solid #ffffff;
+  box-shadow: var(--ds-shadow-sm);
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   5. Step Delta Buttons (반경 조절 증감 버튼)
+   ========================================================================== */
+.ds-delta-btn-group {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-1-5);
+  margin-top: var(--ds-space-1);
+}
+
+.ds-delta-btn {
+  flex: 1;
+  padding: 3px 0;
+  font-size: var(--ds-text-2xs);
+  font-family: var(--ds-font-mono);
+  font-weight: var(--ds-weight-medium);
+  background-color: var(--ds-bg-surface);
+  border: 1px solid var(--ds-border-default);
+  border-radius: var(--ds-radius-xs);
+  color: var(--ds-text-secondary);
+  cursor: pointer;
+  text-align: center;
+  transition: all var(--ds-transition-fast);
+}
+
+.ds-delta-btn:hover {
+  background-color: var(--ds-bg-surface-hover);
+  color: var(--ds-text-primary);
+  border-color: var(--ds-border-strong);
+}

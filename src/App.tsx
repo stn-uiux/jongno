@@ -393,7 +393,7 @@ export default function App() {
   const selectedCongestion = selectedZoneId ? congestions[selectedZoneId] || null : null;
 
   return (
-    <div className={`flex flex-col h-screen w-screen overflow-hidden bg-neutral-100 dark:bg-neutral-950 text-neutral-900 dark:text-neutral-100 font-sans ${isDarkMode ? 'dark' : ''}`}>
+    <div className={`ds-app-layout ${isDarkMode ? 'dark' : ''}`}>
       {/* 1. Header */}
       <Header
         mode={mode}
@@ -409,7 +409,7 @@ export default function App() {
       />
 
       {/* 2. Main Workspace Layout */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="ds-workspace">
         {/* Left Panel: Zone List, Filters, Stats, Add */}
         <LeftPanel
           mode={mode}
@@ -477,11 +477,11 @@ export default function App() {
 
       {/* 4. Auto-save feedback toast */}
       {saveStatus && (
-        <div className="fixed bottom-5 right-6 z-[9999] pointer-events-none flex items-center gap-2.5 px-4 py-2.5 bg-neutral-900/95 text-white dark:bg-neutral-800/95 border border-emerald-500/50 rounded-xl shadow-2xl backdrop-blur-md transition-all">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="ds-toast">
+          <CheckCircle2 style={{ width: 16, height: 16, color: '#34d399', flexShrink: 0 }} />
           <div className="flex flex-col">
-            <span className="text-xs font-bold text-white">{saveStatus.message}</span>
-            <span className="text-[10px] text-neutral-400 font-mono">저장 시각: {saveStatus.time}</span>
+            <span className="ds-toast-title">{saveStatus.message}</span>
+            <span className="ds-toast-meta">저장 시각: {saveStatus.time}</span>
           </div>
         </div>
       )}

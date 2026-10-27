@@ -1,38 +1,31 @@
-@import "tailwindcss";
+/**
+ * 종로구 스마트 혼잡도 안전 관제 시스템
+ * 자체 디자인 시스템 통합 스타일시트 (Pure Vanilla CSS)
+ */
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* 1. 디자인 시스템 토큰 & 리셋 */
+@import "./styles/tokens.css";
+@import "./styles/reset.css";
 
-@layer base {
-  body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  }
+/* 2. 레이아웃 & 유틸리티 */
+@import "./styles/layout.css";
+@import "./styles/components/utilities.css";
 
-  /* All clickable elements should display pointer cursor on hover */
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  a,
-  select,
-  summary,
-  input[type="button"],
-  input[type="submit"],
-  input[type="reset"],
-  input[type="checkbox"],
-  input[type="radio"] {
-    cursor: pointer;
-  }
+/* 3. 디자인 시스템 컴포넌트 */
+@import "./styles/components/button.css";
+@import "./styles/components/form.css";
+@import "./styles/components/badge.css";
+@import "./styles/components/card.css";
+@import "./styles/components/modal.css";
+@import "./styles/components/cctvModal.css";
 
-  button:disabled,
-  [aria-disabled="true"] {
-    cursor: not-allowed;
-  }
-}
+/* 4. 영역 및 지하철 특화 스타일 */
+@import "./css/areaBadge.css";
+@import "./css/subwayStation.css";
 
-/* Ensure pointer cursor on all clickable UI controls and interactive map markers */
+/* ==========================================================================
+   5. Interactive Map & Leaflet Base Controls
+   ========================================================================== */
 button:not(:disabled),
 [role="button"]:not([aria-disabled="true"]),
 .cursor-pointer,
@@ -43,12 +36,15 @@ button:not(:disabled),
   cursor: pointer !important;
 }
 
-/* Base map container default background */
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 .leaflet-container {
   background-color: #0b111e;
 }
 
-/* Leaflet MapLibre GL layer integration for OpenFreeMap */
 .leaflet-gl-layer {
   position: absolute;
   top: 0;
@@ -68,9 +64,9 @@ button:not(:disabled),
   background: rgba(15, 23, 42, 0.92) !important;
   color: #F8FAFC !important;
   border: 1px solid rgba(255, 255, 255, 0.15) !important;
-  border-radius: 6px !important;
+  border-radius: var(--ds-radius-sm) !important;
   padding: 3px 8px !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: var(--ds-shadow-md) !important;
   white-space: nowrap !important;
   pointer-events: none !important;
 }
@@ -79,7 +75,7 @@ button:not(:disabled),
   display: none !important;
 }
 
-/* Edit mode: selected zone shape can be dragged as a whole */
+/* Edit mode: draggable shape */
 .leaflet-interactive.zone-shape-draggable {
   cursor: move;
 }
@@ -89,14 +85,14 @@ button:not(:disabled),
   cursor: grabbing !important;
 }
 
-/* Custom Leaflet Popup Styling */
+/* Leaflet Popup Styling */
 .leaflet-popup-content-wrapper {
-  background: #FFFFFF !important;
-  color: #0F172A !important;
-  border-radius: 10px !important;
+  background: var(--ds-bg-surface-elevated) !important;
+  color: var(--ds-text-primary) !important;
+  border-radius: var(--ds-radius-lg) !important;
   padding: 4px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3) !important;
-  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  box-shadow: var(--ds-shadow-lg) !important;
+  border: 1px solid var(--ds-border-default) !important;
 }
 
 .dark .leaflet-popup-content-wrapper {
@@ -106,41 +102,14 @@ button:not(:disabled),
 }
 
 .leaflet-popup-tip {
-  background: #FFFFFF !important;
+  background: var(--ds-bg-surface-elevated) !important;
 }
 
 .dark .leaflet-popup-tip {
   background: #0F172A !important;
 }
 
-/* Sleek Scrollbars */
-::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.3);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.5);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.4);
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.6);
-}
-
-/* Subway Station Marker and Label Styling */
+/* Subway Station Marker and Label */
 .subway-station-badge {
   background: transparent !important;
   border: none !important;
@@ -157,7 +126,7 @@ button:not(:disabled),
   display: none !important;
 }
 
-/* Scanner Zone Marker & Hover Bubble Styling (Image 5 style) */
+/* Scanner Zone Marker & Bubble Styling */
 .scanner-zone-badge {
   background: transparent !important;
   border: none !important;
@@ -171,7 +140,6 @@ button:not(:disabled),
   cursor: pointer;
 }
 
-/* 호버된 마커 컨테이너 전체를 최상위 Z-Index로 올려 겹친 다른 툴팁/마커보다 무조건 최상단에 표출 */
 .leaflet-marker-icon.scanner-zone-badge:hover,
 .leaflet-marker-icon.scanner-zone-badge:focus-within {
   z-index: 999999 !important;
@@ -191,7 +159,6 @@ button:not(:disabled),
   pointer-events: auto !important;
 }
 
-/* 호버된 툴팁은 스케일 및 깊이 그림자를 강조하여 시각적으로도 가장 위로 올라왔음을 명확히 피드백 */
 .leaflet-marker-icon.scanner-zone-badge:hover .scanner-hover-bubble {
   z-index: 999999 !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.25) !important;
@@ -219,35 +186,15 @@ button:not(:disabled),
   box-shadow: 0 0 0 3.5px rgba(59, 130, 246, 0.45) !important;
 }
 
-/* 단계별 레이어 순위: 혼잡도 단계가 높을수록 상단에 표출 */
-.scanner-zone-node.level-1 {
-  z-index: 1000 !important;
-}
+/* Layer Priorities */
+.scanner-zone-node.level-1 { z-index: 1000 !important; }
+.scanner-zone-node.level-2 { z-index: 2000 !important; }
+.scanner-zone-node.level-3 { z-index: 3000 !important; }
+.scanner-zone-node.level-4 { z-index: 4000 !important; }
+.scanner-zone-node.level-5, .scanner-zone-node.is-serious { z-index: 8500 !important; }
+.scanner-zone-node.level-6, .scanner-zone-node.is-emergency { z-index: 9000 !important; }
 
-.scanner-zone-node.level-2 {
-  z-index: 2000 !important;
-}
-
-.scanner-zone-node.level-3 {
-  z-index: 3000 !important;
-}
-
-.scanner-zone-node.level-4 {
-  z-index: 4000 !important;
-}
-
-.scanner-zone-node.level-5,
-.scanner-zone-node.is-serious {
-  z-index: 8500 !important;
-}
-
-.scanner-zone-node.level-6,
-.scanner-zone-node.is-emergency {
-  z-index: 9000 !important;
-}
-
-/* 5단계: 심각 (보라색 #A64BFF) 상시 툴팁 및 스팟 강조 */
-
+/* 5단계: 심각 (보라색) */
 .scanner-zone-node.is-serious .scanner-hover-bubble {
   border: 1.5px solid rgba(166, 75, 255, 0.85) !important;
   box-shadow: 0 4px 18px rgba(166, 75, 255, 0.35), 0 2px 6px rgba(0, 0, 0, 0.18) !important;
@@ -266,11 +213,7 @@ button:not(:disabled),
   font-weight: 800 !important;
 }
 
-/* 6단계: 위험 (붉은색 #DC2626) 상시 툴팁 및 최고 위험도 경고 강조 */
-.scanner-zone-node.is-emergency {
-  z-index: 8700 !important;
-}
-
+/* 6단계: 위험 (붉은색) */
 .scanner-zone-node.is-emergency .scanner-hover-bubble {
   border: 1.5px solid rgba(220, 38, 38, 0.9) !important;
   box-shadow: 0 4px 20px rgba(220, 38, 38, 0.45), 0 2px 6px rgba(0, 0, 0, 0.20) !important;
@@ -297,7 +240,7 @@ button:not(:disabled),
   font-weight: 800 !important;
 }
 
-/* Area polygon interactive styling */
+/* Area polygon */
 .area-polygon-interactive {
   cursor: pointer;
   transition: fill-opacity 0.2s ease, stroke-width 0.2s ease;

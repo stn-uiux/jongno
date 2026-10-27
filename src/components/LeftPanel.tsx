@@ -125,27 +125,31 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
     return Array.from(areaMap.values()).sort((a, b) => a.name.localeCompare(b.name, 'ko'));
   }, [zones]);
 
-  // Filtered zones (편집 모드에서는 필터/검색 없이 전체 구역 목록 노출)
+  // Filtered zones (관제 모드: 혼잡도/검색/영역 필터, 편집 모드: 검색/영역 필터)
   const filteredZones = useMemo(() => {
-    if (mode === 'edit') {
-      return zones;
-    }
-    const term = searchTerm.toLowerCase();
+    const term = searchTerm.trim().toLowerCase();
     return zones.filter((zone) => {
       const matchesSearch =
+        !term ||
         zone.name.toLowerCase().includes(term) ||
         zone.id.toLowerCase().includes(term) ||
         (zone.scannerName && zone.scannerName.toLowerCase().includes(term)) ||
         (zone.areaName && zone.areaName.toLowerCase().includes(term)) ||
         (zone.description && zone.description.toLowerCase().includes(term));
-      const zoneCongestion = congestions[zone.id];
-      const matchesLevel =
-        levelFilter === 'all' || (zoneCongestion && zoneCongestion.level === levelFilter);
+
       const matchesArea =
         selectedAreaId === 'all' ||
         zone.areaId === selectedAreaId ||
         zone.areaName === selectedAreaId ||
         (selectedAreaId && AREAS.find((a) => a.id === selectedAreaId)?.name === zone.areaName);
+
+      if (mode === 'edit') {
+        return matchesSearch && matchesArea;
+      }
+
+      const zoneCongestion = congestions[zone.id];
+      const matchesLevel =
+        levelFilter === 'all' || (zoneCongestion && zoneCongestion.level === levelFilter);
       return matchesSearch && matchesLevel && matchesArea;
     });
   }, [zones, mode, searchTerm, congestions, levelFilter, selectedAreaId]);
@@ -191,23 +195,26 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
   }, [filteredZones, mode, sortType, sortOrder, congestions]);
 
   return (
-    <aside className="w-80 border-r flex flex-col shrink-0 h-full bg-white dark:bg-neutral-900 border-neutral-200 dark:border-neutral-800 transition-colors select-none">
-      {/* Top Title & Quick Add */}
-      <div className="p-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
+    <aside className="ds-panel-left">
+      {/* Top Title & Quick Reset */}
+      <div className="ds-panel-header">
         <div>
-          <h2 className="text-sm font-semibold text-neutral-900 dark:text-neutral-100">
+          <h2 className="text-sm font-semibold text-primary">
             {mode === 'edit' ? '구역 목록 (편집)' : '관제 구역 목록'}
           </h2>
-          <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+          <div className="text-xs text-muted mt-0-5">
             <span>총 {totalZones}개 구역</span>
+            {filteredZones.length !== totalZones && (
+              <span className="text-blue font-medium ml-1">({filteredZones.length}개 표시)</span>
+            )}
             {mode === 'edit' ? (
               <>
-                <span className="mx-1.5 text-neutral-300 dark:text-neutral-600">·</span>
-                <span className="text-blue-600 dark:text-blue-400 font-medium">구역순 정렬</span>
+                <span className="mx-1-5 text-muted">·</span>
+                <span className="text-blue font-medium">구역순 정렬</span>
               </>
             ) : (
               <>
-                <span className="mx-1.5 text-neutral-300 dark:text-neutral-600">·</span>
+                <span className="mx-1-5 text-muted">·</span>
                 <span>평균 혼잡도 <span className="font-mono tabular-nums font-semibold">{avgScore}%</span></span>
               </>
             )}
@@ -219,177 +226,148 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
           <button
             type="button"
             onClick={onResetZones}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-semibold text-neutral-700 dark:text-neutral-200 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 border border-neutral-300 dark:border-neutral-700 rounded-lg shadow-xs transition-colors cursor-pointer"
+            className="ds-btn ds-btn-secondary ds-btn-xs"
             title="localStorage에 저장된 편집 데이터를 삭제하고 최초 기본값(48개 구역)으로 초기화합니다"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-neutral-500 dark:text-neutral-400" />
+            <RotateCcw style={{ width: 14, height: 14 }} />
             <span>초기화</span>
           </button>
         )}
       </div>
 
-      {/* 관제 모드 전용 필터 및 정렬 컨트롤 (편집 모드에서는 구역 목록만 표시) */}
+      {/* Level Breakdown Grid (6단계 2줄 그리드: 3열 x 2줄 카드 형태 - 관제 모드 전용) */}
       {mode !== 'edit' && (
-        <>
-          {/* Level Breakdown Grid (6단계 2줄 그리드: 3열 x 2줄 카드 형태 강조) */}
-          <div className="p-2.5 bg-neutral-50/80 dark:bg-neutral-900/60 border-b border-neutral-200 dark:border-neutral-800 grid grid-cols-3 gap-2">
-            {([1, 2, 3, 4, 5, 6] as CongestionLevel[]).map((lvl) => {
-              const info = CONGESTION_LEVEL_MAP[lvl];
-              const count = levelCounts[lvl];
-              const isSelected = levelFilter === lvl;
-              return (
-                <button
-                  key={lvl}
-                  type="button"
-                  onClick={() => setLevelFilter(isSelected ? 'all' : lvl)}
-                  title={`${info.name}: ${info.description} (클릭 시 ${info.name} 구역만 필터)`}
-                  style={{
-                    borderColor: isSelected ? info.color : undefined,
-                    backgroundColor: isSelected ? `${info.color}18` : undefined,
-                  }}
-                  className={`px-2.5 py-2.5 rounded-lg border transition-all flex items-center justify-between cursor-pointer ${
-                    isSelected
-                      ? 'ring-1 shadow-xs'
-                      : 'border-neutral-200/90 dark:border-neutral-800 bg-white dark:bg-neutral-800/70 hover:border-neutral-300 dark:hover:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-800 shadow-2xs'
-                  }`}
-                >
-                  {/* 좌측: 컬러 인디케이터 도트 + 상태명 */}
-                  <div className="flex items-center gap-1.5 min-w-0">
-                    <span
-                      className="w-2 h-2 rounded-full shrink-0 shadow-xs"
-                      style={{ backgroundColor: info.color }}
-                    />
-                    <span className="text-xs font-bold text-neutral-800 dark:text-neutral-200 truncate">
-                      {info.name}
-                    </span>
-                  </div>
-
-                  {/* 우측: 대형 강조 숫자 */}
-                  <span
-                    className="text-xl font-black font-mono tabular-nums leading-none tracking-tight shrink-0 ml-1.5"
-                    style={{ color: count > 0 ? info.color : undefined }}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Search Input & Filter Clear */}
-          <div className="p-3 border-b border-neutral-200 dark:border-neutral-800 flex items-center gap-2">
-            <div className="relative flex-1">
-              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="구역명, 스캐너, 영역 검색..."
-                className="w-full pl-8 pr-3 py-1.5 text-xs bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-md text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            {(levelFilter !== 'all' || selectedAreaId !== 'all') && (
+        <div className="ds-level-grid">
+          {([1, 2, 3, 4, 5, 6] as CongestionLevel[]).map((lvl) => {
+            const info = CONGESTION_LEVEL_MAP[lvl];
+            const count = levelCounts[lvl];
+            const isSelected = levelFilter === lvl;
+            return (
               <button
+                key={lvl}
                 type="button"
-                onClick={() => {
-                  setLevelFilter('all');
-                  setSelectedAreaId('all');
-                }}
-                className="px-2 py-1.5 text-[11px] text-blue-600 dark:text-blue-400 hover:underline whitespace-nowrap font-medium cursor-pointer"
+                onClick={() => setLevelFilter(isSelected ? 'all' : lvl)}
+                title={`${info.name}: ${info.description} (클릭 시 ${info.name} 구역만 필터)`}
+                className={`ds-level-grid-card ds-level-grid-card-${lvl} ${isSelected ? 'is-selected' : ''}`}
               >
-                초기화
+                <div className="ds-level-label-box">
+                  <span className={`ds-lvl-dot ds-lvl-dot-${lvl}`} />
+                  <span className="ds-level-title">{info.name}</span>
+                </div>
+                <span className="ds-level-count">{count}</span>
               </button>
-            )}
+            );
+          })}
+        </div>
+      )}
+
+      {/* Search Input & Filter Clear (관제 모드 & 구역편집 모드 공통 표출) */}
+      <div className="ds-search-bar">
+        <div className="ds-search-wrapper">
+          <Search className="ds-search-icon" style={{ width: 14, height: 14 }} />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="구역명, 스캐너, 영역 검색..."
+            className="ds-search-input"
+          />
+        </div>
+        {(searchTerm || (mode !== 'edit' && levelFilter !== 'all') || selectedAreaId !== 'all') && (
+          <button
+            type="button"
+            onClick={() => {
+              setSearchTerm('');
+              setLevelFilter('all');
+              setSelectedAreaId('all');
+            }}
+            className="ds-btn ds-btn-ghost ds-btn-xs text-blue"
+          >
+            초기화
+          </button>
+        )}
+      </div>
+
+      {/* Area Filter Select Box (영역 선택 - 가나다순, 관제 모드 & 구역편집 모드 공통 표출) */}
+      <div className="ds-area-filter-bar">
+        <label htmlFor="area-select" className="ds-form-label" style={{ marginBottom: 0 }}>
+          <MapPin style={{ width: 14, height: 14, color: '#3b82f6', flexShrink: 0 }} />
+          <span>영역:</span>
+        </label>
+        <div className="ds-select-wrapper">
+          <select
+            id="area-select"
+            value={selectedAreaId}
+            onChange={(e) => setSelectedAreaId(e.target.value)}
+            className="ds-select"
+            style={{ padding: '5px 28px 5px 10px', fontSize: '11px' }}
+          >
+            <option value="all">전체 영역 ({zones.length}개 구역)</option>
+            {sortedAreas.map((a) => (
+              <option key={a.id} value={a.id}>
+                {a.name} ({a.count}개 구역)
+              </option>
+            ))}
+          </select>
+          <ChevronDown className="ds-select-icon" style={{ width: 14, height: 14 }} />
+        </div>
+      </div>
+
+      {/* Sort Bar (밀집도순 · 체류인원 · 구역순 정렬 - 관제 모드 전용) */}
+      {mode !== 'edit' && (
+        <div className="ds-sort-bar">
+          <div className="ds-sort-label">
+            <ArrowUpDown style={{ width: 12, height: 12 }} />
+            <span>정렬</span>
           </div>
+          <div className="ds-segmented-group" style={{ padding: 2 }}>
+            <button
+              type="button"
+              onClick={() => handleSortChange('density')}
+              title="밀집도(혼잡도) 순 정렬"
+              className={`ds-segmented-item ${sortType === 'density' ? 'active' : ''}`}
+              style={{ padding: '3px 8px', fontSize: '10px' }}
+            >
+              <span>밀집도순</span>
+              {sortType === 'density' && (
+                <span style={{ fontSize: 9, fontWeight: 'bold' }}>{sortOrder === 'desc' ? '↓' : '↑'}</span>
+              )}
+            </button>
 
-          {/* Area Filter Select Box (영역 선택 - 가나다순) */}
-          <div className="px-3 py-2 border-b border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-900/40 flex items-center gap-2">
-            <label htmlFor="area-select" className="flex items-center gap-1.5 text-xs font-semibold text-neutral-600 dark:text-neutral-400 shrink-0">
-              <MapPin className="w-3.5 h-3.5 text-blue-500 shrink-0" />
-              <span>영역:</span>
-            </label>
-            <div className="relative flex-1">
-              <select
-                id="area-select"
-                value={selectedAreaId}
-                onChange={(e) => setSelectedAreaId(e.target.value)}
-                className="w-full appearance-none pl-2.5 pr-7 py-1.5 text-xs font-medium bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-neutral-100 focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-2xs cursor-pointer transition-colors truncate"
-              >
-                <option value="all">전체 영역 ({zones.length}개 구역)</option>
-                {sortedAreas.map((a) => (
-                  <option key={a.id} value={a.id}>
-                    {a.name} ({a.count}개 구역)
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-neutral-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
+            <button
+              type="button"
+              onClick={() => handleSortChange('visitors')}
+              title="추정 체류 인원 순 정렬"
+              className={`ds-segmented-item ${sortType === 'visitors' ? 'active' : ''}`}
+              style={{ padding: '3px 8px', fontSize: '10px' }}
+            >
+              <span>체류인원</span>
+              {sortType === 'visitors' && (
+                <span style={{ fontSize: 9, fontWeight: 'bold' }}>{sortOrder === 'desc' ? '↓' : '↑'}</span>
+              )}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handleSortChange('name')}
+              title="구역 이름순 정렬"
+              className={`ds-segmented-item ${sortType === 'name' ? 'active' : ''}`}
+              style={{ padding: '3px 8px', fontSize: '10px' }}
+            >
+              <span>구역순</span>
+              {sortType === 'name' && (
+                <span style={{ fontSize: 9, fontWeight: 'bold' }}>{sortOrder === 'asc' ? '↑' : '↓'}</span>
+              )}
+            </button>
           </div>
-
-          {/* Sort Bar (밀집도순 · 체류인원 · 구역순 정렬) */}
-          <div className="px-3 py-1.5 bg-neutral-50/80 dark:bg-neutral-900/60 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-1 text-[11px] text-neutral-500 dark:text-neutral-400 font-medium">
-              <ArrowUpDown className="w-3 h-3 text-neutral-400 shrink-0" />
-              <span>정렬</span>
-            </div>
-            <div className="flex items-center p-0.5 bg-neutral-200/70 dark:bg-neutral-800 rounded-lg text-[11px]">
-              <button
-                type="button"
-                onClick={() => handleSortChange('density')}
-                title="밀집도(혼잡도) 순 정렬 (클릭 시 오름차순/내림차순 전환)"
-                className={`px-2 py-0.5 rounded-md transition-all flex items-center gap-0.5 cursor-pointer ${
-                  sortType === 'density'
-                    ? 'bg-white dark:bg-neutral-700 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200'
-                }`}
-              >
-                <span>밀집도순</span>
-                {sortType === 'density' && (
-                  <span className="text-[10px] font-bold">{sortOrder === 'desc' ? '↓' : '↑'}</span>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleSortChange('visitors')}
-                title="추정 체류 인원 순 정렬 (클릭 시 오름차순/내림차순 전환)"
-                className={`px-2 py-0.5 rounded-md transition-all flex items-center gap-0.5 cursor-pointer ${
-                  sortType === 'visitors'
-                    ? 'bg-white dark:bg-neutral-700 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200'
-                }`}
-              >
-                <span>체류인원</span>
-                {sortType === 'visitors' && (
-                  <span className="text-[10px] font-bold">{sortOrder === 'desc' ? '↓' : '↑'}</span>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => handleSortChange('name')}
-                title="구역 이름순 정렬 (클릭 시 오름차순/내림차순 전환)"
-                className={`px-2 py-0.5 rounded-md transition-all flex items-center gap-0.5 cursor-pointer ${
-                  sortType === 'name'
-                    ? 'bg-white dark:bg-neutral-700 text-blue-600 dark:text-blue-400 font-bold shadow-xs'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-200'
-                }`}
-              >
-                <span>구역순</span>
-                {sortType === 'name' && (
-                  <span className="text-[10px] font-bold">{sortOrder === 'asc' ? '↑' : '↓'}</span>
-                )}
-              </button>
-            </div>
-          </div>
-        </>
+        </div>
       )}
 
       {/* Zones List View */}
-      <div className="flex-1 overflow-y-auto divide-y divide-neutral-100 dark:divide-neutral-800/60">
+      <div className="ds-panel-body">
         {sortedZones.length === 0 ? (
-          <div className="p-8 text-center text-xs text-neutral-400">
-            일치하는 관제 구역이 없습니다.
+          <div style={{ padding: 32, textAlign: 'center', fontSize: 12, color: 'var(--ds-text-muted)' }}>
+            {mode === 'edit' ? '일치하는 구역이 없습니다.' : '일치하는 관제 구역이 없습니다.'}
           </div>
         ) : (
           sortedZones.map((zone) => {
@@ -398,6 +376,7 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
             const levelInfo = c ? CONGESTION_LEVEL_MAP[c.level] : CONGESTION_LEVEL_MAP[1];
             const area = AREAS.find((a) => a.id === zone.areaId || a.name === zone.areaName);
             const visitors = c?.estimatedVisitors ?? Math.round(((zone.capacity || 3000) * (c?.value || 0)) / 100);
+            const levelNum = c ? c.level : 1;
 
             return (
               <div
@@ -410,75 +389,53 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                   onSelectZone(zone.id);
                   onFocusZoneOnMap(zone.id);
                 }}
-                className={`p-3 cursor-pointer transition-all group relative flex items-center justify-between gap-2 ${
-                  isSelected
-                    ? 'bg-blue-50/90 dark:bg-blue-950/40 ring-2 ring-blue-500/80 shadow-xs z-10'
-                    : 'hover:bg-neutral-50 dark:hover:bg-neutral-800/40'
-                } ${!zone.visible ? 'opacity-50' : ''}`}
+                className={`ds-zone-card ${isSelected ? 'is-selected' : ''} ${!zone.visible ? 'is-hidden' : ''}`}
               >
                 {/* 지도 선택 타겟팅 인디케이터 (좌측 파란색 액센트 바) */}
-                {isSelected && (
-                  <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-blue-600 rounded-r shadow-xs pointer-events-none" />
-                )}
+                {isSelected && <div className="ds-zone-accent-bar" />}
 
-                {/* Left zone indicator */}
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="text-neutral-400 group-hover:text-neutral-600 dark:group-hover:text-neutral-300 shrink-0">
-                    <CircleDot className={`w-4 h-4 ${isSelected ? 'text-blue-600' : 'text-blue-500'}`} />
+                {/* Left zone indicator & texts */}
+                <div className="ds-zone-info-left">
+                  <div style={{ color: isSelected ? 'var(--ds-primary)' : 'var(--ds-text-muted)', flexShrink: 0 }}>
+                    <CircleDot style={{ width: 16, height: 16 }} />
                   </div>
 
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className={`text-xs ${isSelected ? 'text-blue-700 dark:text-blue-300 font-extrabold' : 'text-neutral-900 dark:text-neutral-100 font-bold'}`}>
-                        {zone.name}
-                      </span>
-                      {area && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 border border-neutral-200/80 dark:border-neutral-700/60">
-                          {area.name}
-                        </span>
-                      )}
+                  <div className="ds-zone-texts">
+                    <div className="ds-zone-title-row">
+                      <span className="ds-zone-name">{zone.name}</span>
+                      {area && <span className="ds-area-tag">{area.name}</span>}
                     </div>
 
                     {zone.description && (
-                      <div className="text-[11px] text-neutral-600 dark:text-neutral-400 truncate mt-0.5">
-                        {zone.description}
-                      </div>
+                      <div className="ds-zone-desc">{zone.description}</div>
                     )}
 
-                    <div className="text-[10px] text-neutral-400 dark:text-neutral-500 flex items-center gap-1 mt-0.5 font-mono">
+                    <div className="ds-zone-meta">
                       <span>{zone.id}</span>
                       <span>·</span>
                       <span>R={zone.radius || 30}m</span>
                       <span>·</span>
-                      <span className={`font-sans ${sortType === 'visitors' && mode !== 'edit' ? 'text-blue-600 dark:text-blue-400 font-bold' : 'text-neutral-500 dark:text-neutral-400'}`}>
+                      <span className={sortType === 'visitors' && mode !== 'edit' ? 'text-blue font-bold' : ''}>
                         {visitors.toLocaleString()}명
                       </span>
                     </div>
                   </div>
                 </div>
 
-                {/* Right Congestion Status & Actions */}
-                <div className="flex items-center gap-2 shrink-0 self-center">
+                {/* Right Congestion Status & Action Buttons */}
+                <div className="ds-zone-actions-right">
                   {c && (
-                    <div className="text-right flex flex-col justify-center">
-                      <div className="flex items-center justify-end gap-1">
-                        <span
-                          className="w-2 h-2 rounded-full shrink-0"
-                          style={{ backgroundColor: levelInfo.color }}
-                        />
-                        <span className="text-xs font-bold font-mono tabular-nums text-neutral-900 dark:text-neutral-100">
-                          {c.value}%
-                        </span>
+                    <div className="ds-zone-congestion-box">
+                      <div className="ds-zone-congestion-value-row">
+                        <span className={`ds-lvl-dot ds-lvl-dot-${levelNum}`} />
+                        <span className="ds-zone-percent">{c.value}%</span>
                       </div>
-                      <div className="text-[10px] text-neutral-500 dark:text-neutral-400">
-                        {levelInfo.name}
-                      </div>
+                      <span className="ds-zone-level-name">{levelInfo.name}</span>
                     </div>
                   )}
 
-                  {/* Quick Zone Action Buttons (CCTV 버튼 아래로 지도 표시여부(show/hide) 토글 버튼 배치) */}
-                  <div className="flex flex-col items-center justify-center gap-1 shrink-0 self-center">
-                    {/* CCTV View Button (으르신 친화적 대형 원형 버튼) */}
+                  {/* Quick Zone Action Buttons */}
+                  <div className="ds-zone-buttons-col">
                     <button
                       type="button"
                       title={`${zone.name} CCTV 실시간 영상 관제 (클릭 시 화면 표출)`}
@@ -486,10 +443,10 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                         e.stopPropagation();
                         if (onOpenCctv) onOpenCctv(zone);
                       }}
-                      className="w-8 h-8 rounded-full flex items-center justify-center bg-blue-100 dark:bg-blue-950/70 border border-blue-300/90 dark:border-blue-700/80 text-blue-600 dark:text-blue-400 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 dark:hover:text-white hover:border-blue-600 shadow-2xs hover:shadow-md hover:scale-110 active:scale-95 transition-all cursor-pointer shrink-0"
+                      className="ds-btn-cctv"
                       aria-label={`${zone.name} CCTV 실시간 영상 관제`}
                     >
-                      <Cctv className="w-4.5 h-4.5 shrink-0" />
+                      <Cctv style={{ width: 16, height: 16 }} />
                     </button>
 
                     {mode === 'edit' && (
@@ -500,17 +457,13 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
                           e.stopPropagation();
                           onToggleZoneVisibility(zone.id);
                         }}
-                        className={`p-1.5 rounded-md transition-colors cursor-pointer ${
-                          zone.visible
-                            ? 'text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-950/50'
-                            : 'text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
-                        }`}
+                        className="ds-btn-icon"
                         aria-label={zone.visible ? `${zone.name} 지도에서 숨기기` : `${zone.name} 지도에 표시하기`}
                       >
                         {zone.visible ? (
-                          <Eye className="w-4 h-4" />
+                          <Eye style={{ width: 15, height: 15, color: 'var(--ds-primary)' }} />
                         ) : (
-                          <EyeOff className="w-4 h-4 text-neutral-400 dark:text-neutral-500" />
+                          <EyeOff style={{ width: 15, height: 15, color: 'var(--ds-text-disabled)' }} />
                         )}
                       </button>
                     )}
@@ -523,14 +476,14 @@ export const LeftPanel: React.FC<LeftPanelProps> = ({
       </div>
 
       {/* Bottom Summary Bar */}
-      <div className="p-3 bg-neutral-50 dark:bg-neutral-900/90 border-t border-neutral-200 dark:border-neutral-800 text-[11px] text-neutral-500 dark:text-neutral-400 flex items-center justify-between">
+      <div className="ds-panel-footer">
         {mode === 'edit' ? (
-          <span>등록 구역: <strong className="font-semibold text-neutral-800 dark:text-neutral-200">{sortedZones.length}개</strong> 구역 (구역순)</span>
+          <span>등록 구역: <strong style={{ color: 'var(--ds-text-primary)' }}>{sortedZones.length}개</strong> 구역 (구역순)</span>
         ) : (
-          <span>검색 결과: <strong className="font-semibold text-neutral-800 dark:text-neutral-200">{filteredZones.length}개</strong> 구역</span>
+          <span>검색 결과: <strong style={{ color: 'var(--ds-text-primary)' }}>{filteredZones.length}개</strong> 구역</span>
         )}
-        <span className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
-          <Cctv className="w-3 h-3 text-blue-500" />
+        <span className="flex items-center gap-1 text-muted">
+          <Cctv style={{ width: 13, height: 13, color: 'var(--ds-primary)' }} />
           <span>CCTV 관제: {sortedZones.length}대</span>
         </span>
       </div>

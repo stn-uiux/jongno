@@ -1,0 +1,149 @@
+/**
+ * 종로구 혼잡도 관제 시스템 디자인시스템
+ * Badges, Tags, Level Indicators & Status Dots
+ */
+
+/* ==========================================================================
+   1. Base Badge
+   ========================================================================== */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  font-family: var(--ds-font-sans);
+  font-size: var(--ds-text-xs);
+  font-weight: var(--ds-weight-bold);
+  line-height: 1;
+  padding: 3px 7px;
+  border-radius: var(--ds-radius-full);
+  border: 1px solid transparent;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ds-badge-xs {
+  font-size: var(--ds-text-2xs);
+  padding: 2px 5px;
+}
+
+.ds-badge-sm {
+  font-size: var(--ds-text-xs);
+  padding: 3px 8px;
+}
+
+.ds-badge-md {
+  font-size: var(--ds-text-sm);
+  padding: 4px 10px;
+}
+
+/* ==========================================================================
+   2. 6-Level Standard Congestion Badges (인라인 스타일 없이 CSS 클래스로 완전 지원)
+   ========================================================================== */
+/* Level 1: 여유 */
+.ds-badge-lvl-1 {
+  background-color: var(--ds-lvl-1-bg-light);
+  color: var(--ds-lvl-1-color);
+  border-color: var(--ds-lvl-1-border);
+}
+
+/* Level 2: 보통 */
+.ds-badge-lvl-2 {
+  background-color: var(--ds-lvl-2-bg-light);
+  color: var(--ds-lvl-2-color);
+  border-color: var(--ds-lvl-2-border);
+}
+
+/* Level 3: 약간 붐빔 */
+.ds-badge-lvl-3 {
+  background-color: var(--ds-lvl-3-bg-light);
+  color: var(--ds-lvl-3-color);
+  border-color: var(--ds-lvl-3-border);
+}
+
+/* Level 4: 붐빔 */
+.ds-badge-lvl-4 {
+  background-color: var(--ds-lvl-4-bg-light);
+  color: var(--ds-lvl-4-color);
+  border-color: var(--ds-lvl-4-border);
+}
+
+/* Level 5: 매우 붐빔 (심각) */
+.ds-badge-lvl-5 {
+  background-color: var(--ds-lvl-5-bg-light);
+  color: var(--ds-lvl-5-color);
+  border-color: var(--ds-lvl-5-border);
+}
+
+/* Level 6: 심각 (위험) */
+.ds-badge-lvl-6 {
+  background-color: var(--ds-lvl-6-bg-light);
+  color: var(--ds-lvl-6-color);
+  border-color: var(--ds-lvl-6-border);
+}
+
+/* ==========================================================================
+   3. Congestion Level Indicator Dots (6단계 원형 도트)
+   ========================================================================== */
+.ds-lvl-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.ds-lvl-dot-1 { background-color: var(--ds-lvl-1-color); }
+.ds-lvl-dot-2 { background-color: var(--ds-lvl-2-color); }
+.ds-lvl-dot-3 { background-color: var(--ds-lvl-3-color); }
+.ds-lvl-dot-4 { background-color: var(--ds-lvl-4-color); }
+.ds-lvl-dot-5 { background-color: var(--ds-lvl-5-color); }
+.ds-lvl-dot-6 { background-color: var(--ds-lvl-6-color); }
+
+/* ==========================================================================
+   4. Status Tags (Area Tag & Live Indicator)
+   ========================================================================== */
+.ds-area-tag {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--ds-text-2xs);
+  font-weight: var(--ds-weight-medium);
+  padding: 1px 6px;
+  border-radius: var(--ds-radius-xs);
+  background-color: var(--ds-bg-surface-sunken);
+  color: var(--ds-text-secondary);
+  border: 1px solid var(--ds-border-default);
+  white-space: nowrap;
+}
+
+.ds-live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  font-size: var(--ds-text-2xs);
+  font-family: var(--ds-font-mono);
+  font-weight: var(--ds-weight-bold);
+  padding: 2px 6px;
+  border-radius: var(--ds-radius-xs);
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.ds-live-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  animation: ds-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ds-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+}

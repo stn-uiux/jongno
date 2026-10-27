@@ -642,7 +642,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                 }}
               >
                 {/* Background Watermark Title */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-8">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ opacity: 0.05 }}>
                   <span className="text-3xl font-black tracking-widest text-white">밀집도 추이 & 예측</span>
                 </div>
 
@@ -994,7 +994,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                       left: `${rangeStart}%`,
                       width: `${Math.max(8, rangeEnd - rangeStart)}%`,
                     }}
-                    className="absolute top-0 bottom-0 border-2 border-dashed border-white bg-blue-500/20 backdrop-blur-3xs rounded-xs flex items-center justify-between cursor-grab active:cursor-grabbing shadow-lg"
+                    className="ds-scrubber-window absolute top-0 bottom-0 border-2 border-dashed border-white bg-blue-500/20 backdrop-blur-3xs rounded-xs flex items-center justify-between cursor-grab active:cursor-grabbing shadow-lg"
                     onMouseDown={(e) => handleScrubberMouseDown(e, 'window')}
                     title="선택 영역 드래그하여 이동"
                   >
@@ -1002,25 +1002,25 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                     <div
                       onMouseDown={(e) => handleScrubberMouseDown(e, 'start')}
                       title="시작 범위 조절"
-                      className="w-3.5 h-3.5 -ml-1.75 rounded-full bg-white shadow-xl border-2 border-slate-900 cursor-ew-resize flex items-center justify-center hover:scale-125 transition-transform"
+                      className="ds-scrubber-handle ds-scrubber-handle-left w-3.5 h-3.5 -ml-1.75 rounded-full bg-white shadow-xl border-2 border-slate-900 cursor-ew-resize flex items-center justify-center hover:scale-125 transition-transform"
                     >
-                      <div className="w-1 h-1 rounded-full bg-blue-600" />
+                      <div className="ds-scrubber-handle-dot w-1 h-1 rounded-full bg-blue-600" />
                     </div>
 
                     {/* Middle Window Grip Lines */}
-                    <div className="flex gap-0.5 opacity-60 pointer-events-none">
-                      <div className="w-0.5 h-4 bg-white rounded-full" />
-                      <div className="w-0.5 h-4 bg-white rounded-full" />
-                      <div className="w-0.5 h-4 bg-white rounded-full" />
+                    <div className="ds-scrubber-grip flex gap-0.5 opacity-60 pointer-events-none">
+                      <div className="ds-scrubber-grip-bar w-0.5 h-4 bg-white rounded-full" />
+                      <div className="ds-scrubber-grip-bar w-0.5 h-4 bg-white rounded-full" />
+                      <div className="ds-scrubber-grip-bar w-0.5 h-4 bg-white rounded-full" />
                     </div>
 
                     {/* Right Drag Handle (⟷) */}
                     <div
                       onMouseDown={(e) => handleScrubberMouseDown(e, 'end')}
                       title="종료 범위 조절"
-                      className="w-3.5 h-3.5 -mr-1.75 rounded-full bg-white shadow-xl border-2 border-slate-900 cursor-ew-resize flex items-center justify-center hover:scale-125 transition-transform"
+                      className="ds-scrubber-handle ds-scrubber-handle-right w-3.5 h-3.5 -mr-1.75 rounded-full bg-white shadow-xl border-2 border-slate-900 cursor-ew-resize flex items-center justify-center hover:scale-125 transition-transform"
                     >
-                      <div className="w-1 h-1 rounded-full bg-blue-600" />
+                      <div className="ds-scrubber-handle-dot w-1 h-1 rounded-full bg-blue-600" />
                     </div>
                   </div>
                 </div>
@@ -1109,20 +1109,20 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                   </div>
 
                   {/* Metrics row */}
-                  <div className="mt-2 grid grid-cols-3 gap-2 py-1.5 px-2 bg-black/40 rounded-lg text-center text-[10.5px]">
+                  <div className="ds-incident-metrics-grid mt-2 grid grid-cols-3 gap-2 py-1.5 px-2 bg-black/40 rounded-lg text-center text-[10.5px]">
                     <div>
-                      <div className="text-slate-400">지속 시간</div>
-                      <div className="font-bold text-white font-mono mt-0.5">{inc.duration}</div>
+                      <div className="ds-incident-metric-label text-slate-400">지속 시간</div>
+                      <div className="ds-incident-metric-val font-bold text-white font-mono mt-0.5">{inc.duration}</div>
                     </div>
                     <div>
-                      <div className="text-slate-400">최고 밀집도</div>
-                      <div className="font-bold text-teal-300 font-mono mt-0.5">
+                      <div className="ds-incident-metric-label text-slate-400">최고 밀집도</div>
+                      <div className="ds-incident-metric-val font-bold text-teal-300 font-mono mt-0.5">
                         {inc.peakDensity}% ({inc.peakDensityM2}명/㎡)
                       </div>
                     </div>
                     <div>
-                      <div className="text-slate-400">최대 인원</div>
-                      <div className="font-bold text-indigo-300 font-mono mt-0.5">
+                      <div className="ds-incident-metric-label text-slate-400">최대 인원</div>
+                      <div className="ds-incident-metric-val font-bold text-indigo-300 font-mono mt-0.5">
                         {inc.peakVisitors.toLocaleString()}명
                       </div>
                     </div>

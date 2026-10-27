@@ -95,6 +95,15 @@ export const CctvModal: React.FC<CctvModalProps> = ({
     return () => clearInterval(timer);
   }, [isOpen]);
 
+  // Always reset and show trend analytics panel whenever CCTV modal is opened or zone changes
+  useEffect(() => {
+    if (isOpen) {
+      setShowAnalytics(true);
+      setPtzOffset({ x: 0, y: 0 });
+      setZoomLevel(1.0);
+    }
+  }, [isOpen, zone?.id]);
+
   // Handle ESC key to close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -185,7 +194,18 @@ export const CctvModal: React.FC<CctvModalProps> = ({
         ctx.translate(w / 2 + ptzOffset.x, h / 2 + ptzOffset.y);
         ctx.scale(zoomLevel, zoomLevel);
 
-        ctx.drawImage(img, -w / 2, -h / 2, w, h);
+        // Preserve aspect ratio when drawing
+        const imgAspect = img.naturalWidth && img.naturalHeight
+          ? img.naturalWidth / img.naturalHeight
+          : 16 / 9;
+        let drawW = w;
+        let drawH = w / imgAspect;
+        if (drawH > h) {
+          drawH = h;
+          drawW = h * imgAspect;
+        }
+
+        ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
         ctx.restore();
       } else {
         // Fallback gradient while image is loading
@@ -379,51 +399,42 @@ export const CctvModal: React.FC<CctvModalProps> = ({
     setZoomLevel(1.0);
   };
 
+  const displayTitle = zone.scannerName
+    ? (zone.scannerName.startsWith('CCTV') ? zone.scannerName : `CCTV ${zone.scannerName}`)
+    : (zone.name.startsWith('CCTV') ? zone.name : `CCTV ${zone.name}`);
+
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-xs select-none ${isFullscreen ? 'p-0' : 'p-2 sm:p-4'}`}>
+    <div className={`ds-modal-backdrop ${isFullscreen ? 'p-0' : ''}`}>
       <div
         ref={modalRef}
-        className={`bg-[#0B132B] flex flex-col overflow-hidden text-neutral-100 transition-all ${
-          isFullscreen
-            ? 'w-screen h-screen rounded-none border-none'
-            : showAnalytics
-              ? 'w-full max-w-[1400px] max-h-[94vh] rounded-2xl border border-neutral-700/80 shadow-2xl'
-              : 'w-full max-w-4xl max-h-[92vh] rounded-2xl border border-neutral-700/80 shadow-2xl'
-        }`}
+        className={`ds-modal-dialog ds-modal-cctv ${isFullscreen ? 'ds-modal-dialog-fullscreen' : ''} ${!showAnalytics ? 'no-analytics' : ''}`}
       >
-        {/* [단일 통합 헤더] 전체 모달 상단에 하나로 통합된 프리미엄 헤더 */}
-        <div className="px-5 py-3 bg-[#080E1E] border-b border-white/10 flex items-center justify-between gap-4 shrink-0">
+        {/* [공통 모달 헤더] ds-modal-header 및 ds-modal-title-row 기반 */}
+        <div className="ds-modal-header ds-modal-header-cctv">
           {/* Left: CCTV & Zone Identity with Congestion Status */}
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center text-blue-400 shrink-0">
-              <Cctv className="w-4 h-4" />
+          <div className="ds-modal-title-row min-w-0">
+            <div className="ds-header-logo-box ds-header-logo-box-cctv">
+              <Cctv style={{ width: 20, height: 20 }} />
             </div>
 
             <div className="min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h3 className="text-sm sm:text-base font-bold text-white truncate">
-                  {zone.scannerName || `CCTV ${zone.name}`}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <h3 className="ds-modal-title text-lg sm:text-xl font-extrabold text-white tracking-tight truncate">
+                  {displayTitle}
                 </h3>
                 {zone.areaName && (
-                  <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/10 text-neutral-200 border border-white/10">
+                  <span className="ds-area-tag">
                     {zone.areaName}
                   </span>
                 )}
-                <span className="flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-red-950/80 text-red-400 border border-red-800/80">
-                  <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+                <span className="ds-live-tag">
+                  <span className="ds-live-pulse-dot" />
                   <span>LIVE</span>
                 </span>
 
                 {/* Level Badge with Alert Icon */}
-                <span
-                  className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border shrink-0"
-                  style={{
-                    backgroundColor: levelInfo.bgLight,
-                    color: levelInfo.color,
-                    borderColor: levelInfo.borderColor,
-                  }}
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-current" />
+                <span className={`ds-badge ds-badge-sm ds-badge-lvl-${level} shrink-0`}>
+                  <span className={`ds-lvl-dot ds-lvl-dot-${level}`} style={{ width: 6, height: 6 }} />
                   <span>{levelInfo.name}</span>
                 </span>
 
@@ -433,7 +444,7 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                 </span>
               </div>
 
-              <p className="text-xs text-neutral-400 truncate mt-0.5 font-mono">
+              <p className="text-xs text-slate-400 truncate mt-0.5 font-mono">
                 {zone.id} · {zone.description || '스마트 인파 안전 관제 스캐너 연동 영상'}
               </p>
             </div>
@@ -445,13 +456,21 @@ export const CctvModal: React.FC<CctvModalProps> = ({
               type="button"
               onClick={() => setShowAnalytics(!showAnalytics)}
               title={showAnalytics ? '추이 분석 패널 접기' : '추이 분석 패널 펼치기'}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer border ${
-                showAnalytics
-                  ? 'bg-blue-600/30 text-blue-300 border-blue-500/50'
-                  : 'text-neutral-400 hover:text-white hover:bg-neutral-800 border-neutral-700'
-              }`}
+              className={`ds-btn ds-btn-sm ${showAnalytics ? 'ds-btn-primary' : 'ds-btn-secondary'}`}
+              style={{
+                borderRadius: 8,
+                fontSize: 12,
+                fontWeight: 700,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                backgroundColor: showAnalytics ? '#2563eb' : 'rgba(255, 255, 255, 0.08)',
+                borderColor: showAnalytics ? '#3b82f6' : 'rgba(255, 255, 255, 0.18)',
+                color: showAnalytics ? '#ffffff' : '#cbd5e1',
+                boxShadow: showAnalytics ? '0 2px 10px rgba(37, 99, 235, 0.4)' : 'none',
+              }}
             >
-              <TrendingUp className="w-3.5 h-3.5 text-teal-400" />
+              <TrendingUp style={{ width: 14, height: 14, color: showAnalytics ? '#ffffff' : '#38bdf8' }} />
               <span>추이 분석</span>
             </button>
 
@@ -459,253 +478,334 @@ export const CctvModal: React.FC<CctvModalProps> = ({
               type="button"
               onClick={() => setIsFullscreen(!isFullscreen)}
               title={isFullscreen ? '창 모드로 복귀' : '전체화면'}
-              className="p-1.5 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors cursor-pointer border border-transparent hover:border-neutral-700"
+              className="ds-btn-icon"
             >
-              {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+              {isFullscreen ? <Minimize2 style={{ width: 16, height: 16 }} /> : <Maximize2 style={{ width: 16, height: 16 }} />}
             </button>
 
             <button
               type="button"
               onClick={onClose}
               title="닫기 (Esc)"
-              className="p-1.5 text-neutral-400 hover:text-white hover:bg-red-500/20 hover:text-red-300 rounded-lg transition-colors cursor-pointer border border-transparent hover:border-red-500/30"
+              className="ds-btn-icon"
+              style={{ color: 'var(--ds-danger)' }}
             >
-              <X className="w-4 h-4" />
+              <X style={{ width: 16, height: 16 }} />
             </button>
           </div>
         </div>
 
         {/* Modal Content Body: CCTV Video on Left, Trend Analytics Panel on Right */}
-        <div className="flex-1 min-h-0 flex flex-col xl:flex-row overflow-hidden">
+        <div className="ds-modal-body ds-cctv-body p-0">
           {/* Left Side: CCTV Live Video Feed & PTZ Controls */}
-          <div className="flex-1 min-w-0 flex flex-col border-b xl:border-b-0 xl:border-r border-neutral-800 bg-black">
+          <div className="ds-cctv-video-pane">
+            {/* Video Canvas Container (16:9 Viewport & Aspect Ratio Preservation) */}
+            <div className="ds-cctv-stage-container">
+              <div className="ds-cctv-video-stage">
+                <canvas
+                  ref={canvasRef}
+                  width={1024}
+                  height={576}
+                  className="ds-cctv-canvas"
+                />
 
-        {/* Video Canvas Container (16:9) */}
-        <div className="relative flex-1 min-h-0 w-full h-full bg-black flex items-center justify-center overflow-hidden">
-          <canvas
-            ref={canvasRef}
-            width={860}
-            height={484}
-            className={`w-full h-full object-contain aspect-video transition-all duration-200 ${
-              isFullscreen ? 'max-h-full max-w-full' : 'max-h-[58vh]'
-            }`}
-          />
+                {/* CCTV OSD Overlay (On-Screen Display - 60% Translucent Dark Cards & Generous Padding) */}
+                <div className="ds-cctv-osd-overlay">
+                  {/* Top OSD Bar */}
+                  <div className="flex items-start justify-between">
+                    <div
+                      className="ds-cctv-osd-badge ds-cctv-osd-top-left"
+                      style={{
+                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255, 255, 255, 0.22)',
+                        borderRadius: 8,
+                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
+                        padding: '6px 12px',
+                      }}
+                    >
+                      <div className="flex items-center gap-2 font-bold text-emerald-400">
+                        <Radio style={{ width: 14, height: 14 }} className="animate-pulse" />
+                        <span>CAM [{zone.id}]</span>
+                        <span className="text-white/60">·</span>
+                        <span className="text-white">{zone.name}</span>
+                      </div>
+                      <div className="text-[10px] text-slate-300">
+                        LAT: {zone.center.lat.toFixed(6)} | LNG: {zone.center.lng.toFixed(6)}
+                      </div>
+                    </div>
 
-          {/* CCTV OSD Overlay (On-Screen Display) */}
-          <div className="absolute inset-0 pointer-events-none p-3.5 flex flex-col justify-between font-mono text-[11px] text-white">
-            {/* Top OSD Bar */}
-            <div className="flex items-start justify-between">
-              <div className="space-y-0.5 bg-black/60 backdrop-blur-2xs px-2.5 py-1.5 rounded border border-white/10">
-                <div className="flex items-center gap-2 font-bold text-emerald-400">
-                  <Radio className="w-3.5 h-3.5 animate-pulse" />
-                  <span>CAM [{zone.id}]</span>
-                  <span className="text-white/60">·</span>
-                  <span className="text-white">{zone.name}</span>
-                </div>
-                <div className="text-[10px] text-neutral-300">
-                  LAT: {zone.center.lat.toFixed(6)} | LNG: {zone.center.lng.toFixed(6)}
-                </div>
-              </div>
+                    <div
+                      className="ds-cctv-osd-badge ds-cctv-osd-top-right"
+                      style={{
+                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255, 255, 255, 0.22)',
+                        borderRadius: 8,
+                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
+                        padding: '6px 12px',
+                      }}
+                    >
+                      <div className="font-bold text-red-400 flex items-center justify-end gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                        <span>REC ● 4K UHD</span>
+                      </div>
+                      <div className="text-[10px] text-slate-300 font-mono">{currentTimeStr}</div>
+                    </div>
+                  </div>
 
-              <div className="text-right space-y-0.5 bg-black/60 backdrop-blur-2xs px-2.5 py-1.5 rounded border border-white/10">
-                <div className="font-bold text-red-400 flex items-center justify-end gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-                  <span>REC ● 4K UHD</span>
+                  {/* Bottom OSD Bar */}
+                  <div className="flex items-end justify-between">
+                    {/* Bottom-Left Real-time Density & AI Analytics Info Card */}
+                    <div
+                      className="ds-cctv-osd-badge ds-cctv-osd-bottom-left max-w-sm"
+                      style={{
+                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255, 255, 255, 0.22)',
+                        borderRadius: 8,
+                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
+                        padding: '8px 12px',
+                      }}
+                    >
+                      <div className="ds-cctv-osd-density-row">
+                        <span className="ds-cctv-osd-label">실시간 밀집도:</span>
+                        <span
+                          className="ds-cctv-osd-density-badge"
+                          style={{
+                            backgroundColor: `${levelInfo.color}33`,
+                            color: levelInfo.color,
+                            border: `1px solid ${levelInfo.color}88`,
+                            fontWeight: 800,
+                          }}
+                        >
+                          {congVal}% ({levelInfo.name})
+                        </span>
+                      </div>
+                      <div className="ds-cctv-osd-info-row">
+                        <span style={{ color: '#cbd5e1' }}>추정 인원:</span>
+                        <span className="ds-cctv-osd-val-white">{visitors.toLocaleString()}명</span>
+                        <span className="ds-cctv-osd-divider">|</span>
+                        <span style={{ color: '#94a3b8' }}>AI 검출 신뢰도:</span>
+                        <span className="ds-cctv-osd-val-blue">98.4%</span>
+                      </div>
+                    </div>
+
+                    <div
+                      className="ds-cctv-osd-badge ds-cctv-osd-bottom-right text-[10px] text-slate-400 font-mono"
+                      style={{
+                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255, 255, 255, 0.22)',
+                        borderRadius: 8,
+                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
+                        padding: '6px 12px',
+                      }}
+                    >
+                      <div>AI CROWD VISION v3.4</div>
+                      <div className="text-slate-300 font-mono">
+                        ZOOM: {zoomLevel.toFixed(1)}x | PTZ: [{ptzOffset.x > 0 ? `+${ptzOffset.x}` : ptzOffset.x},{' '}
+                        {ptzOffset.y > 0 ? `+${ptzOffset.y}` : ptzOffset.y}]
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-[10px] text-neutral-300">{currentTimeStr}</div>
+
+                {/* Toast Notification */}
+                {toastMessage && (
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-4 py-2 bg-neutral-900/95 text-white border border-blue-500 rounded-xl shadow-2xl text-xs font-semibold animate-in fade-in zoom-in-95 pointer-events-none">
+                    {toastMessage}
+                  </div>
+                )}
               </div>
             </div>
 
-            {/* Bottom OSD Bar */}
-            <div className="flex items-end justify-between">
-              <div className="space-y-1 bg-black/65 backdrop-blur-2xs px-3 py-2 rounded-lg border border-white/15 max-w-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-neutral-400 text-[10px]">실시간 밀집도:</span>
-                  <span
-                    className="font-bold text-xs px-1.5 py-0.5 rounded"
-                    style={{ backgroundColor: `${levelInfo.color}33`, color: levelInfo.color }}
+            {/* CCTV Bottom Controls & Quick Telemetry Toolbar */}
+            <div className="ds-cctv-toolbar">
+              {/* Left: Mode Toggles */}
+              <div className="ds-cctv-btn-group">
+                {/* AI Bounding Box Toggle */}
+                <button
+                  type="button"
+                  onClick={() => setShowAiBoxes(!showAiBoxes)}
+                  className={`ds-cctv-tool-btn ${showAiBoxes ? 'active' : ''}`}
+                  style={{
+                    height: 32,
+                    padding: '0 12px',
+                    borderRadius: 8,
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                    backgroundColor: showAiBoxes ? '#2563eb' : 'rgba(255, 255, 255, 0.06)',
+                    borderColor: showAiBoxes ? '#3b82f6' : 'rgba(255, 255, 255, 0.12)',
+                    color: showAiBoxes ? '#ffffff' : '#cbd5e1',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    cursor: 'pointer',
+                    boxShadow: showAiBoxes ? '0 2px 8px rgba(37, 99, 235, 0.4)' : 'none',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  {showAiBoxes ? <Eye style={{ width: 14, height: 14 }} /> : <EyeOff style={{ width: 14, height: 14 }} />}
+                  <span>AI 군중 바운딩박스</span>
+                </button>
+
+                {/* Vision Modes */}
+                <div className="ds-cctv-vision-switch">
+                  <button
+                    type="button"
+                    onClick={() => setVisionMode('normal')}
+                    className={`ds-cctv-vision-btn ${visionMode === 'normal' ? 'active-normal' : ''}`}
                   >
-                    {congVal}% ({levelInfo.name})
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-[10px] text-neutral-300">
-                  <span>추정 인원:</span>
-                  <span className="font-bold text-white font-mono">{visitors.toLocaleString()}명</span>
-                  <span className="text-neutral-500">|</span>
-                  <span>AI 검출 신뢰도: 98.4%</span>
+                    일반
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVisionMode('night')}
+                    className={`ds-cctv-vision-btn ${visionMode === 'night' ? 'active-night' : ''}`}
+                  >
+                    야간투시
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVisionMode('thermal')}
+                    className={`ds-cctv-vision-btn ${visionMode === 'thermal' ? 'active-thermal' : ''}`}
+                  >
+                    <Flame style={{ width: 12, height: 12, color: '#f472b6' }} />
+                    <span>열화상</span>
+                  </button>
                 </div>
               </div>
 
-              <div className="text-right bg-black/60 backdrop-blur-2xs px-2.5 py-1.5 rounded border border-white/10 text-[10px] text-neutral-400">
-                <div>AI CROWD VISION v3.4</div>
-                <div className="text-neutral-300 font-mono">
-                  ZOOM: {zoomLevel.toFixed(1)}x | PTZ: [{ptzOffset.x > 0 ? `+${ptzOffset.x}` : ptzOffset.x},{' '}
-                  {ptzOffset.y > 0 ? `+${ptzOffset.y}` : ptzOffset.y}]
-                </div>
+              {/* Center: Simulated PTZ Controls */}
+              <div className="ds-cctv-ptz-bar">
+                <span className="ds-cctv-ptz-label">PTZ</span>
+                <button
+                  type="button"
+                  onClick={() => handlePtzMove(-20, 0)}
+                  title="좌측 팬"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <ChevronLeft style={{ width: 14, height: 14 }} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePtzMove(0, -15)}
+                  title="상단 틸트"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <ChevronUp style={{ width: 14, height: 14 }} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePtzMove(0, 15)}
+                  title="하단 틸트"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <ChevronDown style={{ width: 14, height: 14 }} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handlePtzMove(20, 0)}
+                  title="우측 팬"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <ChevronRight style={{ width: 14, height: 14 }} />
+                </button>
+                <div className="ds-cctv-ptz-divider" />
+                <button
+                  type="button"
+                  onClick={() => setZoomLevel((z) => Math.min(2.5, +(z + 0.2).toFixed(1)))}
+                  title="줌인"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <ZoomIn style={{ width: 14, height: 14 }} />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setZoomLevel((z) => Math.max(0.8, +(z - 0.2).toFixed(1)))}
+                  title="줌아웃"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <ZoomOut style={{ width: 14, height: 14 }} />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleResetPtz}
+                  title="PTZ 위치 및 줌 리셋"
+                  className="ds-cctv-ptz-btn"
+                >
+                  <RefreshCw style={{ width: 12, height: 12 }} />
+                </button>
+              </div>
+
+              {/* Right: Actions */}
+              <div className="ds-cctv-btn-group">
+                <button
+                  type="button"
+                  onClick={handleSnapshot}
+                  title="현재 프레임 스냅샷 저장"
+                  className="ds-cctv-action-btn snapshot"
+                  style={{
+                    height: 32,
+                    padding: '0 12px',
+                    borderRadius: 8,
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    color: '#f1f5f9',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    cursor: 'pointer',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  <Camera style={{ width: 14, height: 14, color: '#60a5fa' }} />
+                  <span>스냅샷</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleBroadcast}
+                  title="현장 스피커 비상 분산 방송 송출"
+                  className="ds-cctv-action-btn broadcast"
+                  style={{
+                    height: 32,
+                    padding: '0 12px',
+                    borderRadius: 8,
+                    fontSize: 11.5,
+                    fontWeight: 600,
+                    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                    border: '1px solid rgba(245, 158, 11, 0.4)',
+                    color: '#fbbf24',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 6,
+                    cursor: 'pointer',
+                    boxSizing: 'border-box',
+                  }}
+                >
+                  <Volume2 style={{ width: 14, height: 14, color: '#fbbf24' }} />
+                  <span>안내 방송</span>
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Toast Notification */}
-          {toastMessage && (
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-4 py-2 bg-neutral-900/95 text-white border border-blue-500 rounded-xl shadow-2xl text-xs font-semibold animate-in fade-in zoom-in-95 pointer-events-none">
-              {toastMessage}
+          {/* Right Side: Selected Zone Analytics Panel (CCTV 모달 내부 추이분석 영역) */}
+          {showAnalytics && (
+            <div className="ds-cctv-analytics-pane">
+              <ZoneAnalyticsPanel zone={zone} congestion={congestion} hideHeader={true} />
             </div>
           )}
         </div>
-
-        {/* CCTV Bottom Controls & Quick Telemetry Toolbar */}
-        <div className="p-3 bg-neutral-900 border-t border-neutral-800 flex flex-wrap items-center justify-between gap-3 text-xs">
-          {/* Left: Mode Toggles */}
-          <div className="flex items-center gap-1.5 flex-wrap">
-            {/* AI Bounding Box Toggle */}
-            <button
-              type="button"
-              onClick={() => setShowAiBoxes(!showAiBoxes)}
-              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors cursor-pointer ${
-                showAiBoxes
-                  ? 'bg-blue-600/20 border-blue-500/50 text-blue-400'
-                  : 'bg-neutral-800 border-neutral-700 text-neutral-400 hover:text-white'
-              }`}
-            >
-              {showAiBoxes ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
-              <span>AI 군중 바운딩박스</span>
-            </button>
-
-            {/* Vision Modes */}
-            <div className="flex items-center p-0.5 bg-neutral-800 rounded-lg border border-neutral-700">
-              <button
-                type="button"
-                onClick={() => setVisionMode('normal')}
-                className={`px-2 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer ${
-                  visionMode === 'normal'
-                    ? 'bg-neutral-700 text-white font-bold'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                일반
-              </button>
-              <button
-                type="button"
-                onClick={() => setVisionMode('night')}
-                className={`px-2 py-1 rounded text-[11px] font-medium transition-colors cursor-pointer ${
-                  visionMode === 'night'
-                    ? 'bg-emerald-800/80 text-emerald-200 font-bold'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                야간투시
-              </button>
-              <button
-                type="button"
-                onClick={() => setVisionMode('thermal')}
-                className={`px-2 py-1 rounded text-[11px] font-medium transition-colors flex items-center gap-1 cursor-pointer ${
-                  visionMode === 'thermal'
-                    ? 'bg-pink-900/80 text-pink-200 font-bold'
-                    : 'text-neutral-400 hover:text-white'
-                }`}
-              >
-                <Flame className="w-3 h-3 text-pink-400" />
-                <span>열화상</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Center: Simulated PTZ Controls */}
-          <div className="flex items-center gap-1 bg-neutral-800/70 p-1 rounded-lg border border-neutral-700">
-            <span className="text-[10px] text-neutral-400 px-1 font-mono font-bold">PTZ</span>
-            <button
-              type="button"
-              onClick={() => handlePtzMove(-20, 0)}
-              title="좌측 팬"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-300 hover:text-white"
-            >
-              <ChevronLeft className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePtzMove(0, -15)}
-              title="상단 틸트"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-300 hover:text-white"
-            >
-              <ChevronUp className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePtzMove(0, 15)}
-              title="하단 틸트"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-300 hover:text-white"
-            >
-              <ChevronDown className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => handlePtzMove(20, 0)}
-              title="우측 팬"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-300 hover:text-white"
-            >
-              <ChevronRight className="w-3.5 h-3.5" />
-            </button>
-            <div className="w-px h-3.5 bg-neutral-700 mx-0.5" />
-            <button
-              type="button"
-              onClick={() => setZoomLevel((z) => Math.min(2.5, +(z + 0.2).toFixed(1)))}
-              title="줌인"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-300 hover:text-white"
-            >
-              <ZoomIn className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setZoomLevel((z) => Math.max(0.8, +(z - 0.2).toFixed(1)))}
-              title="줌아웃"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-300 hover:text-white"
-            >
-              <ZoomOut className="w-3.5 h-3.5" />
-            </button>
-            <button
-              type="button"
-              onClick={handleResetPtz}
-              title="PTZ 위치 및 줌 리셋"
-              className="p-1 hover:bg-neutral-700 rounded text-neutral-400 hover:text-white"
-            >
-              <RefreshCw className="w-3 h-3" />
-            </button>
-          </div>
-
-          {/* Right: Actions */}
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={handleSnapshot}
-              title="현재 프레임 스냅샷 저장"
-              className="flex items-center gap-1 px-2.5 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-neutral-200 hover:text-white rounded-lg border border-neutral-700 text-xs font-medium transition-colors cursor-pointer"
-            >
-              <Camera className="w-3.5 h-3.5 text-blue-400" />
-              <span>스냅샷</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={handleBroadcast}
-              title="현장 스피커 비상 분산 방송 송출"
-              className="flex items-center gap-1 px-2.5 py-1.5 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 rounded-lg border border-amber-500/40 text-xs font-semibold transition-colors cursor-pointer"
-            >
-              <Volume2 className="w-3.5 h-3.5 text-amber-400" />
-              <span>안내 방송</span>
-            </button>
-          </div>
-        </div>
-      </div>
-
-        {/* Right Side: Selected Zone Analytics Panel (CCTV 모달 내부 추이분석 영역) */}
-        {showAnalytics && (
-          <div className="w-full xl:w-[490px] 2xl:w-[520px] flex flex-col shrink-0 bg-[#0D1527] overflow-hidden border-t xl:border-t-0 xl:border-l border-white/10">
-            <ZoneAnalyticsPanel zone={zone} congestion={congestion} hideHeader={true} />
-          </div>
-        )}
       </div>
     </div>
-  </div>
   );
 };
