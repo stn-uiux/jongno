@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { ZoneData, CongestionData } from '../types';
 import { CONGESTION_LEVEL_MAP } from '../utils/constants';
+import { ToggleSwitch } from './ui/ToggleSwitch';
 
 interface ZoneAnalyticsPanelProps {
   zone: ZoneData;
@@ -356,7 +357,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
 
   // Main Chart Dimensions & Coordinate Math
   const svgWidth = 470;
-  const svgHeight = 175;
+  const svgHeight = 200;
   const padLeft = 32;
   const padRight = 32;
   const padTop = 18;
@@ -489,40 +490,40 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
   }, [mousePos]);
 
   return (
-    <div className="flex flex-col h-full bg-[#0D1527] text-white select-none">
+    <div className="ds-analytics-panel">
       {/* 1. Top Zone Header (단독 패널 모드일 때만 표시, 모달 통합 시 hideHeader=true로 숨김) */}
       {!hideHeader && (
-        <div className="px-5 py-3.5 border-b border-white/10 flex items-center justify-between gap-3 bg-[#0B1222]/90 backdrop-blur-md">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <h2 className="text-lg font-black tracking-tight text-white truncate">
+        <div className="ds-analytics-standalone-header">
+          <div className="ds-analytics-zone-info">
+            <h2 className="ds-analytics-zone-name">
               {zone.name || zone.scannerName}
             </h2>
             {/* Level Badge with Alert Icon */}
             <span
-              className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold border shrink-0"
+              className="ds-analytics-zone-badge"
               style={{
                 backgroundColor: levelInfo.bgLight,
                 color: levelInfo.color,
                 borderColor: levelInfo.borderColor,
               }}
             >
-              {level >= 5 ? <AlertTriangle className="w-3 h-3 animate-pulse" /> : <span className="w-1.5 h-1.5 rounded-full bg-current" />}
+              {level >= 5 ? <AlertTriangle size={12} className="animate-pulse" /> : <span className="ds-analytics-zone-badge-dot" />}
               {levelInfo.name}
             </span>
-            <span className="text-[11px] font-mono text-slate-400">
+            <span className="ds-analytics-zone-meta">
               {congVal}% ({visitors.toLocaleString()}명)
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="ds-analytics-header-actions">
             {onClose && (
               <button
                 type="button"
                 onClick={onClose}
                 title="닫기"
-                className="p-1.5 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                className="ds-analytics-close-btn"
               >
-                <X className="w-4 h-4" />
+                <X size={14} />
               </button>
             )}
           </div>
@@ -530,95 +531,76 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
       )}
 
       {/* 2. Tab Navigation: [시계열 추이 & 예측 분석] vs [과거 1개월 심각이상 이력] */}
-      <div className="px-5 pt-3 pb-1 border-b border-white/5 flex items-center gap-2 bg-[#090E1B]/50">
+      <div className="ds-analytics-tabs">
         <button
           type="button"
           onClick={() => setActiveTab('chart')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            activeTab === 'chart'
-              ? 'bg-blue-600/30 text-blue-300 border border-blue-500/40 shadow-xs'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
-          }`}
+          className={`ds-analytics-tab-btn ${activeTab === 'chart' ? 'is-active-chart' : ''}`}
         >
-          <TrendingUp className="w-3.5 h-3.5 text-teal-400" />
+          <TrendingUp size={14} className="ds-analytics-tab-icon is-chart" />
           <span>통합 시계열 & AI 예측 분석</span>
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('history')}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            activeTab === 'history'
-              ? 'bg-purple-600/30 text-purple-300 border border-purple-500/40 shadow-xs'
-              : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
-          }`}
+          className={`ds-analytics-tab-btn ${activeTab === 'history' ? 'is-active-history' : ''}`}
         >
-          <History className="w-3.5 h-3.5 text-purple-400" />
+          <History size={14} className="ds-analytics-tab-icon is-history" />
           <span>과거 1개월 심각이상 이력</span>
-          <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-red-950/80 text-red-400 border border-red-800">
+          <span className="ds-analytics-tab-count-badge">
             {criticalIncidents.length}건
           </span>
         </button>
       </div>
 
       {/* 3. Main Content Body */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 scrollbar-thin scrollbar-thumb-white/10">
+      <div className="ds-analytics-body">
         {activeTab === 'chart' ? (
           <>
             {/* [ONE UNIFIED PANEL] 상단 차트와 하단 범위 탐색 스크러버를 하나의 패널로 완전 통합 */}
-            <div className="bg-[#070C18]/95 rounded-2xl border border-white/10 shadow-2xl overflow-hidden flex flex-col transition-all">
+            <div className="ds-analytics-card">
               {/* Row 1: Header with Title & AI Forecast Toggle Switch */}
-              <div className="px-4 py-2.5 bg-[#0B1224] border-b border-white/10 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-teal-400 animate-pulse" />
-                  <span className="text-xs font-bold text-white tracking-wide">
+              <div className="ds-analytics-card-header">
+                <div className="ds-analytics-card-title-group">
+                  <div className="ds-analytics-card-pulse-dot" />
+                  <span className="ds-analytics-card-title">
                     밀집도 시계열 추이 & AI 예측
                   </span>
                 </div>
 
-                {/* AI Forecast Toggle Button (요청: 사용자가 표출/미표출 선택할 수 있는 토글) */}
-                <button
-                  type="button"
-                  onClick={() => setShowForecast((prev) => !prev)}
+                {/* Reusable UI Component: ToggleSwitch (표출/미표출 선택) */}
+                <ToggleSwitch
+                  checked={showForecast}
+                  onChange={setShowForecast}
+                  label="AI 예측"
+                  icon={<Sparkles size={13} />}
                   title={showForecast ? 'AI 예측 그래프 숨기기' : 'AI 예측 그래프 표출하기 (과거 검증 + 미래 예측)'}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-2 cursor-pointer border shrink-0 ${
-                    showForecast
-                      ? 'bg-teal-500/20 text-teal-300 border-teal-500/50 shadow-xs'
-                      : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-teal-400" />
-                  <span>AI 예측</span>
-                  <span className={`w-7 h-4 rounded-full p-0.5 flex items-center transition-colors ${showForecast ? 'bg-teal-500 justify-end' : 'bg-slate-700 justify-start'}`}>
-                    <span className="w-3 h-3 rounded-full bg-white shadow-xs" />
-                  </span>
-                </button>
+                />
               </div>
 
-              {/* Row 2: 24시간 / 3일 전체 버튼을 한줄 내려서 좌측에 배치 & 적중률만 표출 */}
-              <div className="px-4 py-1.5 bg-[#080E1C] border-b border-white/5 flex items-center justify-between min-h-[34px]">
-                {/* 24시간 / 3일 전체 버튼 좌측 배치 */}
-                <div className="flex items-center gap-1.5 text-[11px] font-semibold">
+              {/* Row 2: 24시간 / 3일 전체 버튼을 좌측에 배치 & 적중률만 표출 */}
+              <div className="ds-analytics-card-subbar">
+                <div className="ds-analytics-presets">
                   <button
                     type="button"
                     onClick={() => handlePreset('24h')}
-                    className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/15 text-slate-300 border border-white/10 transition-colors cursor-pointer active:scale-95"
+                    className="ds-analytics-preset-btn"
                   >
                     24시간
                   </button>
                   <button
                     type="button"
                     onClick={() => handlePreset('all')}
-                    className="px-2.5 py-1 rounded bg-white/5 hover:bg-white/15 text-slate-300 border border-white/10 transition-colors cursor-pointer active:scale-95"
+                    className="ds-analytics-preset-btn"
                   >
                     3일 전체
                   </button>
                 </div>
 
-                {/* 적중률만 표출 (요청: 그리고 적중률만 표출해줘) */}
+                {/* 적중률만 표출 (요청: 아이콘 제거하고 적중률 텍스트만 표출) */}
                 {showForecast && (
-                  <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-teal-950/80 text-teal-300 border border-teal-700/50 font-mono font-bold flex items-center gap-1">
-                    <Sparkles className="w-2.5 h-2.5 text-teal-400" />
+                  <span className="ds-analytics-accuracy-badge">
                     적중률 94.6%
                   </span>
                 )}
@@ -627,7 +609,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
               {/* Upper Section: Main Detailed Dual-Axis Chart */}
               <div
                 ref={chartContainerRef}
-                className="p-3 relative bg-gradient-to-b from-[#090F1E] to-[#060A14] overflow-hidden"
+                className="ds-analytics-chart-viewport"
                 onMouseMove={(e) => {
                   if (!chartContainerRef.current) return;
                   const rect = chartContainerRef.current.getBoundingClientRect();
@@ -642,14 +624,14 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                 }}
               >
                 {/* Background Watermark Title */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ opacity: 0.05 }}>
-                  <span className="text-3xl font-black tracking-widest text-white">밀집도 추이 & 예측</span>
+                <div className="ds-analytics-watermark">
+                  <span>밀집도 추이 & 예측</span>
                 </div>
 
                 {/* SVG Chart Canvas */}
                 <svg
                   viewBox={`0 0 ${svgWidth} ${svgHeight}`}
-                  className="w-full h-auto overflow-visible"
+                  className="ds-analytics-svg-chart"
                 >
                   <defs>
                     {/* Density teal line glow & area gradient */}
@@ -769,7 +751,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                       </g>
                     ))}
 
-                  {/* 6. Live marker vertical line divider & in-place beacons (No flying circles) */}
+                  {/* 6. Live marker vertical line divider & in-place beacons */}
                   {livePoint && (
                     <g>
                       <line
@@ -782,14 +764,14 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                         strokeDasharray="3, 2"
                       />
 
-                      {/* Density Beacon (Teal) - in-place native pulse without translation */}
+                      {/* Density Beacon (Teal) */}
                       <circle cx={livePoint.x} cy={livePoint.yDensity} r="4.5" fill="#2DD4BF" stroke="#FFFFFF" strokeWidth="1.8" />
                       <circle cx={livePoint.x} cy={livePoint.yDensity} r="7" fill="none" stroke="#2DD4BF" strokeWidth="1.4">
                         <animate attributeName="r" values="4.5;8.5;4.5" dur="2s" repeatCount="indefinite" />
                         <animate attributeName="opacity" values="0.8;0.15;0.8" dur="2s" repeatCount="indefinite" />
                       </circle>
 
-                      {/* Visitors Beacon (Purple) - in-place native pulse without translation */}
+                      {/* Visitors Beacon (Purple) */}
                       <circle cx={livePoint.x} cy={livePoint.yVisitors} r="4.5" fill="#818CF8" stroke="#FFFFFF" strokeWidth="1.8" />
                       <circle cx={livePoint.x} cy={livePoint.yVisitors} r="7" fill="none" stroke="#818CF8" strokeWidth="1.4">
                         <animate attributeName="r" values="4.5;8.5;4.5" dur="2s" repeatCount="indefinite" />
@@ -810,7 +792,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                     return (
                       <g
                         key={p.id}
-                        className="cursor-pointer"
+                        style={{ cursor: 'pointer' }}
                         onMouseEnter={() => setHoveredPointIndex(i)}
                       >
                         <rect
@@ -836,78 +818,78 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                           </text>
                         )}
 
-                      {/* Hover cursor line */}
-                      {hoveredPointIndex === i && (
-                        <g>
-                          <line
-                            x1={p.x}
-                            y1={padTop}
-                            x2={p.x}
-                            y2={padTop + plotH}
-                            stroke="#FFFFFF"
-                            strokeWidth="1.2"
-                            strokeDasharray="2, 2"
-                          />
-                          <circle cx={p.x} cy={p.yDensity} r="5" fill="#2DD4BF" stroke="#FFFFFF" strokeWidth="2" />
-                          <circle cx={p.x} cy={p.yVisitors} r="5" fill="#818CF8" stroke="#FFFFFF" strokeWidth="2" />
-                        </g>
-                      )}
-                    </g>
+                        {/* Hover cursor line */}
+                        {hoveredPointIndex === i && (
+                          <g>
+                            <line
+                              x1={p.x}
+                              y1={padTop}
+                              x2={p.x}
+                              y2={padTop + plotH}
+                              stroke="#FFFFFF"
+                              strokeWidth="1.2"
+                              strokeDasharray="2, 2"
+                            />
+                            <circle cx={p.x} cy={p.yDensity} r="5" fill="#2DD4BF" stroke="#FFFFFF" strokeWidth="2" />
+                            <circle cx={p.x} cy={p.yVisitors} r="5" fill="#818CF8" stroke="#FFFFFF" strokeWidth="2" />
+                          </g>
+                        )}
+                      </g>
                     );
                   })}
                 </svg>
 
-                {/* Floating Tooltip Card (앱솔루트로 마우스 우측하단 추종) */}
+                {/* Floating Tooltip Card */}
                 {hoveredPoint && tooltipPos && (
                   <div
-                    className="absolute z-50 pointer-events-none select-none transition-all duration-75 ease-out w-[270px] px-3.5 py-2.5 rounded-xl bg-[#091122]/95 border border-sky-500/40 text-xs flex flex-col gap-1.5 text-slate-200 shadow-2xl backdrop-blur-md"
+                    className="ds-analytics-tooltip"
                     style={{
                       left: `${tooltipPos.x}px`,
                       top: `${tooltipPos.y}px`,
                     }}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-1.5 font-bold text-white truncate">
-                        <Clock className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-                        <span className="truncate">{hoveredPoint.fullLabel}</span>
+                    <div className="ds-analytics-tooltip-header">
+                      <div className="ds-analytics-tooltip-title">
+                        <Clock size={13} className="ds-analytics-tooltip-icon" />
+                        <span className="ds-analytics-tooltip-label">{hoveredPoint.fullLabel}</span>
                         {hoveredPoint.type === 'current' && (
-                          <span className="px-1.5 py-0.2 rounded bg-sky-500/20 text-sky-300 text-[10px] font-mono shrink-0">
+                          <span className="ds-analytics-tooltip-pill current">
                             실시간
                           </span>
                         )}
                         {hoveredPoint.type === 'forecast' && (
-                          <span className="px-1.5 py-0.2 rounded bg-teal-500/20 text-teal-300 text-[10px] font-mono flex items-center gap-1 shrink-0">
-                            <Sparkles className="w-2.5 h-2.5" />
+                          <span className="ds-analytics-tooltip-pill forecast">
+                            <Sparkles size={11} />
                             예측
                           </span>
                         )}
                       </div>
 
                       {showForecast && hoveredPoint.type === 'past' && (
-                        <span className="text-[10px] text-emerald-400 font-semibold shrink-0">
+                        <span className="ds-analytics-tooltip-pill hit">
                           적중 ✔
                         </span>
                       )}
                     </div>
 
-                    <div className="grid grid-cols-2 gap-2.5 pt-1.5 border-t border-white/10">
+                    <div className="ds-analytics-tooltip-grid">
                       <div>
-                        <div className="text-[11px] text-teal-400 font-bold">
+                        <div className="ds-analytics-tooltip-metric-val density">
                           밀집도: {hoveredPoint.density}%
                         </div>
                         {showForecast && (
-                          <div className="text-[10px] text-teal-200/90 mt-0.5">
+                          <div className="ds-analytics-tooltip-metric-sub">
                             AI예측: {hoveredPoint.predDensityLower}%~{hoveredPoint.predDensityUpper}%
                           </div>
                         )}
                       </div>
 
                       <div>
-                        <div className="text-[11px] text-indigo-400 font-bold">
+                        <div className="ds-analytics-tooltip-metric-val visitors">
                           체류인원: {hoveredPoint.visitors.toLocaleString()}명
                         </div>
                         {showForecast && (
-                          <div className="text-[10px] text-purple-300/90 mt-0.5">
+                          <div className="ds-analytics-tooltip-metric-sub">
                             신뢰구간: {hoveredPoint.predVisitorsLower.toLocaleString()}~{hoveredPoint.predVisitorsUpper.toLocaleString()}명
                           </div>
                         )}
@@ -916,45 +898,45 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                   </div>
                 )}
 
-                {/* Top Graph Legend (With dynamic indicators based on showForecast toggle) */}
-                <div className="mt-3 flex items-center justify-center flex-wrap gap-x-5 gap-y-1.5 text-xs font-semibold">
-                  <div className="flex items-center gap-1.5 text-slate-300">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#2DD4BF]" />
+                {/* Top Graph Legend */}
+                <div className="ds-analytics-chart-legend">
+                  <div className="ds-analytics-legend-item">
+                    <span className="ds-analytics-legend-dot density" />
                     <span>밀집도</span>
                   </div>
-                  <div className="flex items-center gap-1.5 text-slate-300">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#818CF8]" />
+                  <div className="ds-analytics-legend-item">
+                    <span className="ds-analytics-legend-dot visitors" />
                     <span>체류인원</span>
                   </div>
                   {showForecast && (
-                    <div className="flex items-center gap-1.5 text-slate-300">
-                      <span className="w-4 h-2.5 rounded-xs bg-[#2DD4BF]/25 border border-[#38BDF8]/60" />
+                    <div className="ds-analytics-legend-item">
+                      <span className="ds-analytics-legend-band" />
                       <span>밀집도 AI예측</span>
                     </div>
                   )}
                 </div>
               </div>
 
-              {/* Seamless Divider: Showing active time range window */}
-              <div className="px-4 py-2 bg-[#090F20] border-t border-b border-white/10 flex items-center text-[11px] text-slate-400">
-                <div className="flex items-center gap-1.5 font-semibold text-slate-200">
-                  <Calendar className="w-3.5 h-3.5 text-blue-400" />
-                  <span>탐색 범위:</span>
-                  <span className="text-sky-300 font-mono">
+              {/* Seamless Divider: Showing active time range window (탐색 범위 바) */}
+              <div className="ds-analytics-range-bar">
+                <div className="ds-analytics-range-content">
+                  <Calendar size={13} className="ds-analytics-range-icon" />
+                  <span className="ds-analytics-range-label">탐색 범위:</span>
+                  <span className="ds-analytics-range-val">
                     {slicedData[0]?.fullLabel} ~ {slicedData[slicedData.length - 1]?.fullLabel}
                   </span>
-                  <span className="text-slate-500 text-[10px]">
+                  <span className="ds-analytics-range-count">
                     ({slicedData.length}개 시점 표출 중)
                   </span>
                 </div>
               </div>
 
-              {/* Lower Section: Interactive Range Timeline Scrubber (Directly attached to the same card) */}
-              <div className="p-3 bg-[#050811] relative">
+              {/* Lower Section: Interactive Range Timeline Scrubber */}
+              <div className="ds-analytics-scrubber-section">
                 {/* Timeline mini area chart container */}
                 <div
                   ref={scrubberRef}
-                  className="relative h-16 w-full bg-[#03060D] rounded-lg overflow-hidden border border-white/10 cursor-pointer"
+                  className="ds-analytics-scrubber-track"
                   onClick={(e) => {
                     if (!scrubberRef.current) return;
                     const rect = scrubberRef.current.getBoundingClientRect();
@@ -973,7 +955,7 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                     setRangeEnd(+newEnd.toFixed(1));
                   }}
                 >
-                  <svg viewBox="0 0 440 60" preserveAspectRatio="none" className="w-full h-full pointer-events-none">
+                  <svg viewBox="0 0 440 60" preserveAspectRatio="none" className="ds-analytics-scrubber-svg">
                     {/* Multi-day baseline area curves */}
                     <path
                       d="M 0 45 Q 60 15, 120 40 T 240 30 T 360 48 T 440 35 L 440 60 L 0 60 Z"
@@ -994,50 +976,50 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                       left: `${rangeStart}%`,
                       width: `${Math.max(8, rangeEnd - rangeStart)}%`,
                     }}
-                    className="ds-scrubber-window absolute top-0 bottom-0 border-2 border-dashed border-white bg-blue-500/20 backdrop-blur-3xs rounded-xs flex items-center justify-between cursor-grab active:cursor-grabbing shadow-lg"
+                    className="ds-analytics-scrubber-window"
                     onMouseDown={(e) => handleScrubberMouseDown(e, 'window')}
                     title="선택 영역 드래그하여 이동"
                   >
-                    {/* Left Drag Handle (⟷) */}
+                    {/* Left Drag Handle */}
                     <div
                       onMouseDown={(e) => handleScrubberMouseDown(e, 'start')}
                       title="시작 범위 조절"
-                      className="ds-scrubber-handle ds-scrubber-handle-left w-3.5 h-3.5 -ml-1.75 rounded-full bg-white shadow-xl border-2 border-slate-900 cursor-ew-resize flex items-center justify-center hover:scale-125 transition-transform"
+                      className="ds-analytics-scrubber-handle is-left"
                     >
-                      <div className="ds-scrubber-handle-dot w-1 h-1 rounded-full bg-blue-600" />
+                      <div className="ds-analytics-scrubber-handle-dot" />
                     </div>
 
                     {/* Middle Window Grip Lines */}
-                    <div className="ds-scrubber-grip flex gap-0.5 opacity-60 pointer-events-none">
-                      <div className="ds-scrubber-grip-bar w-0.5 h-4 bg-white rounded-full" />
-                      <div className="ds-scrubber-grip-bar w-0.5 h-4 bg-white rounded-full" />
-                      <div className="ds-scrubber-grip-bar w-0.5 h-4 bg-white rounded-full" />
+                    <div className="ds-analytics-scrubber-grip">
+                      <div className="ds-analytics-scrubber-grip-bar" />
+                      <div className="ds-analytics-scrubber-grip-bar" />
+                      <div className="ds-analytics-scrubber-grip-bar" />
                     </div>
 
-                    {/* Right Drag Handle (⟷) */}
+                    {/* Right Drag Handle */}
                     <div
                       onMouseDown={(e) => handleScrubberMouseDown(e, 'end')}
                       title="종료 범위 조절"
-                      className="ds-scrubber-handle ds-scrubber-handle-right w-3.5 h-3.5 -mr-1.75 rounded-full bg-white shadow-xl border-2 border-slate-900 cursor-ew-resize flex items-center justify-center hover:scale-125 transition-transform"
+                      className="ds-analytics-scrubber-handle is-right"
                     >
-                      <div className="ds-scrubber-handle-dot w-1 h-1 rounded-full bg-blue-600" />
+                      <div className="ds-analytics-scrubber-handle-dot" />
                     </div>
                   </div>
                 </div>
 
                 {/* Scrubber X Dates */}
-                <div className="flex justify-between items-center px-2 mt-1.5 text-[10px] font-mono text-slate-400">
-                  <div className="flex items-center gap-1">
-                    <span>10.20</span>
-                    <span className="text-slate-500">(Day 1)</span>
+                <div className="ds-analytics-scrubber-dates">
+                  <div>
+                    <span>10.20 </span>
+                    <span style={{ color: '#64748b' }}>(Day 1)</span>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <span>10.21</span>
-                    <span className="text-slate-500">(Day 2)</span>
+                  <div>
+                    <span>10.21 </span>
+                    <span style={{ color: '#64748b' }}>(Day 2)</span>
                   </div>
-                  <div className="flex items-center gap-1 font-bold text-sky-300">
+                  <div className="ds-analytics-scrubber-date-today">
                     <span>10.22 (오늘)</span>
-                    <span className="text-teal-400 font-semibold">+예측</span>
+                    <span style={{ color: '#2dd4bf', fontWeight: 600 }}>+예측</span>
                   </div>
                 </div>
               </div>
@@ -1046,28 +1028,29 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
             {/* Quick alert banner for past critical events */}
             <div
               onClick={() => setActiveTab('history')}
-              className="p-3 rounded-xl bg-purple-950/40 border border-purple-800/60 hover:bg-purple-900/40 transition-colors flex items-center justify-between cursor-pointer"
+              className="ds-analytics-alert-banner"
             >
-              <div className="flex items-center gap-2.5">
-                <ShieldAlert className="w-4 h-4 text-purple-400 shrink-0" />
-                <span className="text-xs text-purple-200">
-                  최근 1개월간 <strong>심각·위험</strong> 단계 발생 <strong className="text-red-400">{criticalIncidents.length}건</strong> 기록됨 (상세 이력 조회 →)
+              <div className="ds-analytics-alert-content">
+                <ShieldAlert size={14} className="ds-analytics-alert-icon" />
+                <span className="ds-analytics-alert-text">
+                  최근 1개월간 <strong>심각·위험</strong> 단계 발생{' '}
+                  <strong className="ds-analytics-alert-count">{criticalIncidents.length}건</strong> 기록됨 (상세 이력 조회 →)
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 text-purple-400" />
+              <ChevronRight size={14} className="ds-analytics-alert-icon" />
             </div>
           </>
         ) : (
           /* Past 1 Month Critical/Emergency Incidents List (심각이상 이력 리스트) */
-          <div className="space-y-3">
-            <div className="flex items-center justify-between pb-1">
-              <div className="flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-red-400" />
-                <h3 className="text-xs font-bold text-white">
+          <div className="ds-analytics-history">
+            <div className="ds-analytics-history-header">
+              <div className="ds-analytics-history-title">
+                <ShieldAlert size={14} className="ds-analytics-history-icon" />
+                <h3>
                   과거 1개월간 밀집도 심각·위험 발생 이력 ({criticalIncidents.length}건)
                 </h3>
               </div>
-              <span className="text-[10px] text-slate-400 font-mono">
+              <span className="ds-analytics-history-range">
                 2026.09.22 ~ 2026.10.22
               </span>
             </div>
@@ -1079,64 +1062,54 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                 <div
                   key={inc.id}
                   onClick={() => setSelectedIncidentId(isSelected ? null : inc.id)}
-                  className={`p-3 rounded-xl border transition-all cursor-pointer ${
-                    isEmergency
-                      ? 'bg-red-950/30 border-red-800/60 hover:border-red-600'
-                      : 'bg-purple-950/30 border-purple-800/60 hover:border-purple-600'
-                  } ${isSelected ? 'ring-1 ring-sky-400' : ''}`}
+                  className={`ds-analytics-incident-card ${isEmergency ? 'emergency' : 'critical'} ${isSelected ? 'is-selected' : ''}`}
                 >
                   {/* Top row: Date, Time, Level Badge */}
-                  <div className="flex items-center justify-between gap-2">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                      <span className="text-xs font-bold text-white">
+                  <div className="ds-analytics-incident-header">
+                    <div className="ds-analytics-incident-datetime">
+                      <Calendar size={13} className="ds-analytics-incident-date-icon" />
+                      <span className="ds-analytics-incident-date">
                         {inc.date} ({inc.dayOfWeek})
                       </span>
-                      <span className="text-xs font-mono text-slate-300">
+                      <span className="ds-analytics-incident-timerange">
                         {inc.timeRange}
                       </span>
                     </div>
 
-                    <span
-                      className={`px-2 py-0.5 rounded text-[10px] font-bold border shrink-0 ${
-                        isEmergency
-                          ? 'bg-red-900/60 text-red-300 border-red-700'
-                          : 'bg-purple-900/60 text-purple-300 border-purple-700'
-                      }`}
-                    >
+                    <span className={`ds-analytics-incident-badge ${isEmergency ? 'emergency' : 'critical'}`}>
                       {isEmergency ? '▲ 위험 (6단계)' : '▲ 심각 (5단계)'}
                     </span>
                   </div>
 
                   {/* Metrics row */}
-                  <div className="ds-incident-metrics-grid mt-2 grid grid-cols-3 gap-2 py-1.5 px-2 bg-black/40 rounded-lg text-center text-[10.5px]">
+                  <div className="ds-analytics-incident-metrics">
                     <div>
-                      <div className="ds-incident-metric-label text-slate-400">지속 시간</div>
-                      <div className="ds-incident-metric-val font-bold text-white font-mono mt-0.5">{inc.duration}</div>
+                      <div className="ds-analytics-incident-metric-label">지속 시간</div>
+                      <div className="ds-analytics-incident-metric-val">{inc.duration}</div>
                     </div>
                     <div>
-                      <div className="ds-incident-metric-label text-slate-400">최고 밀집도</div>
-                      <div className="ds-incident-metric-val font-bold text-teal-300 font-mono mt-0.5">
+                      <div className="ds-analytics-incident-metric-label">최고 밀집도</div>
+                      <div className="ds-analytics-incident-metric-val teal">
                         {inc.peakDensity}% ({inc.peakDensityM2}명/㎡)
                       </div>
                     </div>
                     <div>
-                      <div className="ds-incident-metric-label text-slate-400">최대 인원</div>
-                      <div className="ds-incident-metric-val font-bold text-indigo-300 font-mono mt-0.5">
+                      <div className="ds-analytics-incident-metric-label">최대 인원</div>
+                      <div className="ds-analytics-incident-metric-val indigo">
                         {inc.peakVisitors.toLocaleString()}명
                       </div>
                     </div>
                   </div>
 
                   {/* Cause & Action Taken */}
-                  <div className="mt-2 text-[11px] space-y-1 text-slate-300">
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-slate-400 font-semibold shrink-0">발생원인:</span>
-                      <span className="text-white">{inc.cause}</span>
+                  <div className="ds-analytics-incident-details">
+                    <div className="ds-analytics-incident-detail-row">
+                      <span className="ds-analytics-incident-detail-label">발생원인:</span>
+                      <span>{inc.cause}</span>
                     </div>
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-emerald-400 font-semibold shrink-0">조치내용:</span>
-                      <span className="text-slate-200">{inc.actionTaken}</span>
+                    <div className="ds-analytics-incident-detail-row">
+                      <span className="ds-analytics-incident-detail-label action">조치내용:</span>
+                      <span>{inc.actionTaken}</span>
                     </div>
                   </div>
                 </div>
@@ -1146,13 +1119,13 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
         )}
 
         {/* 4. Contact Information ("담당자" - Matching Screenshot 2) */}
-        <div className="pt-2 border-t border-white/10">
-          <div className="flex items-center gap-1.5 mb-2.5">
-            <User className="w-3.5 h-3.5 text-blue-400" />
-            <span className="text-xs font-bold text-slate-200">담당자</span>
+        <div className="ds-analytics-contacts">
+          <div className="ds-analytics-contacts-header">
+            <User size={13} className="ds-analytics-contacts-icon" />
+            <span className="ds-analytics-contacts-title">담당자</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="ds-analytics-contacts-list">
             {[
               { name: '김수지', phone: '010-1234-5678', role: '종로구 재난안전과' },
               { name: '김동원', phone: '010-1234-5678', role: '낙원파출소 치안센터' },
@@ -1164,16 +1137,16 @@ export const ZoneAnalyticsPanel: React.FC<ZoneAnalyticsPanelProps> = ({
                   key={idx}
                   onClick={() => handleCopyPhone(contact.phone)}
                   title={`${contact.name} (${contact.role}) 전화번호 복사`}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#18233C] hover:bg-[#202E4E] border border-white/10 transition-colors text-xs text-slate-200 cursor-pointer shadow-xs active:scale-95"
+                  className="ds-analytics-contact-pill"
                 >
-                  <User className="w-3.5 h-3.5 text-slate-400" />
-                  <span className="font-semibold text-white">{contact.name}</span>
-                  <span className="text-slate-500">|</span>
-                  <span className="font-mono text-slate-300">{contact.phone}</span>
+                  <User size={13} className="ds-analytics-contact-user-icon" />
+                  <span className="ds-analytics-contact-name">{contact.name}</span>
+                  <span className="ds-analytics-contact-divider">|</span>
+                  <span className="ds-analytics-contact-phone">{contact.phone}</span>
                   {isCopied ? (
-                    <Check className="w-3.5 h-3.5 text-emerald-400 ml-0.5" />
+                    <Check size={13} className="ds-analytics-contact-check-icon" />
                   ) : (
-                    <Copy className="w-3 h-3 text-slate-400 opacity-60 ml-0.5" />
+                    <Copy size={12} className="ds-analytics-contact-copy-icon" />
                   )}
                 </div>
               );

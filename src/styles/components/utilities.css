@@ -39,13 +39,13 @@
 /* ==========================================================================
    2. Gaps & Spacing
    ========================================================================== */
-.gap-0-5 { gap: 2px; }
+.gap-0-5, .gap-0\.5 { gap: 2px; }
 .gap-1 { gap: var(--ds-space-1); }
-.gap-1-5 { gap: var(--ds-space-1-5); }
+.gap-1-5, .gap-1\.5 { gap: var(--ds-space-1-5); }
 .gap-2 { gap: var(--ds-space-2); }
-.gap-2-5 { gap: var(--ds-space-2-5); }
+.gap-2-5, .gap-2\.5 { gap: var(--ds-space-2-5); }
 .gap-3 { gap: var(--ds-space-3); }
-.gap-3-5 { gap: var(--ds-space-3-5); }
+.gap-3-5, .gap-3\.5 { gap: var(--ds-space-3-5); }
 .gap-4 { gap: var(--ds-space-4); }
 .gap-5 { gap: var(--ds-space-5); }
 .gap-6 { gap: var(--ds-space-6); }

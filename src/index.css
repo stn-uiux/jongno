@@ -18,6 +18,7 @@
 @import "./styles/components/card.css";
 @import "./styles/components/modal.css";
 @import "./styles/components/cctvModal.css";
+@import "./styles/components/analyticsPanel.css";
 
 /* 4. 영역 및 지하철 특화 스타일 */
 @import "./css/areaBadge.css";

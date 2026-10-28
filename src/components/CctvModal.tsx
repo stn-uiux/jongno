@@ -104,11 +104,24 @@ export const CctvModal: React.FC<CctvModalProps> = ({
     }
   }, [isOpen, zone?.id]);
 
+  // Sync isFullscreen with native browser fullscreen state
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
   // Handle ESC key to close
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isOpen) {
-        onClose();
+        if (document.fullscreenElement) {
+          document.exitFullscreen().catch(() => {});
+        } else {
+          onClose();
+        }
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -399,27 +412,50 @@ export const CctvModal: React.FC<CctvModalProps> = ({
     setZoomLevel(1.0);
   };
 
+  const handleToggleFullscreen = () => {
+    if (!isFullscreen) {
+      setIsFullscreen(true);
+      const elem = modalRef.current || document.documentElement;
+      if (elem && elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => {});
+      }
+    } else {
+      setIsFullscreen(false);
+      if (document.fullscreenElement) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  };
+
+  const handleClose = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+    setIsFullscreen(false);
+    onClose();
+  };
+
   const displayTitle = zone.scannerName
     ? (zone.scannerName.startsWith('CCTV') ? zone.scannerName : `CCTV ${zone.scannerName}`)
     : (zone.name.startsWith('CCTV') ? zone.name : `CCTV ${zone.name}`);
 
   return (
-    <div className={`ds-modal-backdrop ${isFullscreen ? 'p-0' : ''}`}>
+    <div className={`ds-modal-backdrop ${isFullscreen ? 'fullscreen' : ''}`}>
       <div
         ref={modalRef}
-        className={`ds-modal-dialog ds-modal-cctv ${isFullscreen ? 'ds-modal-dialog-fullscreen' : ''} ${!showAnalytics ? 'no-analytics' : ''}`}
+        className={`ds-modal-dialog ds-modal-cctv ${isFullscreen ? 'fullscreen ds-modal-dialog-fullscreen' : ''} ${!showAnalytics ? 'no-analytics' : ''}`}
       >
         {/* [공통 모달 헤더] ds-modal-header 및 ds-modal-title-row 기반 */}
         <div className="ds-modal-header ds-modal-header-cctv">
           {/* Left: CCTV & Zone Identity with Congestion Status */}
-          <div className="ds-modal-title-row min-w-0">
+          <div className="ds-modal-title-row ds-cctv-header-identity">
             <div className="ds-header-logo-box ds-header-logo-box-cctv">
               <Cctv style={{ width: 20, height: 20 }} />
             </div>
 
-            <div className="min-w-0">
-              <div className="flex items-center gap-2.5 flex-wrap">
-                <h3 className="ds-modal-title text-lg sm:text-xl font-extrabold text-white tracking-tight truncate">
+            <div className="ds-cctv-header-text-group">
+              <div className="ds-cctv-header-meta-row">
+                <h3 className="ds-cctv-header-title">
                   {displayTitle}
                 </h3>
                 {zone.areaName && (
@@ -433,50 +469,38 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                 </span>
 
                 {/* Level Badge with Alert Icon */}
-                <span className={`ds-badge ds-badge-sm ds-badge-lvl-${level} shrink-0`}>
+                <span className={`ds-badge ds-badge-sm ds-badge-lvl-${level} ds-cctv-header-level-badge`}>
                   <span className={`ds-lvl-dot ds-lvl-dot-${level}`} style={{ width: 6, height: 6 }} />
                   <span>{levelInfo.name}</span>
                 </span>
 
                 {/* Live Density & Estimated Visitors */}
-                <span className="text-xs font-mono text-slate-300 font-semibold">
-                  {congVal}% <span className="text-slate-400 font-normal">({visitors.toLocaleString()}명)</span>
+                <span className="ds-cctv-header-metrics">
+                  {congVal}% <span className="ds-cctv-header-metrics-sub">({visitors.toLocaleString()}명)</span>
                 </span>
               </div>
 
-              <p className="text-xs text-slate-400 truncate mt-0.5 font-mono">
+              <p className="ds-cctv-header-desc">
                 {zone.id} · {zone.description || '스마트 인파 안전 관제 스캐너 연동 영상'}
               </p>
             </div>
           </div>
 
           {/* Right: Window Controls (단일 닫기 버튼 포함) */}
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="ds-cctv-header-actions">
             <button
               type="button"
               onClick={() => setShowAnalytics(!showAnalytics)}
               title={showAnalytics ? '추이 분석 패널 접기' : '추이 분석 패널 펼치기'}
               className={`ds-btn ds-btn-sm ${showAnalytics ? 'ds-btn-primary' : 'ds-btn-secondary'}`}
-              style={{
-                borderRadius: 8,
-                fontSize: 12,
-                fontWeight: 700,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                backgroundColor: showAnalytics ? '#2563eb' : 'rgba(255, 255, 255, 0.08)',
-                borderColor: showAnalytics ? '#3b82f6' : 'rgba(255, 255, 255, 0.18)',
-                color: showAnalytics ? '#ffffff' : '#cbd5e1',
-                boxShadow: showAnalytics ? '0 2px 10px rgba(37, 99, 235, 0.4)' : 'none',
-              }}
             >
-              <TrendingUp style={{ width: 14, height: 14, color: showAnalytics ? '#ffffff' : '#38bdf8' }} />
+              <TrendingUp style={{ width: 14, height: 14 }} />
               <span>추이 분석</span>
             </button>
 
             <button
               type="button"
-              onClick={() => setIsFullscreen(!isFullscreen)}
+              onClick={handleToggleFullscreen}
               title={isFullscreen ? '창 모드로 복귀' : '전체화면'}
               className="ds-btn-icon"
             >
@@ -485,10 +509,9 @@ export const CctvModal: React.FC<CctvModalProps> = ({
 
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               title="닫기 (Esc)"
-              className="ds-btn-icon"
-              style={{ color: 'var(--ds-danger)' }}
+              className="ds-btn-icon ds-cctv-close-btn"
             >
               <X style={{ width: 16, height: 16 }} />
             </button>
@@ -512,65 +535,32 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                 {/* CCTV OSD Overlay (On-Screen Display - 60% Translucent Dark Cards & Generous Padding) */}
                 <div className="ds-cctv-osd-overlay">
                   {/* Top OSD Bar */}
-                  <div className="flex items-start justify-between">
-                    <div
-                      className="ds-cctv-osd-badge ds-cctv-osd-top-left"
-                      style={{
-                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255, 255, 255, 0.22)',
-                        borderRadius: 8,
-                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
-                        padding: '6px 12px',
-                      }}
-                    >
-                      <div className="flex items-center gap-2 font-bold text-emerald-400">
+                  <div className="ds-cctv-osd-row ds-cctv-osd-row-top">
+                    <div className="ds-cctv-osd-badge ds-cctv-osd-top-left">
+                      <div className="ds-cctv-osd-cam-title">
                         <Radio style={{ width: 14, height: 14 }} className="animate-pulse" />
                         <span>CAM [{zone.id}]</span>
-                        <span className="text-white/60">·</span>
-                        <span className="text-white">{zone.name}</span>
+                        <span className="ds-cctv-osd-divider">·</span>
+                        <span className="ds-cctv-osd-val-white">{zone.name}</span>
                       </div>
-                      <div className="text-[10px] text-slate-300">
+                      <div className="ds-cctv-osd-coords">
                         LAT: {zone.center.lat.toFixed(6)} | LNG: {zone.center.lng.toFixed(6)}
                       </div>
                     </div>
 
-                    <div
-                      className="ds-cctv-osd-badge ds-cctv-osd-top-right"
-                      style={{
-                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255, 255, 255, 0.22)',
-                        borderRadius: 8,
-                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
-                        padding: '6px 12px',
-                      }}
-                    >
-                      <div className="font-bold text-red-400 flex items-center justify-end gap-1.5">
-                        <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
+                    <div className="ds-cctv-osd-badge ds-cctv-osd-top-right">
+                      <div className="ds-cctv-osd-rec">
+                        <span className="ds-cctv-osd-rec-dot" />
                         <span>REC ● 4K UHD</span>
                       </div>
-                      <div className="text-[10px] text-slate-300 font-mono">{currentTimeStr}</div>
+                      <div className="ds-cctv-osd-time">{currentTimeStr}</div>
                     </div>
                   </div>
 
                   {/* Bottom OSD Bar */}
-                  <div className="flex items-end justify-between">
+                  <div className="ds-cctv-osd-row ds-cctv-osd-row-bottom">
                     {/* Bottom-Left Real-time Density & AI Analytics Info Card */}
-                    <div
-                      className="ds-cctv-osd-badge ds-cctv-osd-bottom-left max-w-sm"
-                      style={{
-                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255, 255, 255, 0.22)',
-                        borderRadius: 8,
-                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
-                        padding: '8px 12px',
-                      }}
-                    >
+                    <div className="ds-cctv-osd-badge ds-cctv-osd-bottom-left">
                       <div className="ds-cctv-osd-density-row">
                         <span className="ds-cctv-osd-label">실시간 밀집도:</span>
                         <span
@@ -579,35 +569,23 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                             backgroundColor: `${levelInfo.color}33`,
                             color: levelInfo.color,
                             border: `1px solid ${levelInfo.color}88`,
-                            fontWeight: 800,
                           }}
                         >
                           {congVal}% ({levelInfo.name})
                         </span>
                       </div>
                       <div className="ds-cctv-osd-info-row">
-                        <span style={{ color: '#cbd5e1' }}>추정 인원:</span>
+                        <span className="ds-cctv-osd-label">추정 인원:</span>
                         <span className="ds-cctv-osd-val-white">{visitors.toLocaleString()}명</span>
                         <span className="ds-cctv-osd-divider">|</span>
-                        <span style={{ color: '#94a3b8' }}>AI 검출 신뢰도:</span>
+                        <span className="ds-cctv-osd-label">AI 검출 신뢰도:</span>
                         <span className="ds-cctv-osd-val-blue">98.4%</span>
                       </div>
                     </div>
 
-                    <div
-                      className="ds-cctv-osd-badge ds-cctv-osd-bottom-right text-[10px] text-slate-400 font-mono"
-                      style={{
-                        backgroundColor: 'rgba(7, 13, 26, 0.60)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255, 255, 255, 0.22)',
-                        borderRadius: 8,
-                        boxShadow: '0 4px 18px rgba(0, 0, 0, 0.5)',
-                        padding: '6px 12px',
-                      }}
-                    >
+                    <div className="ds-cctv-osd-badge ds-cctv-osd-bottom-right">
                       <div>AI CROWD VISION v3.4</div>
-                      <div className="text-slate-300 font-mono">
+                      <div className="ds-cctv-osd-telemetry">
                         ZOOM: {zoomLevel.toFixed(1)}x | PTZ: [{ptzOffset.x > 0 ? `+${ptzOffset.x}` : ptzOffset.x},{' '}
                         {ptzOffset.y > 0 ? `+${ptzOffset.y}` : ptzOffset.y}]
                       </div>
@@ -617,7 +595,7 @@ export const CctvModal: React.FC<CctvModalProps> = ({
 
                 {/* Toast Notification */}
                 {toastMessage && (
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 px-4 py-2 bg-neutral-900/95 text-white border border-blue-500 rounded-xl shadow-2xl text-xs font-semibold animate-in fade-in zoom-in-95 pointer-events-none">
+                  <div className="ds-cctv-toast">
                     {toastMessage}
                   </div>
                 )}
@@ -633,22 +611,6 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                   type="button"
                   onClick={() => setShowAiBoxes(!showAiBoxes)}
                   className={`ds-cctv-tool-btn ${showAiBoxes ? 'active' : ''}`}
-                  style={{
-                    height: 32,
-                    padding: '0 12px',
-                    borderRadius: 8,
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    backgroundColor: showAiBoxes ? '#2563eb' : 'rgba(255, 255, 255, 0.06)',
-                    borderColor: showAiBoxes ? '#3b82f6' : 'rgba(255, 255, 255, 0.12)',
-                    color: showAiBoxes ? '#ffffff' : '#cbd5e1',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    cursor: 'pointer',
-                    boxShadow: showAiBoxes ? '0 2px 8px rgba(37, 99, 235, 0.4)' : 'none',
-                    boxSizing: 'border-box',
-                  }}
                 >
                   {showAiBoxes ? <Eye style={{ width: 14, height: 14 }} /> : <EyeOff style={{ width: 14, height: 14 }} />}
                   <span>AI 군중 바운딩박스</span>
@@ -750,21 +712,6 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                   onClick={handleSnapshot}
                   title="현재 프레임 스냅샷 저장"
                   className="ds-cctv-action-btn snapshot"
-                  style={{
-                    height: 32,
-                    padding: '0 12px',
-                    borderRadius: 8,
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    backgroundColor: 'rgba(255, 255, 255, 0.08)',
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
-                    color: '#f1f5f9',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    cursor: 'pointer',
-                    boxSizing: 'border-box',
-                  }}
                 >
                   <Camera style={{ width: 14, height: 14, color: '#60a5fa' }} />
                   <span>스냅샷</span>
@@ -775,21 +722,6 @@ export const CctvModal: React.FC<CctvModalProps> = ({
                   onClick={handleBroadcast}
                   title="현장 스피커 비상 분산 방송 송출"
                   className="ds-cctv-action-btn broadcast"
-                  style={{
-                    height: 32,
-                    padding: '0 12px',
-                    borderRadius: 8,
-                    fontSize: 11.5,
-                    fontWeight: 600,
-                    backgroundColor: 'rgba(245, 158, 11, 0.15)',
-                    border: '1px solid rgba(245, 158, 11, 0.4)',
-                    color: '#fbbf24',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    cursor: 'pointer',
-                    boxSizing: 'border-box',
-                  }}
                 >
                   <Volume2 style={{ width: 14, height: 14, color: '#fbbf24' }} />
                   <span>안내 방송</span>

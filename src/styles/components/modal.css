@@ -20,6 +20,10 @@
   animation: ds-fade-in 0.2s ease-out;
 }
 
+.ds-modal-backdrop.fullscreen {
+  padding: 0 !important;
+}
+
 .ds-modal-dialog {
   background-color: var(--ds-bg-surface);
   border: 1px solid var(--ds-border-default);
