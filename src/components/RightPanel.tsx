@@ -460,7 +460,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 borderRadius: 'var(--ds-radius-sm)',
                 border: '1px solid var(--ds-border-default)'
               }}>
-                <span className="text-muted block mb-1" style={{ fontSize: 11 }}>추정 체류 인원</span>
+                <span className="text-muted block mb-1" style={{ fontSize: 11, marginRight: 6 }}>추정 체류 인원</span>
                 <span className="font-mono font-bold text-xs text-primary">
                   {(draftCongestion.estimatedVisitors || 0).toLocaleString()} 명
                 </span>
@@ -472,7 +472,7 @@ export const RightPanel: React.FC<RightPanelProps> = ({
                 borderRadius: 'var(--ds-radius-sm)',
                 border: '1px solid var(--ds-border-default)'
               }}>
-                <span className="text-muted block mb-1" style={{ fontSize: 11 }}>수용 한계치</span>
+                <span className="text-muted block mb-1" style={{ fontSize: 11, marginRight: 6 }}>수용 한계치</span>
                 <span className="font-mono font-bold text-xs text-primary">
                   {(draftZone.capacity || 10000).toLocaleString()} 명
                 </span>
